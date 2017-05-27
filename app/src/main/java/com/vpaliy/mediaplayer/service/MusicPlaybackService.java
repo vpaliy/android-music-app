@@ -24,23 +24,13 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat {
     public void onCreate() {
         super.onCreate();
 
-        // Create a MediaSessionCompat
         mediaSession = new MediaSessionCompat(getApplicationContext(), LOG_TAG);
-
-        // Enable callbacks from MediaButtons and TransportControls
         mediaSession.setFlags(
-                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
-                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-
-        // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player
+                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         stateBuilder = new PlaybackStateCompat.Builder()
-                .setActions(
-                        PlaybackStateCompat.ACTION_PLAY |
-                                PlaybackStateCompat.ACTION_PLAY_PAUSE);
+                .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PLAY_PAUSE);
         mediaSession.setPlaybackState(stateBuilder.build());
 
-
-        // Set the session's token so that client activities can communicate with it.
         setSessionToken(mediaSession.getSessionToken());
 
     }
