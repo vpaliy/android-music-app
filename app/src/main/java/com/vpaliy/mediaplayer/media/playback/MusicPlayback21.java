@@ -11,19 +11,10 @@ public class MusicPlayback21 implements IPlayback {
     }
 
     @Override
-    public void playPrevious() {
-
-    }
-
-    @Override
     public void pause() {
 
     }
 
-    @Override
-    public void playNext() {
-
-    }
 
     @Override
     public String getCurrentMediaId() {
@@ -62,11 +53,6 @@ public class MusicPlayback21 implements IPlayback {
 
     @Override
     public void stop() {
-
-    }
-
-    @Override
-    public void start() {
 
     }
 

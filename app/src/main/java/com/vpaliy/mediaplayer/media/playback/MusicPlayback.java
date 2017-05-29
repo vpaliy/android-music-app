@@ -9,7 +9,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.PowerManager;
 import android.support.v4.media.MediaMetadataCompat;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.MediaSessionCompat.QueueItem;
 import android.net.wifi.WifiManager;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -68,8 +67,6 @@ public class MusicPlayback implements IPlayback,
         this.wifiLock=WifiManager.class.cast(context.getApplicationContext().getSystemService(Context.WIFI_SERVICE))
                 .createWifiLock(WifiManager.WIFI_MODE_FULL,"uAmp_lock");
         this.state= PlaybackStateCompat.STATE_NONE;
-        registerNoiseReceiver();
-
     }
 
     @Override
@@ -323,8 +320,4 @@ public class MusicPlayback implements IPlayback,
         }
     }
 
-    @Override
-    public void start() {
-
-    }
 }
