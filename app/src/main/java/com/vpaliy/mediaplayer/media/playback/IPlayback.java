@@ -7,8 +7,6 @@ public interface IPlayback {
     void start();
     void stop();
     void pause();
-    void playNext();
-    void playPrevious();
     void setState(int state);
     void setCurrentStreamPosition(long position);
     void setCallback(Callback callback);

@@ -4,12 +4,18 @@ package com.vpaliy.mediaplayer.media.playback;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.PowerManager;
+import android.support.v4.media.MediaMetadataCompat;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.MediaSessionCompat.QueueItem;
 import android.net.wifi.WifiManager;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,20 +37,24 @@ public class MusicPlayback implements IPlayback,
     private int state;
     private int audioFocus=AUDIO_NO_FOCUS_NO_DUCK;
     private boolean focusGained;
+    private boolean noisyReceiverRegistered;
     private volatile long currentPosition;
-    private volatile String mediaId;
+    private volatile String currentMediaId;
     private final WifiManager.WifiLock wifiLock;
     private Callback callback;
     private AudioManager audioManager;
     private MediaPlayer mediaPlayer;
     private Context context;
 
-    private final BroadcastReceiver mAudioNoisyReceiver = new BroadcastReceiver() {
+    private final IntentFilter audioBecomingNoisyIntent=
+            new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
+
+    private final BroadcastReceiver audioNoisyReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
                 if (isPlaying()) {
-                    //send a message to pause the playback
+                   //TODO //send a message to pause the playback
                 }
             }
         }
@@ -63,11 +73,6 @@ public class MusicPlayback implements IPlayback,
     }
 
     @Override
-    public void playNext() {
-
-    }
-
-    @Override
     public boolean isConnected() {
         return true;
     }
@@ -77,7 +82,7 @@ public class MusicPlayback implements IPlayback,
         if(state==PlaybackStateCompat.STATE_PLAYING){
             if(mediaPlayer!=null){
                 if(mediaPlayer.isPlaying()){
-                    mediaPlayer.stop();
+                    mediaPlayer.pause();
                     currentPosition=mediaPlayer.getCurrentPosition();
                 }
             }
@@ -90,11 +95,38 @@ public class MusicPlayback implements IPlayback,
 
     @Override
     public void play(QueueItem item) {
+        focusGained=true;
+        gainAudioFocus();
+        registerNoiseReceiver();
+        String mediaId=item.getDescription().getMediaId();
+        boolean mediaHasChanged = !TextUtils.equals(mediaId, this.currentMediaId);
+        if (mediaHasChanged) {
+             currentPosition= 0;
+             this.currentMediaId = mediaId;
+        }
 
-    }
-
-    @Override
-    public void playPrevious() {
+        if(state==PlaybackStateCompat.STATE_PAUSED && !mediaHasChanged && mediaPlayer!=null){
+            configMediaPlayer();
+        }else{
+            state=PlaybackStateCompat.STATE_STOPPED;
+            releaseFocus();
+            releaseWifiLock();
+            //TODO
+            MediaMetadataCompat track=null;
+            String source=null;
+            try{
+                createMediaPlayer();
+                state=PlaybackStateCompat.STATE_BUFFERING;
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                mediaPlayer.setDataSource(source);
+                mediaPlayer.prepareAsync();
+                wifiLock.acquire();
+                callback.onStateChanged(state);
+            }catch (IOException ex){
+                ex.printStackTrace();
+                callback.onError(ex);
+            }
+        }
 
     }
 
@@ -110,7 +142,7 @@ public class MusicPlayback implements IPlayback,
 
     @Override
     public void setCurrentMediaId(String mediaId) {
-        this.mediaId=mediaId;
+        this.currentMediaId =mediaId;
     }
 
     @Override
@@ -169,7 +201,8 @@ public class MusicPlayback implements IPlayback,
 
     @Override
     public boolean onError(MediaPlayer player, int what, int extra) {
-        return false;
+        callback.onError(new Exception("An error has occurred with:"+what+", extra=" + extra));
+        return true;
     }
 
     @Override
@@ -277,11 +310,17 @@ public class MusicPlayback implements IPlayback,
 
 
     private void registerNoiseReceiver(){
-
+        if(!noisyReceiverRegistered){
+            context.registerReceiver(audioNoisyReceiver,audioBecomingNoisyIntent);
+            noisyReceiverRegistered=true;
+        }
     }
 
     private void unregisterNoiseReceiver(){
-
+        if(noisyReceiverRegistered){
+            context.unregisterReceiver(audioNoisyReceiver);
+            noisyReceiverRegistered=false;
+        }
     }
 
     @Override
