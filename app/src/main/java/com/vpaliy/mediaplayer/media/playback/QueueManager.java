@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class QueueManager {
 
     private int currentIndex;
@@ -18,6 +22,7 @@ public class QueueManager {
     private final MusicProvider musicProvider;
     private List<MediaSessionCompat.QueueItem> audioQueue;
 
+    @Inject
     public QueueManager(@NonNull MetadataUpdateListener listener,
                         @NonNull MusicProvider musicProvider){
         this.musicProvider=musicProvider;

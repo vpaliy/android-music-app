@@ -6,7 +6,10 @@ import android.os.SystemClock;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.annotation.NonNull;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class PlaybackManager implements IPlayback.Callback {
 
     private final IPlayback playback;
@@ -15,6 +18,7 @@ public class PlaybackManager implements IPlayback.Callback {
     private final QueueManager queueManager;
     private final PlaybackStateCompat.Builder stateBuilder;
 
+    @Inject
     public PlaybackManager(@NonNull IPlayback iPlayback,
                            @NonNull QueueManager queueManager,
                            @NonNull PlaybackManagerCallback managerCallback){

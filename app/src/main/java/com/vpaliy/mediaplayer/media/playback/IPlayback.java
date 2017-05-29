@@ -21,6 +21,7 @@ public interface IPlayback {
     int getState();
     long getCurrentStreamPosition();
 
+    /* Notifies the service about events which happen with the player */
     interface Callback{
         void onFinished();
         void onStateChanged(int state);

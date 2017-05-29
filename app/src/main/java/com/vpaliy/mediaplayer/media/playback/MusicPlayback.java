@@ -8,7 +8,11 @@ import android.support.v4.media.session.MediaSessionCompat.QueueItem;
 import android.net.wifi.WifiManager;
 import android.support.v4.media.session.PlaybackStateCompat;
 
-public class Playback implements IPlayback,
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+public class MusicPlayback implements IPlayback,
         AudioManager.OnAudioFocusChangeListener{
 
     public static final float VOLUME_DUCK = 0.2f;
@@ -29,7 +33,8 @@ public class Playback implements IPlayback,
     private MediaPlayer mediaPlayer;
     private Context context;
 
-    public Playback(Context context){
+    @Inject
+    public MusicPlayback(Context context){
         this.context=context;
         this.audioManager=AudioManager.class.cast(context.getSystemService(Context.AUDIO_SERVICE));
         this.wifiLock=WifiManager.class.cast(context.getApplicationContext().getSystemService(Context.WIFI_SERVICE))
