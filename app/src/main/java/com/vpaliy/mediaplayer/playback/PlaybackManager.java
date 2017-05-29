@@ -54,8 +54,7 @@ public class PlaybackManager implements IPlayback.Callback {
     }
 
     private long getAvailableActions() {
-        long actions =
-                PlaybackStateCompat.ACTION_PLAY_PAUSE |
+        long actions =  PlaybackStateCompat.ACTION_PLAY_PAUSE |
                         PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID |
                         PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH |
                         PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |

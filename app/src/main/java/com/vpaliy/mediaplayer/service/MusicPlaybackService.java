@@ -1,5 +1,6 @@
 package com.vpaliy.mediaplayer.service;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
@@ -10,8 +11,11 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
+import com.vpaliy.mediaplayer.playback.PlaybackManager;
 
-public class MusicPlaybackService extends MediaBrowserServiceCompat {
+
+public class MusicPlaybackService extends MediaBrowserServiceCompat
+            implements PlaybackManager.PlaybackManagerCallback{
 
     private static final String LOG_TAG=MusicPlaybackService.class.getSimpleName();
 
@@ -27,14 +31,35 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat {
         super.onCreate();
 
         mediaSession = new MediaSessionCompat(getApplicationContext(), LOG_TAG);
-        mediaSession.setFlags(
-                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         stateBuilder = new PlaybackStateCompat.Builder()
                 .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PLAY_PAUSE);
         mediaSession.setPlaybackState(stateBuilder.build());
-        mediaSession.setCallback(new MediaSessionCallback());
         setSessionToken(mediaSession.getSessionToken());
 
+    }
+
+    @Override
+    public void onPlaybackStart() {
+        mediaSession.setActive(true);
+        Intent intent=new Intent(this,MusicPlaybackService.class);
+        startService(intent);
+    }
+
+    @Override
+    public void onPlaybackStateUpdated(PlaybackStateCompat newState) {
+
+    }
+
+    @Override
+    public void onNotificationRequired() {
+
+    }
+
+    @Override
+    public void onPlaybackStop() {
+        mediaSession.setActive(false);
+        stopSelf();
     }
 
     @Nullable
@@ -53,36 +78,4 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat {
     }
 
 
-    private final class MediaSessionCallback extends MediaSessionCompat.Callback {
-
-        @Override
-        public void onPlay() {
-            super.onPlay();
-            Log.d(LOG_TAG,"onPlay()");
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-            Log.d(LOG_TAG,"onPause");
-        }
-
-        @Override
-        public void onSeekTo(long pos) {
-            super.onSeekTo(pos);
-            Log.d(LOG_TAG,"onSeekTo");
-        }
-
-        @Override
-        public void onStop() {
-            super.onStop();
-            Log.d(LOG_TAG,"onStop");
-        }
-
-        @Override
-        public void onPrepare() {
-            super.onPrepare();
-            Log.d(LOG_TAG,"onPrepare()");
-        }
-    }
 }
