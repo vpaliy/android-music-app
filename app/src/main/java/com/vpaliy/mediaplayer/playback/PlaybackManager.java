@@ -116,21 +116,30 @@ public class PlaybackManager implements IPlayback.Callback {
         @Override
         public void onPlay() {
             super.onPlay();
+            handlePlayRequest();
         }
 
         @Override
         public void onPause() {
             super.onPause();
+            handlePauseRequest();
         }
 
         @Override
         public void onStop() {
             super.onStop();
+            handleStopRequest(null);
         }
 
         @Override
         public void onSkipToNext() {
             super.onSkipToNext();
+            if(queueManager.skipQueuePosition(1)){
+                handlePlayRequest();
+            }else{
+                handleStopRequest(null);
+            }
+            queueManager.updateMetadata();
         }
 
         @Override
@@ -141,6 +150,12 @@ public class PlaybackManager implements IPlayback.Callback {
         @Override
         public void onSkipToPrevious() {
             super.onSkipToPrevious();
+            if(queueManager.skipQueuePosition(-1)){
+                handlePlayRequest();
+            }else{
+                handleStopRequest(null);
+            }
+            queueManager.updateMetadata();
         }
     }
 

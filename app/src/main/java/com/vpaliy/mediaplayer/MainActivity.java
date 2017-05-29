@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity{
     private static final String TAG=MainActivity.class.getSimpleName();
 
     private MediaBrowserCompat browserCompat;
-
     private MediaBrowserCompat.ConnectionCallback connectionCallback=new MediaBrowserCompat.ConnectionCallback(){
 
 
