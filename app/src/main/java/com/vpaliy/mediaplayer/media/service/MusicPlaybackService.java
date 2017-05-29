@@ -9,35 +9,40 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
-import com.vpaliy.mediaplayer.media.playback.Playback;
 import com.vpaliy.mediaplayer.media.playback.PlaybackManager;
 import com.vpaliy.mediaplayer.media.playback.QueueManager;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class MusicPlaybackService extends MediaBrowserServiceCompat
-            implements PlaybackManager.PlaybackManagerCallback,QueueManager.MetadataUpdateListener{
+            implements PlaybackManager.PlaybackManagerCallback,
+        QueueManager.MetadataUpdateListener{
 
     private static final String LOG_TAG=MusicPlaybackService.class.getSimpleName();
 
     public static final String MEDIA_ID_ROOT="root";
     public static final String MEDIA_ID_EMPTY_ROOT="empty_root";
 
-    private MediaSessionCompat mediaSession;
-    private PlaybackStateCompat.Builder stateBuilder;
-    private PlaybackManager playbackManager;
+    private final  MediaSessionCompat mediaSession;
+    private final PlaybackStateCompat.Builder stateBuilder;
+    private final PlaybackManager playbackManager;
 
+    @Inject
+    public MusicPlaybackService(@NonNull MediaSessionCompat mediaSession,
+                                @NonNull PlaybackManager manager){
+        this.mediaSession=mediaSession;
+        this.playbackManager=manager;
+        stateBuilder=new PlaybackStateCompat.Builder()
+                .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PLAY_PAUSE);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        QueueManager queueManager=new QueueManager(this);
-        playbackManager=new PlaybackManager(new Playback(getApplicationContext()),queueManager,this);
-        mediaSession = new MediaSessionCompat(getApplicationContext(), LOG_TAG);
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        stateBuilder = new PlaybackStateCompat.Builder()
-                .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PLAY_PAUSE);
         mediaSession.setPlaybackState(stateBuilder.build());
         mediaSession.setCallback(playbackManager.getMediaSessionCallback());
         setSessionToken(mediaSession.getSessionToken());

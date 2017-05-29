@@ -2,7 +2,7 @@ package com.vpaliy.mediaplayer.media.model;
 
 import android.support.v4.media.MediaMetadataCompat;
 
-public abstract class MusicProvider implements MediaProvider<MusicProvider.QueryArgs> {
+public  class MusicProvider implements MediaProvider<MusicProvider.QueryArgs> {
 
     @Override
     public int count() {

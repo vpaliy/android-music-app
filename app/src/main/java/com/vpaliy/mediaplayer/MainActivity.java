@@ -9,10 +9,10 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import com.vpaliy.mediaplayer.media.service.MusicPlaybackService;
+
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -21,11 +21,9 @@ public class MainActivity extends AppCompatActivity{
     private MediaBrowserCompat browserCompat;
     private MediaBrowserCompat.ConnectionCallback connectionCallback=new MediaBrowserCompat.ConnectionCallback(){
 
-
         @Override
         public void onConnected()  {
             super.onConnected();
-            Log.d(TAG,"onConnected()");
             MediaSessionCompat.Token token=browserCompat.getSessionToken();
             try {
                 MediaControllerCompat mediaController =new MediaControllerCompat(MainActivity.this,
@@ -43,13 +41,11 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onConnectionFailed() {
             super.onConnectionFailed();
-            Log.d(TAG,"onConnectionFailed()");
         }
 
         @Override
         public void onConnectionSuspended() {
             super.onConnectionSuspended();
-            Log.d(TAG,"onConnectionSuspended()");
         }
     };
 
@@ -57,13 +53,11 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onPlaybackStateChanged(PlaybackStateCompat state) {
             super.onPlaybackStateChanged(state);
-            Log.d(TAG,"PlaybackStateChanged()");
         }
 
         @Override
         public void onMetadataChanged(MediaMetadataCompat metadata) {
             super.onMetadataChanged(metadata);
-            Log.d(TAG,"onMetadataChanged()");
         }
     };
 
@@ -93,23 +87,19 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void buildTransportUI(){
-        Button playPause=(Button)(findViewById(R.id.play_pause));
+        Button playPause= ButterKnife.findById(this,R.id.play_pause);
         final MediaControllerCompat controllerCompat=MediaControllerCompat.getMediaController(MainActivity.this);
-        playPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int state=controllerCompat.getPlaybackState().getState();
-                if(state== PlaybackStateCompat.STATE_PLAYING){
-                    controllerCompat.getTransportControls().pause();
-                }else{
-                    controllerCompat.getTransportControls().play();
-                }
+        playPause.setOnClickListener(view->{
+            int state=controllerCompat.getPlaybackState().getState();
+            if(state== PlaybackStateCompat.STATE_PLAYING){
+                controllerCompat.getTransportControls().pause();
+            }else{
+                controllerCompat.getTransportControls().play();
             }
         });
         MediaMetadataCompat metadata = controllerCompat.getMetadata();
         PlaybackStateCompat pbState = controllerCompat.getPlaybackState();
 
-        // Register a Callback to stay in sync
         controllerCompat.registerCallback(controllerCallback);
 
     }
