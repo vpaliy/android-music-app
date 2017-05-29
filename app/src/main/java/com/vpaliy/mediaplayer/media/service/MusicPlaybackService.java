@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
+
+import java.util.ArrayList;
 import java.util.List;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -20,7 +22,7 @@ import javax.inject.Singleton;
 @Singleton
 public class MusicPlaybackService extends MediaBrowserServiceCompat
             implements PlaybackManager.PlaybackManagerCallback,
-        QueueManager.MetadataUpdateListener{
+            QueueManager.MetadataUpdateListener{
 
     private static final String LOG_TAG=MusicPlaybackService.class.getSimpleName();
 
@@ -45,8 +47,19 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
         super.onCreate();
         mediaSession.setPlaybackState(stateBuilder.build());
         mediaSession.setCallback(playbackManager.getMediaSessionCallback());
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
+                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         setSessionToken(mediaSession.getSessionToken());
 
+        playbackManager.updatePlaybackState(null);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        playbackManager.handleStopRequest(null);
+        mediaSession.release();
     }
 
     @Override
@@ -58,7 +71,7 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
 
     @Override
     public void onPlaybackStateUpdated(PlaybackStateCompat newState) {
-
+        mediaSession.setPlaybackState(newState);
     }
 
     @Override
@@ -74,22 +87,23 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
 
     @Override
     public void onMetadataChanged(MediaMetadataCompat metadata) {
-
+        mediaSession.setMetadata(metadata);
     }
 
     @Override
     public void onCurrentQueueIndexUpdated(int queueIndex) {
-
+        playbackManager.handlePlayRequest();
     }
 
     @Override
     public void onMetadataRetrieveError() {
-
+        playbackManager.updatePlaybackState(new Exception("No data exception"));
     }
 
     @Override
     public void onQueueUpdated(String title, List<MediaSessionCompat.QueueItem> newQueue) {
-
+        mediaSession.setQueue(newQueue);
+        mediaSession.setQueueTitle(title);
     }
 
     @Nullable
@@ -105,6 +119,11 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     @Override
     public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat.MediaItem>> result) {
         Log.d(LOG_TAG,"onLoadChildren()");
+        if(MEDIA_ID_EMPTY_ROOT.equals(parentId)){
+            result.sendResult(new ArrayList<>());
+        }else {
+
+        }
     }
 
 

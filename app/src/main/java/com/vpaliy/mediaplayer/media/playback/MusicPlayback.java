@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat.QueueItem;
 import android.net.wifi.WifiManager;
@@ -20,8 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class MusicPlayback implements IPlayback,
-        AudioManager.OnAudioFocusChangeListener,
+public class MusicPlayback implements IPlayback, AudioManager.OnAudioFocusChangeListener,
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnPreparedListener,
         MediaPlayer.OnSeekCompleteListener {
@@ -37,13 +37,13 @@ public class MusicPlayback implements IPlayback,
     private int audioFocus=AUDIO_NO_FOCUS_NO_DUCK;
     private boolean focusGained;
     private boolean noisyReceiverRegistered;
-    private volatile long currentPosition;
-    private volatile String currentMediaId;
     private final WifiManager.WifiLock wifiLock;
     private Callback callback;
     private AudioManager audioManager;
     private MediaPlayer mediaPlayer;
     private Context context;
+    private volatile long currentPosition;
+    private volatile String currentMediaId;
 
     private final IntentFilter audioBecomingNoisyIntent=
             new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
@@ -61,7 +61,7 @@ public class MusicPlayback implements IPlayback,
 
 
     @Inject
-    public MusicPlayback(Context context){
+    public MusicPlayback(@NonNull Context context){
         this.context=context;
         this.audioManager=AudioManager.class.cast(context.getSystemService(Context.AUDIO_SERVICE));
         this.wifiLock=WifiManager.class.cast(context.getApplicationContext().getSystemService(Context.WIFI_SERVICE))
