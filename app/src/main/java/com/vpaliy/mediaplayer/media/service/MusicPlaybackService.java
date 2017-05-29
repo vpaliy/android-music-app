@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.service;
+package com.vpaliy.mediaplayer.media.service;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +9,9 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
-import com.vpaliy.mediaplayer.playback.Playback;
-import com.vpaliy.mediaplayer.playback.PlaybackManager;
-import com.vpaliy.mediaplayer.playback.QueueManager;
+import com.vpaliy.mediaplayer.media.playback.Playback;
+import com.vpaliy.mediaplayer.media.playback.PlaybackManager;
+import com.vpaliy.mediaplayer.media.playback.QueueManager;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

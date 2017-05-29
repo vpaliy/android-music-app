@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import com.vpaliy.mediaplayer.service.MusicPlaybackService;
+import com.vpaliy.mediaplayer.media.service.MusicPlaybackService;
 
 public class MainActivity extends AppCompatActivity{
 

@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.playback;
+package com.vpaliy.mediaplayer.media.playback;
 
 
 import android.support.v4.media.session.MediaSessionCompat.QueueItem;
@@ -11,6 +11,7 @@ public interface IPlayback {
     void playPrevious();
     void setState(int state);
     void setCurrentStreamPosition(long position);
+    void setCallback(Callback callback);
     void play(QueueItem item);
     void seekTo(long position);
     void setCurrentMediaId(String mediaId);

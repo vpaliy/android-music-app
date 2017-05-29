@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.playback;
+package com.vpaliy.mediaplayer.media.playback;
 
 
 import android.content.Context;
@@ -81,6 +81,11 @@ public class Playback implements IPlayback,
     @Override
     public void setCurrentStreamPosition(long position) {
 
+    }
+
+    @Override
+    public void setCallback(Callback callback) {
+        this.callback = callback;
     }
 
     @Override

@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.MusicPlaybackService">
+        <service android:name=".media.service.MusicPlaybackService">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>

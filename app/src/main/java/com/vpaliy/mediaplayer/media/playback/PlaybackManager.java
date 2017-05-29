@@ -1,10 +1,11 @@
-package com.vpaliy.mediaplayer.playback;
+package com.vpaliy.mediaplayer.media.playback;
 
 
+import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.support.annotation.NonNull;
 
 public class PlaybackManager implements IPlayback.Callback {
 
@@ -22,6 +23,7 @@ public class PlaybackManager implements IPlayback.Callback {
         this.queueManager=queueManager;
         this.stateBuilder=new PlaybackStateCompat.Builder();
         this.managerCallback=managerCallback;
+        this.playback.setCallback(this);
     }
 
     public IPlayback getPlayback() {
@@ -70,20 +72,25 @@ public class PlaybackManager implements IPlayback.Callback {
 
     public void updatePlaybackState(Throwable error){
         if(error!=null) error.printStackTrace();
+
         long position=PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN;
         if(playback.isConnected()){
             position=playback.getCurrentStreamPosition();
         }
         stateBuilder.setActions(getAvailableActions());
+
         final String message=error!=null?error.getMessage():null;
         stateBuilder.setErrorMessage(message);
+
         final int state=error!=null?PlaybackStateCompat.STATE_ERROR:playback.getState();
         stateBuilder.setState(state,position,1.0f, SystemClock.elapsedRealtime());
+
         MediaSessionCompat.QueueItem queueItem=queueManager.getCurrent();
         if (queueItem != null) {
             stateBuilder.setActiveQueueItemId(queueItem.getQueueId());
         }
         managerCallback.onPlaybackStateUpdated(stateBuilder.build());
+
         if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED) {
             managerCallback.onNotificationRequired();
         }
@@ -118,7 +125,21 @@ public class PlaybackManager implements IPlayback.Callback {
         @Override
         public void onPlay() {
             super.onPlay();
+            //TODO set random queue
             handlePlayRequest();
+        }
+
+        @Override
+        public void onSkipToQueueItem(long id) {
+            super.onSkipToQueueItem(id);
+            queueManager.setCurrentItem(id);
+            queueManager.updateMetadata();
+        }
+
+        @Override
+        public void onPlayFromMediaId(String mediaId, Bundle extras) {
+            super.onPlayFromMediaId(mediaId, extras);
+            queueManager.setCurrentItem(mediaId);
         }
 
         @Override
@@ -147,6 +168,7 @@ public class PlaybackManager implements IPlayback.Callback {
         @Override
         public void onSeekTo(long pos) {
             super.onSeekTo(pos);
+            playback.seekTo(pos);
         }
 
         @Override

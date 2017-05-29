@@ -1,9 +1,12 @@
-package com.vpaliy.mediaplayer.playback;
+package com.vpaliy.mediaplayer.media.playback;
 
 
 import android.support.annotation.NonNull;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
+
+import com.vpaliy.mediaplayer.media.utils.MediaHelper;
+import com.vpaliy.mediaplayer.media.utils.QueueManagerUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +27,7 @@ public class QueueManager {
     public void setCurrentIndex(int index){
         if(checkForRange(index)){
             this.currentIndex=index;
+            updateListener.onCurrentQueueIndexUpdated(index);
         }
     }
 
@@ -41,16 +45,25 @@ public class QueueManager {
         return audioQueue!=null?audioQueue.size():0;
     }
 
-    public void setCurrentItem(String mediaId){
+    public boolean setCurrentItem(long mediaId){
+        int index= QueueManagerUtils.getIndex(audioQueue,mediaId);
+        setCurrentIndex(index);
+        return index>=0;
+    }
 
+    public boolean setCurrentItem(String mediaId){
+        int index= QueueManagerUtils.getIndex(audioQueue,mediaId);
+        setCurrentIndex(index);
+        return index>=0;
     }
 
     public void updateMetadata(){
         MediaSessionCompat.QueueItem currentItem=getCurrent();
-        if(currentItem!=null){
+        if(currentItem==null){
             updateListener.onMetadataRetrieveError();
             return;
         }
+        final String mediaId= MediaHelper.createMediaID(currentItem.getDescription().getMediaId());
 
 
     }
