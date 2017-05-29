@@ -10,13 +10,15 @@ public interface IPlayback {
     void playNext();
     void playPrevious();
     void setState(int state);
+    void setCurrentStreamPosition(long position);
     void play(QueueItem item);
     void seekTo(long position);
-    void setId(String id);
+    void setCurrentMediaId(String mediaId);
     boolean isPlaying();
     boolean isConnected();
-    String getId();
+    String getCurrentMediaId();
     int getState();
+    long getCurrentStreamPosition();
 
     interface Callback{
         void onFinished();

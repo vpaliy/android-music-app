@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.playback;
 
 
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -70,20 +71,22 @@ public class PlaybackManager implements IPlayback.Callback {
     public void updatePlaybackState(Throwable error){
         if(error!=null) error.printStackTrace();
         long position=PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN;
-        if(playback.isConnected()){} //TODO get position
-        stateBuilder.setActions(getAvailableActions());
-        if(error!=null) {
-            stateBuilder.setErrorMessage(error.getMessage());
-        }else{
-            stateBuilder.setErrorMessage(null);
+        if(playback.isConnected()){
+            position=playback.getCurrentStreamPosition();
         }
-        //TODO //stateBuilder.setState(playback.getState(),)
+        stateBuilder.setActions(getAvailableActions());
+        final String message=error!=null?error.getMessage():null;
+        stateBuilder.setErrorMessage(message);
+        final int state=error!=null?PlaybackStateCompat.STATE_ERROR:playback.getState();
+        stateBuilder.setState(state,position,1.0f, SystemClock.elapsedRealtime());
         MediaSessionCompat.QueueItem queueItem=queueManager.getCurrent();
         if (queueItem != null) {
             stateBuilder.setActiveQueueItemId(queueItem.getQueueId());
         }
         managerCallback.onPlaybackStateUpdated(stateBuilder.build());
-
+        if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED) {
+            managerCallback.onNotificationRequired();
+        }
     }
 
     @Override
