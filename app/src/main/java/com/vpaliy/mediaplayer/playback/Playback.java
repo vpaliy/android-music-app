@@ -8,7 +8,8 @@ import android.media.session.MediaSession;
 import android.net.wifi.WifiManager;
 import android.support.v4.media.session.PlaybackStateCompat;
 
-public class Playback implements IPlayback,AudioManager.OnAudioFocusChangeListener{
+public class Playback implements IPlayback,
+        AudioManager.OnAudioFocusChangeListener{
 
     public static final float VOLUME_DUCK = 0.2f;
     public static final float VOLUME_NORMAL = 1.0f;

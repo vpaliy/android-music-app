@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity{
     private MediaBrowserCompat browserCompat;
 
     private MediaBrowserCompat.ConnectionCallback connectionCallback=new MediaBrowserCompat.ConnectionCallback(){
+
+
         @Override
         public void onConnected()  {
             super.onConnected();
