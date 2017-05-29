@@ -74,8 +74,23 @@ public class Playback implements IPlayback,
     }
 
     @Override
-    public void setId(String id) {
+    public void setCurrentMediaId(String mediaId) {
 
+    }
+
+    @Override
+    public void setCurrentStreamPosition(long position) {
+
+    }
+
+    @Override
+    public long getCurrentStreamPosition() {
+        return 0;
+    }
+
+    @Override
+    public String getCurrentMediaId() {
+        return null;
     }
 
     @Override
@@ -120,10 +135,5 @@ public class Playback implements IPlayback,
     @Override
     public void start() {
 
-    }
-
-    @Override
-    public String getId() {
-        return null;
     }
 }
