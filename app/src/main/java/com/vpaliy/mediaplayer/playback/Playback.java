@@ -4,7 +4,7 @@ package com.vpaliy.mediaplayer.playback;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.session.MediaSession;
+import android.support.v4.media.session.MediaSessionCompat.QueueItem;
 import android.net.wifi.WifiManager;
 import android.support.v4.media.session.PlaybackStateCompat;
 
@@ -54,7 +54,7 @@ public class Playback implements IPlayback,
     }
 
     @Override
-    public void play(MediaSession.QueueItem item) {
+    public void play(QueueItem item) {
 
     }
 

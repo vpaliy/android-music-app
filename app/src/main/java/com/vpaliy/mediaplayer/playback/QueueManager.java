@@ -41,6 +41,10 @@ public class QueueManager {
         return audioQueue!=null?audioQueue.size():0;
     }
 
+    public void setCurrentItem(String mediaId){
+
+    }
+
     public void updateMetadata(){
         MediaSessionCompat.QueueItem currentItem=getCurrent();
         if(currentItem!=null){

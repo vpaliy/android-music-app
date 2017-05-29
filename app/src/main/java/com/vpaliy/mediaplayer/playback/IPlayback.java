@@ -1,7 +1,7 @@
 package com.vpaliy.mediaplayer.playback;
 
 
-import android.media.session.MediaSession.QueueItem;
+import android.support.v4.media.session.MediaSessionCompat.QueueItem;
 
 public interface IPlayback {
     void start();
