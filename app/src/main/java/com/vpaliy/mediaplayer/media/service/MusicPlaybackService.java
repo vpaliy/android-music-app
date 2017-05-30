@@ -11,8 +11,15 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
+
+import com.vpaliy.mediaplayer.media.model.MediaProvider;
+import com.vpaliy.mediaplayer.media.model.Query;
 import com.vpaliy.mediaplayer.media.playback.PlaybackManager;
 import com.vpaliy.mediaplayer.media.playback.QueueManager;
+import com.vpaliy.mediaplayer.media.utils.MediaHelper;
+
+import static com.vpaliy.mediaplayer.media.utils.MediaHelper.MEDIA_ID_EMPTY_ROOT;
+import static com.vpaliy.mediaplayer.media.utils.MediaHelper.MEDIA_ID_ROOT;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,18 +33,18 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
 
     private static final String LOG_TAG=MusicPlaybackService.class.getSimpleName();
 
-    public static final String MEDIA_ID_ROOT="root";
-    public static final String MEDIA_ID_EMPTY_ROOT="empty_root";
-
     private final  MediaSessionCompat mediaSession;
     private final PlaybackStateCompat.Builder stateBuilder;
     private final PlaybackManager playbackManager;
+    private final MediaProvider<Query> dataProvider;
 
     @Inject
     public MusicPlaybackService(@NonNull MediaSessionCompat mediaSession,
-                                @NonNull PlaybackManager manager){
+                                @NonNull PlaybackManager manager,
+                                @NonNull MediaProvider<Query> dataProvider){
         this.mediaSession=mediaSession;
         this.playbackManager=manager;
+        this.dataProvider=dataProvider;
         stateBuilder=new PlaybackStateCompat.Builder()
                 .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PLAY_PAUSE);
     }
@@ -121,8 +128,10 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
         Log.d(LOG_TAG,"onLoadChildren()");
         if(MEDIA_ID_EMPTY_ROOT.equals(parentId)){
             result.sendResult(new ArrayList<>());
-        }else {
-
+        }else if(dataProvider.isInitialized()){
+            result.sendResult(MediaHelper.getChildren(parentId,getResources()));
+        }else{
+            result.detach();
         }
     }
 

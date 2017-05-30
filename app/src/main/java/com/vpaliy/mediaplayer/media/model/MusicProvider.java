@@ -2,7 +2,7 @@ package com.vpaliy.mediaplayer.media.model;
 
 import android.support.v4.media.MediaMetadataCompat;
 
-public  class MusicProvider implements MediaProvider<MusicProvider.QueryArgs> {
+public  class MusicProvider implements MediaProvider<Query> {
 
     @Override
     public int count() {
@@ -20,14 +20,13 @@ public  class MusicProvider implements MediaProvider<MusicProvider.QueryArgs> {
     }
 
     @Override
-    public MediaMetadataCompat search(QueryArgs args, String query) {
+    public MediaMetadataCompat search(Query args, String query) {
         return null;
     }
 
-    public enum QueryArgs{
-        GENRE,
-        ARTIST,
-        TITLE,
-        ALBUM
+    @Override
+    public boolean isInitialized() {
+        return false;
     }
+
 }
