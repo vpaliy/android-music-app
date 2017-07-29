@@ -37,16 +37,6 @@ public class MainActivity extends AppCompatActivity{
 
 
         }
-
-        @Override
-        public void onConnectionFailed() {
-            super.onConnectionFailed();
-        }
-
-        @Override
-        public void onConnectionSuspended() {
-            super.onConnectionSuspended();
-        }
     };
 
     private MediaControllerCompat.Callback controllerCallback=new MediaControllerCompat.Callback() {
@@ -65,7 +55,6 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         browserCompat=new MediaBrowserCompat(this,
                 new ComponentName(this, MusicPlaybackService.class),
                 connectionCallback,null);

@@ -28,8 +28,8 @@ import javax.inject.Singleton;
 
 @Singleton
 public class MusicPlaybackService extends MediaBrowserServiceCompat
-            implements PlaybackManager.PlaybackManagerCallback,
-            QueueManager.MetadataUpdateListener{
+        implements PlaybackManager.PlaybackManagerCallback,
+        QueueManager.MetadataUpdateListener{
 
     private static final String LOG_TAG=MusicPlaybackService.class.getSimpleName();
 

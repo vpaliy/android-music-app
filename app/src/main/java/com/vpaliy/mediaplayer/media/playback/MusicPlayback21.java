@@ -15,16 +15,11 @@ public class MusicPlayback21 implements IPlayback {
 
     }
 
-
     @Override
     public String getCurrentMediaId() {
         return null;
     }
 
-    @Override
-    public void setCurrentStreamPosition(long position) {
-
-    }
 
     @Override
     public int getState() {

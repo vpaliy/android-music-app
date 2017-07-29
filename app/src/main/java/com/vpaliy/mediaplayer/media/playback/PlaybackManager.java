@@ -9,6 +9,15 @@ import android.support.annotation.NonNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+/**
+ * PlaybackManager — is the  class which pulls the strings.
+ * It controls the playback, manages the music  queue, and notifies everybody around about changes.
+ * Basically, it’s an additional layer that wraps up a playback. Just another place to keep all related abstractions together.
+ * It has a reference to the MediaSessionCallback.class which serves as a listener for any events from the UI (play/pause, seek to, rewind, next/previous).
+ * When a new event arrives to the listener, it notifies the PlaybackManager by calling an appropriate method.
+ * For example, when the listener gets the Play event, it calls the handlePlayRequest method from the PlaybackManager.
+ */
+
 @Singleton
 public class PlaybackManager implements IPlayback.Callback {
 

@@ -143,11 +143,6 @@ public class MusicPlayback implements IPlayback, AudioManager.OnAudioFocusChange
     }
 
     @Override
-    public void setCurrentStreamPosition(long position) {
-        this.currentPosition=position;
-    }
-
-    @Override
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
