@@ -19,16 +19,16 @@ import javax.inject.Singleton;
  */
 
 @Singleton
-public class PlaybackManager implements IPlayback.Callback {
+public class PlaybackManager implements Playback.Callback {
 
-    private final IPlayback playback;
+    private final Playback playback;
     private final MediaSessionCallback mediaSessionCallback;
     private final PlaybackManagerCallback managerCallback;
     private final QueueManager queueManager;
     private final PlaybackStateCompat.Builder stateBuilder;
 
     @Inject
-    public PlaybackManager(@NonNull IPlayback iPlayback,
+    public PlaybackManager(@NonNull Playback iPlayback,
                            @NonNull QueueManager queueManager,
                            @NonNull PlaybackManagerCallback managerCallback){
         this.playback=iPlayback;
@@ -39,7 +39,7 @@ public class PlaybackManager implements IPlayback.Callback {
         this.playback.setCallback(this);
     }
 
-    public IPlayback getPlayback() {
+    public Playback getPlayback() {
         return playback;
     }
 
@@ -51,8 +51,22 @@ public class PlaybackManager implements IPlayback.Callback {
         MediaSessionCompat.QueueItem queueItem=queueManager.getCurrent();
         if(queueItem!=null){
             managerCallback.onPlaybackStart();
-            playback.play(queueItem);
+          //  playback.play(queueItem);
         }
+    }
+
+    @Override
+    public void onPause() {
+    }
+
+    @Override
+    public void onPlay() {
+
+    }
+
+    @Override
+    public void onStop() {
+
     }
 
     public void handlePauseRequest(){
@@ -66,7 +80,7 @@ public class PlaybackManager implements IPlayback.Callback {
     public void handleStopRequest(Throwable error){
         playback.stop();
         managerCallback.onPlaybackStop();
-        updatePlaybackState(error);
+        managerCallback.onPlaybackError();
     }
 
     private long getAvailableActions() {
@@ -83,70 +97,22 @@ public class PlaybackManager implements IPlayback.Callback {
         return actions;
     }
 
-    public void updatePlaybackState(Throwable error){
-        if(error!=null) error.printStackTrace();
 
-        long position=PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN;
-        if(playback.isConnected()){
-            position=playback.getCurrentStreamPosition();
-        }
-        stateBuilder.setActions(getAvailableActions());
-
-        final String message=error!=null?error.getMessage():null;
-        stateBuilder.setErrorMessage(message);
-
-        final int state=error!=null?PlaybackStateCompat.STATE_ERROR:playback.getState();
-        stateBuilder.setState(state,position,1.0f, SystemClock.elapsedRealtime());
-
-        MediaSessionCompat.QueueItem queueItem=queueManager.getCurrent();
-        if (queueItem != null) {
-            stateBuilder.setActiveQueueItemId(queueItem.getQueueId());
-        }
-        managerCallback.onPlaybackStateUpdated(stateBuilder.build());
-
-        if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED) {
-            managerCallback.onNotificationRequired();
-        }
+    @Override
+    public void onError() {
+        managerCallback.onPlaybackError();
     }
 
     @Override
-    public void onError(Throwable ex) {
-        updatePlaybackState(ex);
-    }
+    public void onCompletetion() {
 
-    @Override
-    public void onFinished() {
-        if(queueManager.skipQueuePosition(1)){
-            handlePlayRequest();
-            queueManager.updateMetadata();
-        }else{
-            handleStopRequest(null);
-        }
-    }
-
-    @Override
-    public void onMediaSet(String mediaId) {
-        queueManager.setCurrentItem(mediaId);
-    }
-
-    @Override
-    public void onStateChanged(int state) {
-        updatePlaybackState(null);
     }
 
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
         @Override
         public void onPlay() {
             super.onPlay();
-            //TODO set random queue
             handlePlayRequest();
-        }
-
-        @Override
-        public void onSkipToQueueItem(long id) {
-            super.onSkipToQueueItem(id);
-            queueManager.setCurrentItem(id);
-            queueManager.updateMetadata();
         }
 
         @Override
@@ -181,7 +147,7 @@ public class PlaybackManager implements IPlayback.Callback {
         @Override
         public void onSeekTo(long pos) {
             super.onSeekTo(pos);
-            playback.seekTo(pos);
+            playback.seekTo((int)pos);
         }
 
         @Override
@@ -198,9 +164,10 @@ public class PlaybackManager implements IPlayback.Callback {
 
     public interface PlaybackManagerCallback{
         void onPlaybackStart();
+        void onPlaybackPause();
         void onNotificationRequired();
         void onPlaybackStop();
-        void onPlaybackStateUpdated(PlaybackStateCompat newState);
+        void onPlaybackError();
     }
 
 }

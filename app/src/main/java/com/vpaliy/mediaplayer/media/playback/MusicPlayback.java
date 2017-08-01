@@ -14,6 +14,9 @@ import android.support.v4.media.session.MediaSessionCompat.QueueItem;
 import android.net.wifi.WifiManager;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.vpaliy.mediaplayer.media.service.MusicPlaybackService;
 
 import java.io.IOException;
 
@@ -25,6 +28,8 @@ public class MusicPlayback implements IPlayback, AudioManager.OnAudioFocusChange
         MediaPlayer.OnCompletionListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnPreparedListener,
         MediaPlayer.OnSeekCompleteListener {
+
+    private static final String TAG=MusicPlayback.class.getSimpleName();
 
     public static final float VOLUME_DUCK = 0.2f;
     public static final float VOLUME_NORMAL = 1.0f;
@@ -53,12 +58,15 @@ public class MusicPlayback implements IPlayback, AudioManager.OnAudioFocusChange
         public void onReceive(Context context, Intent intent) {
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY.equals(intent.getAction())) {
                 if (isPlaying()) {
-                   //TODO //send a message to pause the playback
+                    Log.d(TAG,"Headphones disconnected");
+                    Intent i=new Intent(context, MusicPlaybackService.class);
+                    i.setAction(MusicPlaybackService.ACTION_CMD);
+                    i.putExtra(MusicPlaybackService.CMD_NAME,MusicPlaybackService.CMD_PAUSE);
+                    context.startService(i);
                 }
             }
         }
     };
-
 
     @Inject
     public MusicPlayback(@NonNull Context context){

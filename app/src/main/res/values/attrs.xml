@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressView">
+        <attr name="stroke_width" format="dimension"/>
+        <attr name="progress_color" format="color"/>
+        <attr name="background_color" format="color"/>
+        <attr name="progress_max" format="integer"/>
+        <attr name="current_progress" format="integer"/>
+        <attr name="morph" format="float"/>
+    </declare-styleable>
+</resources>

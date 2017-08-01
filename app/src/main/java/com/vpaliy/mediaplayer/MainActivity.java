@@ -76,20 +76,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void buildTransportUI(){
-        Button playPause= ButterKnife.findById(this,R.id.play_pause);
-        final MediaControllerCompat controllerCompat=MediaControllerCompat.getMediaController(MainActivity.this);
-        playPause.setOnClickListener(view->{
-            int state=controllerCompat.getPlaybackState().getState();
-            if(state== PlaybackStateCompat.STATE_PLAYING){
-                controllerCompat.getTransportControls().pause();
-            }else{
-                controllerCompat.getTransportControls().play();
-            }
-        });
-        MediaMetadataCompat metadata = controllerCompat.getMetadata();
-        PlaybackStateCompat pbState = controllerCompat.getPlaybackState();
-
-        controllerCompat.registerCallback(controllerCallback);
 
     }
 }

@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.vpaliy.mediaplayer.media.model.MediaProvider;
 import com.vpaliy.mediaplayer.media.model.Query;
+import com.vpaliy.mediaplayer.media.playback.Playback;
 import com.vpaliy.mediaplayer.media.playback.PlaybackManager;
 import com.vpaliy.mediaplayer.media.playback.QueueManager;
 import com.vpaliy.mediaplayer.media.utils.MediaHelper;
@@ -28,89 +29,86 @@ import javax.inject.Singleton;
 
 @Singleton
 public class MusicPlaybackService extends MediaBrowserServiceCompat
-        implements PlaybackManager.PlaybackManagerCallback,
-        QueueManager.MetadataUpdateListener{
+        implements Playback.Callback{
 
     private static final String LOG_TAG=MusicPlaybackService.class.getSimpleName();
 
-    private final  MediaSessionCompat mediaSession;
-    private final PlaybackStateCompat.Builder stateBuilder;
-    private final PlaybackManager playbackManager;
-    private final MediaProvider<Query> dataProvider;
+    public static final String ACTION_CMD="action:cmd";
+    public static final String CMD_NAME="cmd:name";
+    public static final String CMD_PAUSE="cmd:pause";
+
+    private MediaSessionCompat mediaSession;
+    private PlaybackStateCompat.Builder stateBuilder;
+    private MediaProvider<Query> dataProvider;
+
+    public MusicPlaybackService(){}
 
     @Inject
     public MusicPlaybackService(@NonNull MediaSessionCompat mediaSession,
-                                @NonNull PlaybackManager manager,
                                 @NonNull MediaProvider<Query> dataProvider){
         this.mediaSession=mediaSession;
-        this.playbackManager=manager;
         this.dataProvider=dataProvider;
         stateBuilder=new PlaybackStateCompat.Builder()
-                .setActions(PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_PLAY_PAUSE);
+                .setActions(PlaybackStateCompat.ACTION_PLAY
+                        | PlaybackStateCompat.ACTION_PLAY_PAUSE);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mediaSession.setPlaybackState(stateBuilder.build());
-        mediaSession.setCallback(playbackManager.getMediaSessionCallback());
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
-                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        setSessionToken(mediaSession.getSessionToken());
-
-        playbackManager.updatePlaybackState(null);
 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        playbackManager.handleStopRequest(null);
-        mediaSession.release();
+    public void onPause() {
+
     }
 
     @Override
-    public void onPlaybackStart() {
+    public void onPlay() {
         mediaSession.setActive(true);
         Intent intent=new Intent(this,MusicPlaybackService.class);
         startService(intent);
     }
 
     @Override
-    public void onPlaybackStateUpdated(PlaybackStateCompat newState) {
-        mediaSession.setPlaybackState(newState);
-    }
-
-    @Override
-    public void onNotificationRequired() {
-
-    }
-
-    @Override
-    public void onPlaybackStop() {
+    public void onStop() {
         mediaSession.setActive(false);
         stopSelf();
     }
 
     @Override
-    public void onMetadataChanged(MediaMetadataCompat metadata) {
-        mediaSession.setMetadata(metadata);
+    public void onCompletetion() {
+
     }
 
     @Override
-    public void onCurrentQueueIndexUpdated(int queueIndex) {
-        playbackManager.handlePlayRequest();
+    public void onError() {
+
+    }
+
+    private class MediaSessionCallback extends MediaSessionCompat.Callback{
+
+        @Override
+        public void onPlay() {
+            super.onPlay();
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+        }
+
+        @Override
+        public void onPause() {
+            super.onPause();
+        }
     }
 
     @Override
-    public void onMetadataRetrieveError() {
-        playbackManager.updatePlaybackState(new Exception("No data exception"));
-    }
-
-    @Override
-    public void onQueueUpdated(String title, List<MediaSessionCompat.QueueItem> newQueue) {
-        mediaSession.setQueue(newQueue);
-        mediaSession.setQueueTitle(title);
+    public void onDestroy() {
+        super.onDestroy();
+        mediaSession.release();
     }
 
     @Nullable
@@ -134,6 +132,4 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
             result.detach();
         }
     }
-
-
 }

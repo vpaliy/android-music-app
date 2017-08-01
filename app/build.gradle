@@ -41,12 +41,17 @@ android {
 
 dependencies {
 
+    compile 'com.google.android.exoplayer:exoplayer:r2.4.1'
+    compile 'com.github.lzyzsd:circleprogress:1.2.1'
+    compile 'com.sdsmdg.harjot:croller:1.0.2'
+    compile 'jp.wasabeef:blurry:2.1.1'
     compile libs.constraintLayout
     compile libs.recyclerView
     compile libs.supportDesign
     compile libs.supportAppCompat
     compile libs.ottoEventBus
     compile libs.butterKnife
+    compile libs.circleImage
     compile libs.Dagger2
     compile libs.glide
     compile libs.RxJava
