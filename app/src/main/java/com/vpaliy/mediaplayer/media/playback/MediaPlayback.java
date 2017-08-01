@@ -5,15 +5,22 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.PowerManager;
+import android.support.v4.media.session.MediaControllerCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 import java.io.IOException;
 
 public class MediaPlayback extends BasePlayback
     implements MediaPlayer.OnPreparedListener,
         MediaPlayer.OnErrorListener,
-        MediaPlayer.OnCompletionListener{
+        MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnSeekCompleteListener{
+
+    private static final String TAG=MediaPlayback.class.getSimpleName();
 
     private MediaPlayer player;
+    private int playerState= PlaybackStateCompat.STATE_NONE;
 
     public MediaPlayback(Context context,
                          AudioManager audioManager,
@@ -23,16 +30,12 @@ public class MediaPlayback extends BasePlayback
 
     @Override
     public void startPlayer() {
-        if(player==null){
-            player=new MediaPlayer();
-            player.setOnErrorListener(this);
-            player.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK);
-        }
+        createPlayerIfNeeded();
         try {
+            playerState=PlaybackStateCompat.STATE_BUFFERING;
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             player.setDataSource(currentUrl);
             player.prepareAsync();
-            player.setOnPreparedListener(this);
             player.start();
         }catch (IOException ex){
             ex.printStackTrace();
@@ -43,34 +46,42 @@ public class MediaPlayback extends BasePlayback
 
     @Override
     public void updatePlayer() {
-        if(player!=null){
-            switch (focusState){
-                case AUDIO_FOCUSED:
-                    player.setVolume(0f,VOLUME_NORMAL);
-                    break;
-                case AUDIO_NO_FOCUS_CAN_DUCK:
-                    player.setVolume(0f,VOLUME_DUCK);
-                    break;
+        if (player != null) {
+            switch (focusState) {
                 case AUDIO_NO_FOCUS_NO_DUCK:
-                    pausePlayer();
+                    if (playerState == PlaybackStateCompat.STATE_PLAYING) {
+                        pause();
+                    }
+                    return;
+                case AUDIO_NO_FOCUS_CAN_DUCK:
+                    registerNoiseReceiver();
+                    player.setVolume(VOLUME_DUCK, VOLUME_DUCK);
+                    break;
+                default:
+                    registerNoiseReceiver();
+                    player.setVolume(VOLUME_NORMAL,VOLUME_NORMAL);
             }
+            player.start();
         }
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        switch (focusState){
-            case AUDIO_FOCUSED:
-                player.setVolume(0f,VOLUME_NORMAL);
-                break;
-            case AUDIO_NO_FOCUS_CAN_DUCK:
-                player.setVolume(0f,VOLUME_DUCK);
-                break;
-            case AUDIO_NO_FOCUS_NO_DUCK:
-                //TODO probably need to pause
-                return;
+        updatePlayer();
+    }
+
+    private void createPlayerIfNeeded(){
+        if(player==null){
+            player=new MediaPlayer();
+            player.setWakeMode(context.getApplicationContext(),
+                    PowerManager.PARTIAL_WAKE_LOCK);
+            player.setOnPreparedListener(this);
+            player.setOnErrorListener(this);
+            player.setOnCompletionListener(this);
+            player.setOnSeekCompleteListener(this);
+        }else{
+            player.reset();
         }
-        player.start();
     }
 
     @Override
@@ -82,8 +93,20 @@ public class MediaPlayback extends BasePlayback
 
     @Override
     public void pausePlayer() {
-        if(isPlaying()){
-            player.pause();
+        if(playerState==PlaybackStateCompat.STATE_PLAYING) {
+            if (isPlaying()) {
+                player.pause();
+            }
+        }
+        playerState=PlaybackStateCompat.STATE_PAUSED;
+    }
+
+    @Override
+    public void onSeekComplete(MediaPlayer mp) {
+        if(playerState==PlaybackStateCompat.STATE_BUFFERING){
+            registerNoiseReceiver();
+            player.start();
+            playerState = PlaybackStateCompat.STATE_PLAYING;
         }
     }
 
@@ -103,6 +126,7 @@ public class MediaPlayback extends BasePlayback
 
     @Override
     public void stopPlayer() {
+        playerState=PlaybackStateCompat.STATE_STOPPED;
         if (player != null) {
             player.release();
             player=null;
@@ -111,7 +135,13 @@ public class MediaPlayback extends BasePlayback
 
     @Override
     public void seekTo(int position) {
+        Log.d(TAG,"Player is null:"+Boolean.toString(player==null));
+        Log.d(TAG,"Player's position:"+Integer.toString(position));
         if(player!=null){
+            if(player.isPlaying()){
+                playerState=PlaybackStateCompat.STATE_BUFFERING;
+            }
+            registerNoiseReceiver();
             player.seekTo(position);
         }
     }

@@ -2,7 +2,6 @@ package com.vpaliy.mediaplayer.ui;
 
 
 import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;

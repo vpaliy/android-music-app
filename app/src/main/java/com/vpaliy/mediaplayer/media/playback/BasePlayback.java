@@ -106,7 +106,7 @@ public abstract class BasePlayback implements Playback,
             boolean canDuck = focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK;
             focusState = canDuck ? AUDIO_NO_FOCUS_CAN_DUCK : AUDIO_NO_FOCUS_NO_DUCK;
         }
-        //configMediaPlayer();
+        updatePlayer();
     }
 
     private void releaseFocus(){
@@ -138,6 +138,7 @@ public abstract class BasePlayback implements Playback,
     public void pause() {
         pausePlayer();
         unregisterNoiseReceiver();
+        releaseWifiLock();
         if(callback!=null) callback.onPause();
     }
 
