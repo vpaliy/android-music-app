@@ -81,13 +81,14 @@
         app:layout_constraintLeft_toLeftOf="@+id/artist"
         app:layout_constraintRight_toRightOf="@+id/artist" />
 
-    <com.vpaliy.mediaplayer.ui.ProgressView
+    <ProgressBar
         android:layout_width="300dp"
         android:layout_height="300dp"
-        app:current_progress="0"
-        app:progress_max="100"
-        app:morph="1"
-        app:progress_color="#ef5350"
+        android:progressDrawable="@drawable/circle_shape"
+        android:max="100"
+        android:progress="20"
+        android:rotation="150"
+        style="?android:attr/progressBarStyleHorizontal"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"

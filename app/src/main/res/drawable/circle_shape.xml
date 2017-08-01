@@ -1,12 +1,6 @@
-<rotate
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fromDegrees="150"
-    android:toDegrees="150">
-    <shape
-        android:shape="ring"
-        android:thickness="10dp"
-        android:innerRadius="10dp"
-        android:useLevel="true"><!-- this line fixes the issue for lollipop api 21 -->
-        <solid android:color="@color/colorPrimary"/>
-    </shape>
-</rotate>
+<shape android:innerRadiusRatio="2.3"
+    android:shape="ring"
+    android:thickness="3.8sp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ef5350" />
+</shape>

@@ -63,16 +63,17 @@ public abstract class BasePlayback implements Playback,
     @Override
     public void play(String mediaUrl) {
         if(!TextUtils.isEmpty(mediaUrl)) {
-            if(TextUtils.equals(mediaUrl,currentUrl)){
-                resumePlayer();
-                return;
-            }
-            this.currentUrl=mediaUrl;
             requestFocus();
             registerNoiseReceiver();
             acquireWifiLock();
+            if(TextUtils.equals(mediaUrl,currentUrl)){
+                Log.d(TAG,"Playing the same");
+                resumePlayer();
+                return;
+            }
+            Log.d(TAG,"Playing different");
+            this.currentUrl=mediaUrl;
             startPlayer();
-            if(callback!=null) callback.onPlay();
         }
     }
 
@@ -106,6 +107,7 @@ public abstract class BasePlayback implements Playback,
             boolean canDuck = focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK;
             focusState = canDuck ? AUDIO_NO_FOCUS_CAN_DUCK : AUDIO_NO_FOCUS_NO_DUCK;
         }
+        Log.d(TAG,"Focus changed");
         updatePlayer();
     }
 
@@ -136,6 +138,7 @@ public abstract class BasePlayback implements Playback,
 
     @Override
     public void pause() {
+        Log.d(TAG,"Will pause");
         pausePlayer();
         unregisterNoiseReceiver();
         releaseWifiLock();
@@ -144,6 +147,7 @@ public abstract class BasePlayback implements Playback,
 
     @Override
     public void stop() {
+        Log.d(TAG,"Stopping");
         releaseFocus();
         releaseWifiLock();
         unregisterNoiseReceiver();

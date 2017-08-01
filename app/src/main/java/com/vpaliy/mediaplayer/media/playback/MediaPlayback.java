@@ -5,10 +5,8 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.wifi.WifiManager;
 import android.os.PowerManager;
-import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
-
 import java.io.IOException;
 
 public class MediaPlayback extends BasePlayback
@@ -36,7 +34,6 @@ public class MediaPlayback extends BasePlayback
             player.setAudioStreamType(AudioManager.STREAM_MUSIC);
             player.setDataSource(currentUrl);
             player.prepareAsync();
-            player.start();
         }catch (IOException ex){
             ex.printStackTrace();
             //notify UI
@@ -62,12 +59,16 @@ public class MediaPlayback extends BasePlayback
                     player.setVolume(VOLUME_NORMAL,VOLUME_NORMAL);
             }
             player.start();
+            playerState=PlaybackStateCompat.STATE_PLAYING;
+            if(callback!=null) callback.onPlay();
         }
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        Log.d(TAG,"State:"+playerState);
         updatePlayer();
+        playerState=PlaybackStateCompat.STATE_PLAYING;
     }
 
     private void createPlayerIfNeeded(){
@@ -93,6 +94,7 @@ public class MediaPlayback extends BasePlayback
 
     @Override
     public void pausePlayer() {
+        Log.d(TAG,"State:"+playerState);
         if(playerState==PlaybackStateCompat.STATE_PLAYING) {
             if (isPlaying()) {
                 player.pause();
@@ -103,6 +105,7 @@ public class MediaPlayback extends BasePlayback
 
     @Override
     public void onSeekComplete(MediaPlayer mp) {
+        Log.d(TAG,"State:"+playerState);
         if(playerState==PlaybackStateCompat.STATE_BUFFERING){
             registerNoiseReceiver();
             player.start();
@@ -121,6 +124,8 @@ public class MediaPlayback extends BasePlayback
             if(!player.isPlaying()){
                 player.start();
             }
+            playerState=PlaybackStateCompat.STATE_PLAYING;
+            if(callback!=null) callback.onPlay();
         }
     }
 
