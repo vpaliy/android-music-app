@@ -158,7 +158,7 @@ public class MusicNotification {
                 .setColor(Color.WHITE)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setUsesChronometer(true)
-                .setSmallIcon(R.drawable.ic_play)
+                .setSmallIcon(R.drawable.ic_music_note)
                 .setContentIntent(contentIntent(service))
                 .setContentTitle(mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST))
                 .setContentText(mediaMetadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE))
