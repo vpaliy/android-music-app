@@ -15,6 +15,7 @@ import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +28,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.target.ImageViewTarget;
-import com.vpaliy.mediaplayer.MainActivity;
+import com.ohoussein.playpause.PlayPauseView;
 import com.vpaliy.mediaplayer.R;
 import com.vpaliy.mediaplayer.media.service.MusicPlaybackService;
 
@@ -39,17 +40,24 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.blurry.Blurry;
 
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 public class PlayerFragment extends Fragment {
+
+    //TODO notification
+    //TODO clear the architecture
+    //TODO add DI
+    //TODO test
 
     private static final String TAG=PlayerFragment.class.getSimpleName();
 
     @BindView(R.id.background)
     protected ImageView background;
 
-    @BindView(R.id.play_pause)
-    protected ImageView playPause;
 
     @BindView(R.id.start_time)
     protected TextView startTime;
@@ -63,6 +71,17 @@ public class PlayerFragment extends Fragment {
     @BindView(R.id.track_name)
     protected TextView trackName;
 
+    @BindView(R.id.play_pause)
+    protected PlayPauseView playPause;
+
+    @BindView(R.id.circle)
+    protected CircleImageView circleImage;
+
+    @BindView(R.id.progressView)
+    protected ProgressBar progressView;
+
+    private String lastImageUrl;
+
     private static final long PROGRESS_UPDATE_INTERNAL = 100;
     private static final long PROGRESS_UPDATE_INITIAL_INTERVAL = 10;
 
@@ -74,12 +93,8 @@ public class PlayerFragment extends Fragment {
     private PlaybackStateCompat lastState;
     private Handler handler=new Handler();
 
-    @BindView(R.id.progressView)
-    protected ProgressBar progressView;
-
     private MediaBrowserCompat browserCompat;
     private MediaBrowserCompat.ConnectionCallback connectionCallback=new MediaBrowserCompat.ConnectionCallback(){
-
         @Override
         public void onConnected()  {
             super.onConnected();
@@ -89,44 +104,57 @@ public class PlayerFragment extends Fragment {
                 // Save the controller
                 mediaController.registerCallback(controllerCallback);
                 MediaControllerCompat.setMediaController(getActivity(), mediaController);
-                buildTransportUI();
+                PlaybackStateCompat stateCompat=mediaController.getPlaybackState();
+                updatePlaybackState(stateCompat);
+                MediaMetadataCompat metadataCompat=mediaController.getMetadata();
+                if(metadataCompat!=null){
+                    updateDuration(metadataCompat);
+                }
             }catch (RemoteException ex){
                 ex.printStackTrace();
             }
-
-
         }
     };
 
     private MediaControllerCompat.Callback controllerCallback=new MediaControllerCompat.Callback() {
         @Override
         public void onPlaybackStateChanged(PlaybackStateCompat state) {
-            super.onPlaybackStateChanged(state);
-            lastState=state;
+            updatePlaybackState(state);
         }
 
         @Override
         public void onMetadataChanged(MediaMetadataCompat metadata) {
             super.onMetadataChanged(metadata);
-            if(metadata!=null) updateDuration(metadata);
+            if(metadata!=null) {
+                updateDuration(metadata);
+            }
         }
     };
 
     @Override
     public void onStart() {
         super.onStart();
-        browserCompat.connect();
+        if(browserCompat!=null) {
+            browserCompat.connect();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        if(browserCompat!=null){
+            browserCompat.disconnect();
+        }
         if(MediaControllerCompat.getMediaController(getActivity())!=null){
             MediaControllerCompat.getMediaController(getActivity()).unregisterCallback(controllerCallback);
         }
-        browserCompat.disconnect();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Nullable
     @Override
@@ -167,8 +195,11 @@ public class PlayerFragment extends Fragment {
         if(mScheduleFuture!=null) mScheduleFuture.cancel(false);
     }
 
-    private void buildTransportUI(){
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopSeekBarUpdate();
+        mExecutorService.shutdown();
     }
 
     @OnClick(R.id.play_pause)
@@ -181,20 +212,53 @@ public class PlayerFragment extends Fragment {
             switch (stateCompat.getState()){
                 case PlaybackStateCompat.STATE_PLAYING:
                 case PlaybackStateCompat.STATE_BUFFERING:
-                    playPause.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_play));
                     controls.pause();
-                    stopSeekBarUpdate();
                     break;
                 case PlaybackStateCompat.STATE_NONE:
                 case PlaybackStateCompat.STATE_PAUSED:
                 case PlaybackStateCompat.STATE_STOPPED:
-                    playPause.setImageDrawable(ContextCompat.getDrawable(getContext(),R.drawable.ic_pause));
                     controls.play();
-                    startSeekBarUpdate();
                     break;
                 default:
                     Log.d(TAG, "onClick with state "+stateCompat.getState());
             }
+        }
+    }
+
+    public void updatePlaybackState(PlaybackStateCompat stateCompat){
+        if(stateCompat==null) return;
+        lastState=stateCompat;
+        switch (stateCompat.getState()){
+            case PlaybackStateCompat.STATE_PLAYING:
+                playPause.setVisibility(VISIBLE);
+                if(playPause.isPlay()){
+                    playPause.change(false,true);
+                }
+                startSeekBarUpdate();
+                break;
+            case PlaybackStateCompat.STATE_PAUSED:
+               // mControllers.setVisibility(VISIBLE);
+               // mLoading.setVisibility(INVISIBLE);
+                playPause.setVisibility(View.VISIBLE);
+                if(!playPause.isPlay()){
+                    playPause.change(true,true);
+                }
+                stopSeekBarUpdate();
+                break;
+            case PlaybackStateCompat.STATE_NONE:
+            case PlaybackStateCompat.STATE_STOPPED:
+                playPause.setVisibility(VISIBLE);
+                if(playPause.isPlay()){
+                    playPause.change(false,true);
+                }
+                stopSeekBarUpdate();
+                break;
+            case PlaybackStateCompat.STATE_BUFFERING:
+                playPause.setVisibility(INVISIBLE);
+                stopSeekBarUpdate();
+                break;
+            default:
+                Log.d(TAG, "Unhandled state "+stateCompat.getState());
         }
     }
 
@@ -215,13 +279,36 @@ public class PlayerFragment extends Fragment {
     }
 
     private void updateDuration(MediaMetadataCompat metadataCompat){
+        Log.d(TAG,"updatedDuration is called()");
         int duration=(int)metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_DURATION);
         endTime.setText(DateUtils.formatElapsedTime(duration/1000));
         startTime.setText("0");
         progressView.setMax(duration);
         //
-        trackName.setText(metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE));
+        trackName.setText(metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_TITLE));
         artist.setText(metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_ARTIST));
+
+        String imageUrl=metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI);
+        if(!TextUtils.equals(lastImageUrl,imageUrl)){
+            lastImageUrl=imageUrl;
+            Glide.with(getContext())
+                    .load(lastImageUrl)
+                    .asBitmap()
+                    .priority(Priority.IMMEDIATE)
+                    .into(new ImageViewTarget<Bitmap>(background) {
+                        @Override
+                        protected void setResource(Bitmap resource) {
+                            Blurry.with(getContext())
+                                    .from(resource)
+                                    .into(background);
+                        }
+                    });
+            Glide.with(getContext())
+                    .load(lastImageUrl)
+                    .priority(Priority.IMMEDIATE)
+                    .into(circleImage);
+        }
+
 
     }
 
@@ -235,6 +322,5 @@ public class PlayerFragment extends Fragment {
         }
         progressView.setProgress((int) currentPosition);
         startTime.setText(DateUtils.formatElapsedTime(progressView.getProgress() / 1000));
-
     }
 }

@@ -67,11 +67,9 @@ public abstract class BasePlayback implements Playback,
             registerNoiseReceiver();
             acquireWifiLock();
             if(TextUtils.equals(mediaUrl,currentUrl)){
-                Log.d(TAG,"Playing the same");
                 resumePlayer();
                 return;
             }
-            Log.d(TAG,"Playing different");
             this.currentUrl=mediaUrl;
             startPlayer();
         }

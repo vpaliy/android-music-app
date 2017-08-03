@@ -63,7 +63,6 @@ public class PlaybackManager implements Playback.Callback {
         return actions;
     }
 
-
     public void handlePauseRequest(){
         playback.pause();
     }
@@ -97,6 +96,7 @@ public class PlaybackManager implements Playback.Callback {
 
     @Override
     public void onPause() {
+        Log.d(TAG,"onPause()");
         updatePlaybackState(PlaybackStateCompat.STATE_PAUSED);
         serviceCallback.onPlaybackStop();
     }

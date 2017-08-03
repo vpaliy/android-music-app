@@ -45,6 +45,7 @@ dependencies {
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     compile 'com.sdsmdg.harjot:croller:1.0.2'
     compile 'jp.wasabeef:blurry:2.1.1'
+    compile 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
 
     compile libs.constraintLayout
     compile libs.recyclerView

@@ -78,6 +78,7 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
         if (startIntent != null) {
             String action = startIntent.getAction();
             String command = startIntent.getStringExtra(CMD_NAME);
+            MediaTasks.executeTask(playbackManager,action);
             if (ACTION_CMD.equals(action)) {
                 if (CMD_PAUSE.equals(command)) {
                     playbackManager.handlePauseRequest();
@@ -149,6 +150,7 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     @Override
     public void onDestroy() {
         super.onDestroy();
+        playbackManager.handleStopRequest();
         mediaSession.release();
     }
 
