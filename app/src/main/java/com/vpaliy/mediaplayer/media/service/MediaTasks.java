@@ -16,7 +16,13 @@ public class MediaTasks {
 
 
     public static void executeTask(PlaybackManager playbackManager, String action){
-
+        if(playbackManager==null || action==null) return ;
+        if(action.equals(ACTION_PAUSE)){
+            playbackManager.handlePauseRequest();
+        }else if(action.equals(ACTION_PLAY)){
+            playbackManager.handleResumeRequest();
+        }else if(action.equals(ACTION_PREV)){
+        }
     }
 
 }

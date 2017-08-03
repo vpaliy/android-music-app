@@ -82,11 +82,11 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
             MediaTasks.executeTask(playbackManager,action);
             if (ACTION_CMD.equals(action)) {
                 if (CMD_PAUSE.equals(command)) {
-                    playbackManager.handlePauseRequest();
+                   playbackManager.handlePauseRequest();
                 }
             } else {
                 // Try to handle the intent as a media button event wrapped by MediaButtonReceiver
-                MediaButtonReceiver.handleIntent(mediaSession, startIntent);
+               // MediaButtonReceiver.handleIntent(mediaSession, startIntent);
             }
         }
         return START_STICKY;
@@ -134,6 +134,11 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     }
 
     @Override
+    public void onPlaybackPause() {
+        mediaSession.setActive(false);
+    }
+
+    @Override
     public void onPlaybackStop() {
         mediaSession.setActive(false);
         stopSelf();
@@ -153,6 +158,8 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(LOG_TAG,"onDestroy()");
+        musicNotification.stopNotification();
         playbackManager.handleStopRequest();
         mediaSession.release();
     }

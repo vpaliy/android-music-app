@@ -15,6 +15,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -25,6 +26,8 @@ import com.vpaliy.mediaplayer.MainActivity;
 import com.vpaliy.mediaplayer.R;
 
 public class MusicNotification {
+
+    private static final String TAG=MusicNotification.class.getSimpleName();
 
     public static final int NOTIFICATION_ID = 412;
 
@@ -56,6 +59,7 @@ public class MusicNotification {
 
     public void updatePlaybackState(PlaybackStateCompat playbackState){
         this.playbackState=playbackState;
+        Log.d(TAG,"playbackState:"+playbackState.getState());
         if(playbackState.getState()==PlaybackStateCompat.STATE_STOPPED||
                 playbackState.getState()==PlaybackStateCompat.STATE_NONE){
             stopNotification();
@@ -90,7 +94,7 @@ public class MusicNotification {
         }
     }
 
-    private void stopNotification(){
+    public void stopNotification(){
         if(isStarted){
             isStarted=false;
             service.stopForeground(true);
@@ -109,10 +113,10 @@ public class MusicNotification {
         Intent playPauseIntent=new Intent(context,MusicPlaybackService.class);
         playPauseIntent.setAction(ACTION_PAUSE);
 
-        PendingIntent pausePendingIntent=PendingIntent.getBroadcast(context,
+        PendingIntent pausePendingIntent=PendingIntent.getService(context,
                 PAUSE_PENDING_INTENT_ID,
                 playPauseIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
         return new NotificationCompat.Action(R.drawable.ic_pause_notif,"Pause",pausePendingIntent);
     }
 
@@ -120,10 +124,10 @@ public class MusicNotification {
         Intent nextIntent=new Intent(context,MusicPlaybackService.class);
         nextIntent.setAction(ACTION_NEXT);
 
-        PendingIntent nextPendingIntent=PendingIntent.getBroadcast(context,
+        PendingIntent nextPendingIntent=PendingIntent.getService(context,
                 PLAY_NEXT_PENDING_INTENT_ID,
                 nextIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
         return new NotificationCompat.Action(R.drawable.ic_skip_next_notif,"Next",nextPendingIntent);
     }
 
@@ -131,10 +135,10 @@ public class MusicNotification {
         Intent prevIntent=new Intent(context,MusicPlaybackService.class);
         prevIntent.setAction(ACTION_PREV);
 
-        PendingIntent prevPendingIntent=PendingIntent.getBroadcast(context,
+        PendingIntent prevPendingIntent=PendingIntent.getService(context,
                 PLAY_PREV_PENDING_INTENT_ID,
                 prevIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
         return new NotificationCompat.Action(R.drawable.ic_skip_prev_notif,"Previous",prevPendingIntent);
     }
 

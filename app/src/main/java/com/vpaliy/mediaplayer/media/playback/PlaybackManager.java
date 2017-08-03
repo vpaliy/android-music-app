@@ -93,12 +93,14 @@ public class PlaybackManager implements Playback.Callback {
         serviceCallback.onPlaybackStop();
     }
 
+    public void handleResumeRequest(){
+        handlePlayRequest(queueManager.current());
+    }
 
     @Override
     public void onPause() {
-        Log.d(TAG,"onPause()");
         updatePlaybackState(PlaybackStateCompat.STATE_PAUSED);
-        serviceCallback.onPlaybackStop();
+        serviceCallback.onPlaybackPause();
     }
 
     public void updatePlaybackState(int state){
@@ -168,6 +170,7 @@ public class PlaybackManager implements Playback.Callback {
 
     public interface PlaybackServiceCallback {
         void onPlaybackStart();
+        void onPlaybackPause();
         void onNotificationRequired();
         void onPlaybackStop();
         void onPlaybackStateUpdated(PlaybackStateCompat newState);
