@@ -20,7 +20,6 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import com.vpaliy.mediaplayer.MainActivity;
 import com.vpaliy.mediaplayer.media.model.RemoteJSONSource;
-import com.vpaliy.mediaplayer.media.playback.MediaPlayback;
 import com.vpaliy.mediaplayer.media.playback.MediaPlayback21;
 import com.vpaliy.mediaplayer.media.playback.Playback;
 import com.vpaliy.mediaplayer.media.playback.PlaybackManager;
@@ -43,6 +42,7 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
 
     private MediaSessionCompat mediaSession;
     private PlaybackManager playbackManager;
+    private MusicNotification musicNotification;
 
     @Override
     public void onCreate() {
@@ -68,6 +68,7 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
                 PendingIntent pi = PendingIntent.getActivity(context, 99,
                         intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 mediaSession.setSessionActivity(pi);
+                musicNotification=new MusicNotification(MusicPlaybackService.this);
                 playbackManager.updatePlaybackState(PlaybackStateCompat.STATE_NONE);
             }
         }.execute();
@@ -94,6 +95,7 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     @Override
     public void onMetadataChanged(MediaMetadataCompat metadata) {
         mediaSession.setMetadata(metadata);
+        musicNotification.updateMetadata(metadata);
     }
 
     @Override
@@ -140,11 +142,12 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     @Override
     public void onPlaybackStateUpdated(PlaybackStateCompat stateCompat) {
         mediaSession.setPlaybackState(stateCompat);
+        musicNotification.updatePlaybackState(stateCompat);
     }
 
     @Override
     public void onNotificationRequired() {
-
+        musicNotification.startNotification();
     }
 
     @Override
