@@ -30,6 +30,7 @@ public class MediaPlayback21 extends BasePlayback
         implements ExoPlayer.EventListener{
 
     private SimpleExoPlayer exoPlayer;
+    private boolean isPause=false;
 
     public MediaPlayback21(Context context,
                            AudioManager audioManager,
@@ -40,6 +41,7 @@ public class MediaPlayback21 extends BasePlayback
     @Override
     public void pausePlayer() {
         if(exoPlayer!=null){
+            isPause=true;
             exoPlayer.setPlayWhenReady(false);
         }
     }
@@ -87,14 +89,17 @@ public class MediaPlayback21 extends BasePlayback
                 break;
         }
         registerNoiseReceiver();
+        isPause=false;
         exoPlayer.setPlayWhenReady(true);
     }
 
     @Override
     public void stopPlayer() {
-        exoPlayer.release();
-        exoPlayer.removeListener(this);
-        exoPlayer=null;
+        if(exoPlayer!=null) {
+            exoPlayer.release();
+            exoPlayer.removeListener(this);
+            exoPlayer = null;
+        }
     }
 
     @Override
@@ -126,7 +131,10 @@ public class MediaPlayback21 extends BasePlayback
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         switch (playbackState) {
             case ExoPlayer.STATE_READY:
-                if(callback!=null) callback.onPlay();
+                if(callback!=null){
+                    if(isPause) callback.onPause();
+                    else callback.onPlay();
+                }
                 break;
             case ExoPlayer.STATE_ENDED:
                 if(callback!=null) callback.onCompletetion();

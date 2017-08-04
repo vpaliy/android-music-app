@@ -7,8 +7,12 @@ import android.media.AudioManager;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
+
+import java.lang.ref.WeakReference;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,13 +40,13 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
 
     private static final String LOG_TAG=MusicPlaybackService.class.getSimpleName();
 
-    public static final String ACTION_CMD="action:cmd";
-    public static final String CMD_NAME="cmd:name";
-    public static final String CMD_PAUSE="cmd:pause";
+    private static final long STOP_DELAY=10000; //30 sec before the service stops
 
     private MediaSessionCompat mediaSession;
     private PlaybackManager playbackManager;
     private MusicNotification musicNotification;
+    private DelayedStopHandler stopHandler=new DelayedStopHandler(this);
+
 
     @Override
     public void onCreate() {
@@ -76,24 +80,19 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
 
     @Override
     public int onStartCommand(Intent startIntent, int flags, int startId) {
+        Log.d(LOG_TAG,"onStartCommand()");
         if (startIntent != null) {
             String action = startIntent.getAction();
-            String command = startIntent.getStringExtra(CMD_NAME);
             MediaTasks.executeTask(playbackManager,action);
-            if (ACTION_CMD.equals(action)) {
-                if (CMD_PAUSE.equals(command)) {
-                   playbackManager.handlePauseRequest();
-                }
-            } else {
-                // Try to handle the intent as a media button event wrapped by MediaButtonReceiver
-               // MediaButtonReceiver.handleIntent(mediaSession, startIntent);
-            }
+            // Try to handle the intent as a media button event wrapped by MediaButtonReceiver
+            // MediaButtonReceiver.handleIntent(mediaSession, startIntent);
         }
         return START_STICKY;
     }
 
     @Override
     public void onMetadataChanged(MediaMetadataCompat metadata) {
+        Log.d(LOG_TAG,"onMetadataChanged");
         mediaSession.setMetadata(metadata);
         musicNotification.updateMetadata(metadata);
     }
@@ -128,30 +127,38 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     }
     @Override
     public void onPlaybackStart() {
+        Log.d(LOG_TAG,"onPlaybackStart");
         mediaSession.setActive(true);
+        stopHandler.removeCallbacksAndMessages(null);
         Intent intent=new Intent(this,MusicPlaybackService.class);
         startService(intent);
     }
 
     @Override
     public void onPlaybackPause() {
+        Log.d(LOG_TAG,"onPlaybackPause");
         mediaSession.setActive(false);
     }
 
     @Override
     public void onPlaybackStop() {
+        Log.d(LOG_TAG,"onPlaybackStop");
         mediaSession.setActive(false);
-        stopSelf();
+        stopHandler.removeCallbacksAndMessages(null);
+        stopHandler.sendEmptyMessageDelayed(0,STOP_DELAY);
+        stopForeground(true);
     }
 
     @Override
     public void onPlaybackStateUpdated(PlaybackStateCompat stateCompat) {
+        Log.d(LOG_TAG,"onPlaybackStateUpdated");
         mediaSession.setPlaybackState(stateCompat);
         musicNotification.updatePlaybackState(stateCompat);
     }
 
     @Override
     public void onNotificationRequired() {
+        Log.d(LOG_TAG,"onNotificationRequired");
         musicNotification.startNotification();
     }
 
@@ -159,8 +166,9 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     public void onDestroy() {
         super.onDestroy();
         Log.d(LOG_TAG,"onDestroy()");
-        musicNotification.stopNotification();
         playbackManager.handleStopRequest();
+        musicNotification.stopNotification();
+        stopHandler.removeCallbacksAndMessages(null);
         mediaSession.release();
     }
 
@@ -177,5 +185,28 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
     @Override
     public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaBrowserCompat.MediaItem>> result) {
 
+    }
+
+    private static class DelayedStopHandler extends Handler {
+        private final WeakReference<MusicPlaybackService> mWeakReference;
+
+        private DelayedStopHandler(MusicPlaybackService service) {
+            mWeakReference = new WeakReference<>(service);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            Log.d(LOG_TAG,"Handling message before destroying");
+            MusicPlaybackService service = mWeakReference.get();
+            Log.d(this.getClass().getSimpleName(),"Null:"+(service==null));
+            if(service!=null){
+                boolean stopThis=service.playbackManager.getPlayback()==null
+                        ||!service.playbackManager.getPlayback().isPlaying();
+                if(stopThis){
+                    service.musicNotification.stopNotification();
+                    service.stopSelf();
+                }
+            }
+        }
     }
 }

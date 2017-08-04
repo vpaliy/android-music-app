@@ -10,6 +10,7 @@ import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.vpaliy.mediaplayer.media.service.MediaTasks;
 import com.vpaliy.mediaplayer.media.service.MusicPlaybackService;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -44,8 +45,7 @@ public abstract class BasePlayback implements Playback,
                 if (isPlaying()) {
                     Log.d(TAG,"Headphones disconnected");
                     Intent i=new Intent(context, MusicPlaybackService.class);
-                    i.setAction(MusicPlaybackService.ACTION_CMD);
-                    i.putExtra(MusicPlaybackService.CMD_NAME,MusicPlaybackService.CMD_PAUSE);
+                    i.setAction(MediaTasks.ACTION_PAUSE);
                     context.startService(i);
                 }
             }
@@ -140,7 +140,6 @@ public abstract class BasePlayback implements Playback,
         pausePlayer();
         unregisterNoiseReceiver();
         releaseWifiLock();
-        if(callback!=null) callback.onPause();
     }
 
     @Override

@@ -62,6 +62,7 @@ public class MusicNotification {
         Log.d(TAG,"playbackState:"+playbackState.getState());
         if(playbackState.getState()==PlaybackStateCompat.STATE_STOPPED||
                 playbackState.getState()==PlaybackStateCompat.STATE_NONE){
+            Log.d(TAG,"Gotta stop notification");
             stopNotification();
         }else{
             updateNotification();
@@ -69,11 +70,13 @@ public class MusicNotification {
     }
 
     public void startNotification(){
+        Log.d(TAG,"startNotification");
         if(!isStarted){
             Notification notification=createNotification();
             if(notification!=null) {
                 service.startForeground(NOTIFICATION_ID,notification);
                 isStarted=true;
+                Log.d(TAG,"Notification has been started");
             }
         }
     }
@@ -95,9 +98,12 @@ public class MusicNotification {
     }
 
     public void stopNotification(){
+        Log.d(TAG,"stopNotification");
         if(isStarted){
             isStarted=false;
+            manager.cancel(NOTIFICATION_ID);
             service.stopForeground(true);
+            Log.d(TAG,"Notification has been stopped");
         }
     }
 
@@ -193,7 +199,7 @@ public class MusicNotification {
                     .setShowWhen(false)
                     .setUsesChronometer(false);
         }
-        builder.setOngoing(playbackState.getState() == PlaybackStateCompat.STATE_PLAYING);
+      //  builder.setOngoing(playbackState.getState()==PlaybackStateCompat.STATE_PLAYING);
     }
 
     private void loadImage(String imageUrl, NotificationCompat.Builder builder){
@@ -211,5 +217,4 @@ public class MusicNotification {
                     });
         }
     }
-
 }

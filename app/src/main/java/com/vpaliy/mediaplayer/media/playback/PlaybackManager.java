@@ -48,6 +48,10 @@ public class PlaybackManager implements Playback.Callback {
         }
     }
 
+    public Playback getPlayback() {
+        return playback;
+    }
+
     private long getAvailableActions() {
         long actions =
                 PlaybackStateCompat.ACTION_PLAY_PAUSE |
@@ -100,19 +104,19 @@ public class PlaybackManager implements Playback.Callback {
     @Override
     public void onPause() {
         updatePlaybackState(PlaybackStateCompat.STATE_PAUSED);
-        serviceCallback.onPlaybackPause();
+        serviceCallback.onPlaybackStop();
     }
 
     public void updatePlaybackState(int state){
         long position=playback.getPosition();
-        PlaybackStateCompat.Builder builder=new PlaybackStateCompat.Builder()
-                .setActions(getAvailableActions())
-                .setState(state,position,1.0f, SystemClock.elapsedRealtime());
-        serviceCallback.onPlaybackStateUpdated(builder.build());
         if (state == PlaybackStateCompat.STATE_PLAYING ||
                 state == PlaybackStateCompat.STATE_PAUSED) {
             serviceCallback.onNotificationRequired();
         }
+        PlaybackStateCompat.Builder builder=new PlaybackStateCompat.Builder()
+                .setActions(getAvailableActions())
+                .setState(state,position,1.0f, SystemClock.elapsedRealtime());
+        serviceCallback.onPlaybackStateUpdated(builder.build());
     }
 
     private void updateMetadata(){
@@ -126,18 +130,21 @@ public class PlaybackManager implements Playback.Callback {
         @Override
         public void onPlay() {
             super.onPlay();
+            Log.d(TAG,"onPlay");
             handlePlayRequest(queueManager.current());
         }
 
         @Override
         public void onSkipToNext() {
             super.onSkipToNext();
+            Log.d(TAG,"onSkipToNext");
             handlePlayRequest(queueManager.next());
         }
 
         @Override
         public void onSkipToPrevious() {
             super.onSkipToPrevious();
+            Log.d(TAG,"onSkipToPrev");
             MediaMetadataCompat mediaMetadataCompat=queueManager.previous();
             if(mediaMetadataCompat==null) mediaMetadataCompat=queueManager.current();
             handlePlayRequest(mediaMetadataCompat);
@@ -146,18 +153,21 @@ public class PlaybackManager implements Playback.Callback {
         @Override
         public void onPause() {
             super.onPause();
+            Log.d(TAG,"onPause");
             handlePauseRequest();
         }
 
         @Override
         public void onStop() {
             super.onStop();
+            Log.d(TAG,"onStop");
             handleStopRequest();
         }
 
         @Override
         public void onSeekTo(long pos) {
             super.onSeekTo(pos);
+            Log.d(TAG,"onSeekTo");
             playback.seekTo((int)pos);
         }
     }
