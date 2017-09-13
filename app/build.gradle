@@ -46,6 +46,7 @@ dependencies {
     compile 'jp.wasabeef:blurry:2.1.1'
     compile 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
 
+    compile libs.soundcloud
     compile libs.constraintLayout
     compile libs.recyclerView
     compile libs.supportDesign
