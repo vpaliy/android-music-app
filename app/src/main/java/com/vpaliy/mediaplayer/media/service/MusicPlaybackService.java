@@ -28,6 +28,10 @@ import com.vpaliy.mediaplayer.media.playback.MediaPlayback21;
 import com.vpaliy.mediaplayer.media.playback.Playback;
 import com.vpaliy.mediaplayer.media.playback.PlaybackManager;
 import com.vpaliy.mediaplayer.media.playback.QueueManager;
+
+import static com.vpaliy.mediaplayer.media.service.MediaTasks.ACTION_PAUSE;
+import static com.vpaliy.mediaplayer.media.service.MediaTasks.ACTION_PLAY;
+import static com.vpaliy.mediaplayer.media.service.MediaTasks.ACTION_PREV;
 import static com.vpaliy.mediaplayer.media.utils.MediaHelper.MEDIA_ID_EMPTY_ROOT;
 import static com.vpaliy.mediaplayer.media.utils.MediaHelper.MEDIA_ID_ROOT;
 
@@ -83,9 +87,18 @@ public class MusicPlaybackService extends MediaBrowserServiceCompat
         Log.d(LOG_TAG,"onStartCommand()");
         if (startIntent != null) {
             String action = startIntent.getAction();
-            MediaTasks.executeTask(playbackManager,action);
-            // Try to handle the intent as a media button event wrapped by MediaButtonReceiver
-            // MediaButtonReceiver.handleIntent(mediaSession, startIntent);
+            if(action!=null) {
+                if (action.equals(ACTION_PAUSE)) {
+                    playbackManager.handlePauseRequest();
+                } else if (action.equals(ACTION_PLAY)) {
+                    playbackManager.handleResumeRequest();
+                } else if (action.equals(ACTION_PREV)) {
+
+                } else {
+                    // Try to handle the intent as a media button event wrapped by MediaButtonReceiver
+                    MediaButtonReceiver.handleIntent(mediaSession, startIntent);
+                }
+            }
         }
         return START_STICKY;
     }

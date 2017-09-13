@@ -1,5 +1,7 @@
 package com.vpaliy.mediaplayer.media.service;
 
+import android.support.v4.media.session.MediaButtonReceiver;
+
 import com.vpaliy.mediaplayer.media.playback.PlaybackManager;
 
 public class MediaTasks {
@@ -13,16 +15,5 @@ public class MediaTasks {
     public static final String ACTION_CMD="action:cmd";
     public static final String CMD_NAME="cmd:name";
     public static final String CMD_PAUSE="cmd:pause";
-
-
-    public static void executeTask(PlaybackManager playbackManager, String action){
-        if(playbackManager==null || action==null) return ;
-        if(action.equals(ACTION_PAUSE)){
-            playbackManager.handlePauseRequest();
-        }else if(action.equals(ACTION_PLAY)){
-            playbackManager.handleResumeRequest();
-        }else if(action.equals(ACTION_PREV)){
-        }
-    }
-
+    
 }

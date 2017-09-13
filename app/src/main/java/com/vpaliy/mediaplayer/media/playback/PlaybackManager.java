@@ -77,6 +77,7 @@ public class PlaybackManager implements Playback.Callback {
 
     @Override
     public void onPlay() {
+        Log.d(TAG,"onPlay");
         updatePlaybackState(PlaybackStateCompat.STATE_PLAYING);
         serviceCallback.onPlaybackStart();
     }
@@ -93,6 +94,7 @@ public class PlaybackManager implements Playback.Callback {
 
     @Override
     public void onStop() {
+        Log.d(TAG,"onStop");
         updatePlaybackState(PlaybackStateCompat.STATE_STOPPED);
         serviceCallback.onPlaybackStop();
     }
@@ -103,11 +105,13 @@ public class PlaybackManager implements Playback.Callback {
 
     @Override
     public void onPause() {
+        Log.d(TAG,"onPause");
         updatePlaybackState(PlaybackStateCompat.STATE_PAUSED);
         serviceCallback.onPlaybackStop();
     }
 
     public void updatePlaybackState(int state){
+        Log.d(TAG,"updatePlaybackState");
         long position=playback.getPosition();
         if (state == PlaybackStateCompat.STATE_PLAYING ||
                 state == PlaybackStateCompat.STATE_PAUSED) {
@@ -120,6 +124,7 @@ public class PlaybackManager implements Playback.Callback {
     }
 
     private void updateMetadata(){
+        Log.d(TAG,"updateMetadata");
         if(updateListener!=null){
             updateListener.onMetadataChanged(queueManager.current());
         }
@@ -161,7 +166,9 @@ public class PlaybackManager implements Playback.Callback {
         public void onStop() {
             super.onStop();
             Log.d(TAG,"onStop");
-            handleStopRequest();
+            if(!playback.isPlaying()) {
+                handleStopRequest();
+            }
         }
 
         @Override

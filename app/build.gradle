@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'kotlin-android'
 
-def config=rootProject.ext.configuration;
-def libs=rootProject.ext.dependencies;
-def testLibs=rootProject.ext.testDependencies;
+def config=rootProject.ext.configuration
+def libs=rootProject.ext.dependencies
+def testLibs=rootProject.ext.testDependencies
 
 android {
     compileSdkVersion config.compileSdkVersion
@@ -17,7 +17,6 @@ android {
         versionName config.versionName
         testInstrumentationRunner config.testInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
     }
 
     compileOptions {
@@ -65,4 +64,8 @@ dependencies {
     testCompile testLibs.mockito
     testCompile testLibs.espresso
     testCompile testLibs.jUnit
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

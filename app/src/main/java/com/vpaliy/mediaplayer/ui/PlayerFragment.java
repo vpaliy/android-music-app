@@ -9,7 +9,6 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
@@ -48,10 +47,6 @@ import static android.view.View.VISIBLE;
 
 public class PlayerFragment extends Fragment {
 
-    //TODO notification
-    //TODO clear the architecture
-    //TODO add DI
-    //TODO test
 
     private static final String TAG=PlayerFragment.class.getSimpleName();
 
