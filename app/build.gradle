@@ -59,8 +59,8 @@ dependencies {
     compile libs.glide
     compile libs.RxJava
     compile libs.RxAndroid
-    annotationProcessor libs.Dagger2Compiler
-    annotationProcessor libs.butterKnifeCompiler
+    kapt libs.Dagger2Compiler
+    kapt libs.butterKnifeCompiler
 
     /* Testing Libraries */
     testCompile testLibs.mockito

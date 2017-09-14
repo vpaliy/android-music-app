@@ -2,8 +2,11 @@ package com.vpaliy.mediaplayer.data.mapper
 
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.soundcloud.model.TrackEntity
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TrackMapper:Mapper<Track,TrackEntity>(){
+@Singleton
+class TrackMapper @Inject constructor():Mapper<Track,TrackEntity>(){
 
     override fun map(fake: TrackEntity?): Track? {
         if(fake!=null){

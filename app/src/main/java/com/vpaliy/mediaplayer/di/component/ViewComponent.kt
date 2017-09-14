@@ -1,10 +1,15 @@
 package com.vpaliy.mediaplayer.di.component
 
-import com.vpaliy.mediaplayer.di.module.InteractorModule
+import com.vpaliy.mediaplayer.di.module.PresenterModule
+import com.vpaliy.mediaplayer.di.scope.ViewScope
+import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
+import com.vpaliy.mediaplayer.ui.home.loved.LovedFragment
 import dagger.Component
 
+@ViewScope
 @Component(dependencies = arrayOf(ApplicationComponent::class),
-        modules = arrayOf(InteractorModule::class))
+        modules = arrayOf(PresenterModule::class))
 interface ViewComponent{
-
+    fun inject(fragment:LovedFragment)
+    fun inject(fragment:HistoryFragment)
 }

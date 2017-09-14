@@ -7,6 +7,7 @@ import com.vpaliy.mediaplayer.ui.base.BaseFragment
 import com.vpaliy.mediaplayer.ui.home.HomeContract
 import com.vpaliy.mediaplayer.ui.home.HomeContract.Presenter
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
+import com.vpaliy.mediaplayer.di.qualifier.History
 import javax.inject.Inject
 import butterknife.BindView
 
@@ -40,6 +41,7 @@ class HistoryFragment : BaseFragment(), HomeContract.View {
     }
 
     @Inject
+    @History
     override fun attach(presenter: Presenter) {
         this.presenter=presenter
         presenter.attach(this)

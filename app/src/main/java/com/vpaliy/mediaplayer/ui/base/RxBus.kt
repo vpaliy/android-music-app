@@ -4,10 +4,11 @@ import android.os.Handler
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RxBus {
+class RxBus @Inject constructor() {
 
     private val bus = PublishRelay.create<Any>().toSerialized()
     @Volatile private var isLocked: Boolean = false
