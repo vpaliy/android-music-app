@@ -11,9 +11,9 @@ import javax.inject.Singleton
 @Singleton
 class SearchTracks @Inject constructor(val repository: Repository,
                                scheduler: BaseScheduler):
-        SingleInteractor<List<Track>,String>(scheduler){
+        SingleInteractor<List<Track?>,String>(scheduler){
 
-    override fun buildObservable(params: String?): Single<List<Track>> {
+    override fun buildObservable(params: String?): Single<List<Track?>> {
         if(!params.isNullOrBlank()){
             return repository.query(params)
         }

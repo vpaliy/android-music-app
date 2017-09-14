@@ -1,5 +1,6 @@
 package com.vpaliy.mediaplayer.ui.home.loved
 
+import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.BaseFragment
 import com.vpaliy.mediaplayer.ui.home.HomeContract
@@ -21,6 +22,13 @@ class LovedFragment : BaseFragment(), HomeContract.View {
 
     }
 
+    override fun setLoading(isLoading: Boolean) {
+
+    }
+
+    override fun layoutId(): Int {
+        return R.layout.fragment_home
+    }
     override fun attach(presenter: Presenter) {
         this.presenter=presenter
         presenter.attach(this)

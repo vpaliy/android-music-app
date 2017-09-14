@@ -9,10 +9,12 @@ abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void
     private lateinit var view:View
 
     override fun start() {
+        view.setLoading(true)
         interactor.execute(this::onSuccess,this::onError)
     }
 
     private fun onSuccess(result:List<Track>){
+        view.setLoading(false)
         when(result.isEmpty()){
             true->view.empty()
             else->view.show(result)
@@ -21,6 +23,7 @@ abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void
 
     private fun onError(error:Throwable){
         error.printStackTrace()
+        view.setLoading(false)
         view.error()
     }
 

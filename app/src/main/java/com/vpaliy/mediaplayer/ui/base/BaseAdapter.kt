@@ -13,12 +13,16 @@ abstract class BaseAdapter<T>(context: Context,
         RecyclerView.Adapter<BaseAdapter<T>.GenericViewHolder>() {
 
     protected var data:MutableList<T> =ArrayList<T>()
-            set(value) = notifyDataSetChanged()
 
     protected val inflater: LayoutInflater= LayoutInflater.from(context)
 
     abstract inner class GenericViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         abstract fun onBindData()
+    }
+
+    public fun set(data:MutableList<T>){
+        this.data=data
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

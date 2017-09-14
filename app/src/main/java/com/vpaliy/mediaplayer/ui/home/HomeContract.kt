@@ -9,6 +9,7 @@ interface HomeContract {
         fun show(list:List<Track>)
         fun error()
         fun empty()
+        fun setLoading(isLoading:Boolean)
     }
     interface Presenter : BasePresenter {
         override fun start()

@@ -1,4 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="button_size">64dp</dimen>
+    <dimen name="item_margin">10dp</dimen>
+    <dimen name="item_width">150dp</dimen>
+    <dimen name="item_card_width">0dp</dimen>
+    <dimen name="item_padding">8dp</dimen>
+
+    <dimen name="navigation_bar_margin">0dp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="spacing_small">4dp</dimen>
+    <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="spacing_large">16dp</dimen>
+    <dimen name="spacing_big">24dp</dimen>
+    <dimen name="spacing_huge">32dp</dimen>
+
+    <!-- Image -->
+    <dimen name="media_height">250dp</dimen>
+    <dimen name="media_width">250dp</dimen>
+    <dimen name="album_height">140dp</dimen>
+    <dimen name="album_width">140dp</dimen>
+
+    <!-- Text -->
+    <dimen name="media_title">25sp</dimen>
+    <dimen name="more_label">17sp</dimen>
+    <dimen name="under_media_text">17sp</dimen>
+    <dimen name="second_media_text">15sp</dimen>
+    <dimen name="max_track_length">150dp</dimen>
+    <dimen name="big_name_size">30sp</dimen>
+
+
+    <!-- Player -->
+    <dimen name="button_size">32dp</dimen>
+    <dimen name="play_pause_size">75dp</dimen>
+
+    <!-- Z-axis elevations -->
+    <dimen name="z_app_bar">4dp</dimen>
 </resources>

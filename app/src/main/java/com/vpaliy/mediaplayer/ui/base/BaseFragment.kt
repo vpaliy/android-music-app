@@ -45,9 +45,7 @@ abstract class BaseFragment : Fragment() {
 
     }
 
-    @LayoutRes protected fun layoutId(): Int {
-        return -1
-    }
+    @LayoutRes abstract fun layoutId(): Int
 
     fun initializeDependencies() {}
 }
