@@ -10,6 +10,7 @@ import com.vpaliy.mediaplayer.domain.interactor.LikeTrack
 import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
 import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
 import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
+import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.soundcloud.SoundCloudService
 import javax.inject.Singleton
 import dagger.Component
@@ -18,6 +19,7 @@ import dagger.Component
 @Component(modules = arrayOf(ApplicationModule::class,
         InteractorModule::class, DataModule::class))
 interface ApplicationComponent {
+    fun inject(activity:BaseActivity)
     fun context(): Context
     fun scheduler():BaseScheduler
     fun repository():Repository

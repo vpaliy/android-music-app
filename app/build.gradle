@@ -48,6 +48,7 @@ dependencies {
 
     compile libs.soundcloud
     compile libs.constraintLayout
+    compile libs.rxRelay
     compile libs.recyclerView
     compile libs.supportDesign
     compile libs.supportAppCompat
