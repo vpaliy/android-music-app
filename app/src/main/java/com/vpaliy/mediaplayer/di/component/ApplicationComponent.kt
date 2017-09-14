@@ -10,6 +10,7 @@ import com.vpaliy.mediaplayer.domain.interactor.LikeTrack
 import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
 import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
 import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
+import com.vpaliy.soundcloud.SoundCloudService
 import javax.inject.Singleton
 import dagger.Component
 
@@ -24,4 +25,5 @@ interface ApplicationComponent {
     fun lovedInteractor():LovedTracks
     fun searchInteractor():SearchTracks
     fun historyInteractor():TrackHistory
+    fun service():SoundCloudService
 }
