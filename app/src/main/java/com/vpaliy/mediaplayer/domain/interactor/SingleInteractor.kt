@@ -9,7 +9,7 @@ abstract class SingleInteractor<T, in Params> constructor(val scheduler: BaseSch
 
     private val disposables=CompositeDisposable()
 
-    open fun execute(success: Consumer<in T>, error:Consumer<in Throwable>,params: Params?=null){
+    open fun execute(success: (T)->Unit, error:(Throwable)->Unit,params: Params?=null){
         disposables.add(buildObservable(params)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
