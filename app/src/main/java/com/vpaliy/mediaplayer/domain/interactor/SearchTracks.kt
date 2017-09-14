@@ -5,8 +5,11 @@ import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.model.Track
 import java.lang.IllegalArgumentException
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SearchTracks constructor(val repository: Repository,
+@Singleton
+class SearchTracks @Inject constructor(val repository: Repository,
                                scheduler: BaseScheduler):
         SingleInteractor<List<Track>,String>(scheduler){
 

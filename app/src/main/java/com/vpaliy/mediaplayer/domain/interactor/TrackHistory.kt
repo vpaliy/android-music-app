@@ -4,8 +4,11 @@ import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.model.Track
 import io.reactivex.Single
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TrackHistory constructor(val repository: Repository,
+@Singleton
+class TrackHistory @Inject constructor(val repository: Repository,
                                scheduler: BaseScheduler) :
         SingleInteractor<List<Track>,Void?>(scheduler){
 
