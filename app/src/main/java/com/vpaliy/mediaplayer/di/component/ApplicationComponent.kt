@@ -8,7 +8,6 @@ import com.vpaliy.mediaplayer.di.module.InteractorModule
 import com.vpaliy.mediaplayer.di.module.NetworkModule
 import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
-import com.vpaliy.mediaplayer.domain.interactor.LikeTrack
 import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
 import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
 import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
@@ -34,7 +33,6 @@ interface ApplicationComponent {
     fun bus(): RxBus
     fun navigator():Navigator
     fun repository():Repository
-    fun likeInteractor():LikeTrack
     fun lovedInteractor():LovedTracks
     fun searchInteractor():SearchTracks
     fun historyInteractor():TrackHistory

@@ -1,42 +1,19 @@
 package com.vpaliy.mediaplayer.ui.home.history
 
-import android.support.v7.widget.RecyclerView
-import com.vpaliy.mediaplayer.R
+import com.vpaliy.mediaplayer.FitnessSound
+import com.vpaliy.mediaplayer.di.component.DaggerViewComponent
+import com.vpaliy.mediaplayer.di.module.PresenterModule
 import com.vpaliy.mediaplayer.domain.model.Track
-import com.vpaliy.mediaplayer.ui.base.BaseFragment
-import com.vpaliy.mediaplayer.ui.home.HomeContract
 import com.vpaliy.mediaplayer.ui.home.HomeContract.Presenter
-import com.vpaliy.mediaplayer.ui.base.BaseAdapter
+import com.vpaliy.mediaplayer.ui.home.HomeFragment
 import com.vpaliy.mediaplayer.di.qualifier.History
 import javax.inject.Inject
-import butterknife.BindView
 
-class HistoryFragment : BaseFragment(), HomeContract.View {
-
-    private lateinit var presenter:Presenter
-    private lateinit var adapter:BaseAdapter<Track>
-
-    @BindView(R.id.list)
-    lateinit var list:RecyclerView
-
+class HistoryFragment : HomeFragment(){
 
     override fun show(list: List<Track>) {
         adapter.set(list.toMutableList())
     }
-
-    override fun error() {
-
-    }
-
-    override fun empty() {
-
-    }
-
-    override fun setLoading(isLoading: Boolean) {
-
-    }
-
-    override fun layoutId()=R.layout.fragment_home
 
     @Inject
     override fun attach(@History presenter: Presenter) {
@@ -45,5 +22,9 @@ class HistoryFragment : BaseFragment(), HomeContract.View {
     }
 
     override fun inject() {
+        DaggerViewComponent.builder()
+                .applicationComponent(FitnessSound.app().component())
+                .presenterModule(PresenterModule())
+                .build().inject(this)
     }
 }

@@ -55,4 +55,24 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
     override fun like(track: Track?): Completable {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun clearHistory(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun clearLoved(): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun removeLoved(track: Track): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun removeRecent(track: Track): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun insertRecent(track: Track?): Completable {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

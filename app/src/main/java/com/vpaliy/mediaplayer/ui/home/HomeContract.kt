@@ -9,11 +9,15 @@ interface HomeContract {
         fun show(list:List<Track>)
         fun error()
         fun empty()
+        fun cleared()
+        fun removed(track:Track)
         fun setLoading(isLoading:Boolean)
     }
     interface Presenter : BasePresenter {
         override fun start()
         override fun stop()
+        fun remove(track:Track)
+        fun clear()
         fun attach(view:View)
     }
 }

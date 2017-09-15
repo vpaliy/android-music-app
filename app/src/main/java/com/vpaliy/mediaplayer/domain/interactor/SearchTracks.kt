@@ -9,8 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchTracks @Inject constructor(val repository: Repository,
-                               scheduler: BaseScheduler):
+class SearchTracks @Inject constructor(val repository: Repository, scheduler: BaseScheduler):
         SingleInteractor<List<Track?>,String>(scheduler){
 
     override fun buildObservable(params: String?): Single<List<Track?>> {

@@ -8,9 +8,29 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LovedTracks @Inject constructor(val repository: Repository,
-                                               scheduler: BaseScheduler):
-        SingleInteractor<List<Track>,Void>(scheduler){
+class LovedTracks @Inject constructor(val repository: Repository, scheduler: BaseScheduler):
+        SingleInteractor<List<Track>,Void>(scheduler), ClearInteractor<Track>, InsertInteractor<Track>{
+
+    override fun insert(success: () -> Unit, error: (Throwable) -> Unit, params: Track) {
+        repository.like(params)
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe(success,error)
+    }
+
+    override fun clear(complete: () -> Unit, error: (Throwable) -> Unit) {
+        repository.clearLoved()
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe(complete,error)
+    }
+
+    override fun remove(complete: () -> Unit, error: (Throwable) -> Unit, params: Track) {
+        repository.removeLoved(params)
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe(complete,error)
+    }
 
     override fun buildObservable(params: Void?): Single<List<Track>> {
         return repository.fetchLiked()

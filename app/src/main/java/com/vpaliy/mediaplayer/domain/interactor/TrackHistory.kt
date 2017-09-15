@@ -9,10 +9,31 @@ import javax.inject.Singleton
 
 @Singleton
 class TrackHistory @Inject constructor(val repository: Repository,
-                               scheduler: BaseScheduler) :
-        SingleInteractor<List<Track>,Void?>(scheduler){
+                               scheduler: BaseScheduler) :InsertInteractor<Track>,
+        ClearInteractor<Track>, SingleInteractor<List<Track>,Void?>(scheduler){
 
     public override fun buildObservable(params: Void?): Single<List<Track>> {
         return repository.fetchHistory()
+    }
+
+    override fun clear(complete: () -> Unit, error: (Throwable) -> Unit) {
+        repository.clearHistory()
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe(complete,error)
+    }
+
+    override fun remove(complete: () -> Unit, error: (Throwable) -> Unit, params: Track) {
+        repository.removeRecent(params)
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe(complete,error)
+    }
+
+    override fun insert(success: () -> Unit, error: (Throwable) -> Unit, params: Track) {
+        repository.insertRecent(params)
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe(success,error)
     }
 }
