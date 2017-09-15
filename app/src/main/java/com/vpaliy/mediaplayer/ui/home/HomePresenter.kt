@@ -1,9 +1,11 @@
 package com.vpaliy.mediaplayer.ui.home
 
+import com.vpaliy.mediaplayer.di.scope.ViewScope
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.home.HomeContract.*
 
+@ViewScope
 abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void>) : Presenter {
 
     private lateinit var view:View

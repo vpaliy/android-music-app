@@ -36,14 +36,14 @@ class HistoryFragment : BaseFragment(), HomeContract.View {
 
     }
 
-    override fun layoutId(): Int {
-        return R.layout.fragment_home
-    }
+    override fun layoutId()=R.layout.fragment_home
 
     @Inject
-    @History
-    override fun attach(presenter: Presenter) {
+    override fun attach(@History presenter: Presenter) {
         this.presenter=presenter
         presenter.attach(this)
+    }
+
+    override fun inject() {
     }
 }

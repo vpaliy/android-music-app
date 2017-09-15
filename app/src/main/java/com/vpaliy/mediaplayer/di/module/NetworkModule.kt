@@ -10,7 +10,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class NetworkModule constructor(val token:Token){
+class NetworkModule constructor(val token:Token?){
     @Singleton
     @Provides
     fun service(context:Context):SoundCloudService=

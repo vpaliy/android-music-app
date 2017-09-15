@@ -21,7 +21,7 @@ abstract class BaseFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-        initializeDependencies()
+        inject()
     }
 
     fun bind(root: View) {
@@ -47,5 +47,5 @@ abstract class BaseFragment : Fragment() {
 
     @LayoutRes abstract fun layoutId(): Int
 
-    fun initializeDependencies() {}
+    open fun inject() {}
 }
