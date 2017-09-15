@@ -1,5 +1,6 @@
 package com.vpaliy.mediaplayer.data
 
+import android.util.Log
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.model.Track
@@ -13,7 +14,8 @@ import javax.inject.Singleton
 
 @Singleton
 class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
-                                          val service:SoundCloudService):Repository{
+                                          val service:SoundCloudService,
+                                          val filter:Filter):Repository{
 
     private var page:Page<TrackEntity>?=null
 
@@ -34,7 +36,8 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
                 .map({result->
                     page=result
                     result.collection
-                }).map(mapper::map)
+                }).map(filter::filter)
+                .map(mapper::map)
     }
 
     override fun nextPage(): Single<List<Track?>> {
@@ -47,7 +50,8 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
                     .map({result->
                         page=result
                         result.collection
-                    }).map(mapper::map)
+                    }).map(filter::filter)
+                    .map(mapper::map)
         }
         return Single.error(IllegalArgumentException("No more data"))
     }

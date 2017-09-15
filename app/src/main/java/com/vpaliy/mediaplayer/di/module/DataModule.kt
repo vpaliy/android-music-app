@@ -1,5 +1,6 @@
 package com.vpaliy.mediaplayer.di.module
 
+import com.vpaliy.mediaplayer.data.Filter
 import com.vpaliy.mediaplayer.data.MusicRepository
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.data.mapper.TrackMapper
@@ -19,4 +20,8 @@ class DataModule {
     @Singleton
     @Provides
     fun mapper(mapper:TrackMapper): Mapper<Track, TrackEntity> =mapper
+
+    @Singleton
+    @Provides
+    fun filter()=Filter()
 }

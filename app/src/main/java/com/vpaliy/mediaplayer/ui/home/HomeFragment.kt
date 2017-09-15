@@ -26,6 +26,16 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter.start()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.stop()
+    }
+
     override fun show(list: List<Track>) {
         adapter.set(list.toMutableList())
     }

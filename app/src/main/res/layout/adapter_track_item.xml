@@ -1,6 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-</LinearLayout>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/spacing_small"
+    android:paddingTop="@dimen/spacing_small"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        tools:src="@drawable/evolve"
+        android:layout_width="@dimen/small_media_size"
+        android:layout_height="@dimen/small_media_size"
+        android:scaleType="centerCrop"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginLeft="@dimen/spacing_medium"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:id="@+id/track_art" />
+    <TextView
+        android:id="@+id/artist"
+        tools:text="Artist"
+        android:textSize="@dimen/under_media_text"
+        android:maxLines="1"
+        android:maxWidth="200dp"
+        style="@style/Widget.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/track_art"
+        android:layout_marginTop="@dimen/spacing_medium"
+        app:layout_constraintLeft_toRightOf="@+id/track_art"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginLeft="@dimen/spacing_medium"/>
+    <TextView
+        android:id="@+id/track_title"
+        tools:text="Whatever It Takes"
+        android:textSize="@dimen/second_media_text"
+        android:maxLines="1"
+        android:maxWidth="@dimen/max_track_length"
+        android:ellipsize="end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/artist"
+        android:layout_marginTop="@dimen/spacing_small"
+        app:layout_constraintTop_toBottomOf="@+id/artist"/>
+    <TextView
+        android:id="@+id/duration"
+        tools:text="2 hrs"
+        style="@style/Widget.NumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/track_art"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</android.support.constraint.ConstraintLayout>
