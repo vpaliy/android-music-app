@@ -10,10 +10,6 @@ import javax.inject.Inject
 import com.vpaliy.mediaplayer.di.qualifier.Loved
 
 class LovedFragment : HomeFragment() {
-
-    override fun show(list: List<Track>) {
-    }
-
     @Inject
     override fun attach(@Loved presenter: Presenter) {
         this.presenter=presenter
