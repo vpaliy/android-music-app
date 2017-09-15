@@ -20,7 +20,7 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
     private var page:Page<TrackEntity>?=null
 
     override fun fetchHistory(): Single<List<Track>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return query("imagine dragons") as Single<List<Track>>
     }
 
     override fun fetchLiked(): Single<List<Track>> {
@@ -50,7 +50,7 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
                     .map({result->
                         page=result
                         result.collection
-                    }).map(filter::filter)
+                    })
                     .map(mapper::map)
         }
         return Single.error(IllegalArgumentException("No more data"))

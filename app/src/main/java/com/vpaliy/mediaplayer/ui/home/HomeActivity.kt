@@ -3,7 +3,6 @@ package com.vpaliy.mediaplayer.ui.home
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.widget.DrawerLayout
-import butterknife.BindView
 import butterknife.ButterKnife
 import com.vpaliy.mediaplayer.FitnessSound
 import com.vpaliy.mediaplayer.R
@@ -11,6 +10,7 @@ import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.mediaplayer.ui.base.BaseFragment
 import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
 import com.vpaliy.mediaplayer.ui.home.loved.LovedFragment
+import butterknife.BindView
 
 class HomeActivity : BaseActivity() {
 
@@ -32,6 +32,7 @@ class HomeActivity : BaseActivity() {
                 else ->false
             }
         }
+        navigation.setCheckedItem(R.id.history)
     }
 
     private fun load(fragment: BaseFragment):Boolean{

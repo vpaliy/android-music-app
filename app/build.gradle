@@ -37,6 +37,10 @@ android {
         generateStubs = true
     }
 
+    androidExtensions {
+        experimental = true
+    }
+
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }

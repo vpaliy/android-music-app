@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import java.util.ArrayList
 import android.view.ViewGroup
+import kotlinx.android.extensions.LayoutContainer
 
 abstract class BaseAdapter<T>(context: Context,
                               protected var rxBus: RxBus) :
@@ -16,25 +17,13 @@ abstract class BaseAdapter<T>(context: Context,
 
     protected val inflater: LayoutInflater= LayoutInflater.from(context)
 
-    abstract inner class GenericViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    abstract inner class GenericViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         abstract fun onBindData()
     }
 
-    public fun set(data:MutableList<T>){
+    fun set(data:MutableList<T>){
         this.data=data
         notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int {
-        return data.size
-    }
-
-    protected fun inflate(@LayoutRes id: Int, container: ViewGroup): View {
-        return inflater.inflate(id, container, false)
-    }
-
-    protected fun at(index: Int): T {
-        return data[index]
     }
 
     fun appendData(data: List<T>) {
@@ -49,4 +38,11 @@ abstract class BaseAdapter<T>(context: Context,
         notifyItemRangeInserted(size, itemCount)
         return this
     }
+
+    override fun getItemCount()=data.size
+
+    protected fun inflate(@LayoutRes id: Int, container: ViewGroup):View
+            =inflater.inflate(id, container, false)
+
+    protected fun at(index: Int)=data[index]
 }

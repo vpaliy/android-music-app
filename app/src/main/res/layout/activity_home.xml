@@ -6,7 +6,6 @@
     tools:openDrawer="left"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="false"
     tools:context=".ui.home.HomeActivity">
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,8 +19,7 @@
             android:layout_height="wrap_content">
             <android.support.v7.widget.Toolbar
                 android:id="@+id/actionBar"
-                tools:layout_marginTop="24dp"
-                app:layout_scrollFlags="scroll"
+                app:layout_scrollFlags="scroll|enterAlways"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
             </android.support.v7.widget.Toolbar>
