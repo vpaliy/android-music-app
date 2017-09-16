@@ -18,4 +18,11 @@ class SearchTracks @Inject constructor(val repository: Repository, scheduler: Ba
         }
         return Single.error(IllegalArgumentException("Query is null or empty!"))
     }
+
+    fun nextPage(onSuccess:(List<Track?>)->Unit,onError:(Throwable)->Unit){
+        repository.nextPage()
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .subscribe(onSuccess,onError)
+    }
 }

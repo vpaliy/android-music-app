@@ -36,8 +36,5 @@ class TrackAdapter(context: Context, rxBus: RxBus) : BaseAdapter<Track>(context,
     }
 
     override fun onBindViewHolder(holder: BaseAdapter<Track>.GenericViewHolder, position: Int) =holder.onBindData()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):TrackViewHolder{
-        return TrackViewHolder(inflate(R.layout.adapter_track_item, parent))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=TrackViewHolder(inflate(R.layout.adapter_track_item, parent))
 }

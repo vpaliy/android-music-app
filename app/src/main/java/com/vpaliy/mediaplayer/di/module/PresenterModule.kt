@@ -8,6 +8,8 @@ import com.vpaliy.mediaplayer.ui.home.loved.LovedPresenter
 import com.vpaliy.mediaplayer.di.qualifier.History
 import com.vpaliy.mediaplayer.di.qualifier.Loved
 import com.vpaliy.mediaplayer.di.scope.ViewScope
+import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
+import com.vpaliy.mediaplayer.ui.search.SearchPresenter
 import dagger.Module
 import dagger.Provides
 
@@ -22,4 +24,8 @@ class PresenterModule{
     @Loved
     @Provides
     fun loved(interactor:LovedTracks):HomeContract.Presenter= LovedPresenter(interactor)
+
+    @ViewScope
+    @Provides
+    fun search(interactor:SearchTracks)= SearchPresenter(interactor)
 }

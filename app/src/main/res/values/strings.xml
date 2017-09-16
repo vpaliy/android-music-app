@@ -4,4 +4,10 @@
     <string name="empty_message_description">A message which indicates that there is no data</string>
     <string name="removed_message">Track has been removed</string>
     <string name="cleared_message">List has been cleared</string>
+
+    <!-- Search -->
+    <string name="search_hint">Search for tracks..</string>
+
+
+    <string name="search_trans" translatable="false">search_trans</string>
 </resources>

@@ -9,16 +9,25 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="Search">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="Widget.SearchView" parent="android:style/Widget.Material.SearchView"/>
+
     <style name="Widget">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="Widget.NumberText" parent="@android:style/TextAppearance.Material.Caption">
+    <style name="Widget.NumberText">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:fontFeatureSettings">smcp, onum</item>
-        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="Widget.BigTitle">
@@ -26,26 +35,18 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:fontFeatureSettings">smcp</item>
-        <item name="android:letterSpacing">0.2</item>
     </style>
 
     <style name="Widget.Title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:fontFeatureSettings">smcp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
-
 
     <style name="Widget.ToolbarText">
         <item name="android:textSize">18sp</item>
-        <item name="android:fontFeatureSettings">smcp</item>
-        <item name="android:letterSpacing">0.2</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
-
 </resources>

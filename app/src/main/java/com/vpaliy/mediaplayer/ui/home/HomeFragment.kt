@@ -32,10 +32,6 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
         presenter.stop()
     }
 
-    override fun show(list: List<Track>) {
-        adapter.set(list.toMutableList())
-    }
-
     override fun error() {
         empty.visibility=View.VISIBLE
     }
@@ -48,7 +44,11 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
         progress.visibility=if(isLoading) View.VISIBLE else View.GONE
     }
 
+    override fun show(list: List<Track>)=adapter.set(list.toMutableList())
+
     override fun layoutId()= R.layout.fragment_home
+
     override fun removed(track: Track)= showMessage(R.string.removed_message)
+
     override fun cleared()= showMessage(R.string.cleared_message)
 }

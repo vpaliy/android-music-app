@@ -14,7 +14,7 @@ interface HomeContract {
         fun setLoading(isLoading:Boolean)
     }
     interface Presenter : BasePresenter {
-        override fun start()
+        fun start()
         override fun stop()
         fun remove(track:Track)
         fun clear()

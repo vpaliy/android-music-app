@@ -3,8 +3,8 @@ package com.vpaliy.mediaplayer.ui.home
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.home.HomeContract.*
-import com.vpaliy.mediaplayer.di.scope.ViewScope
 import com.vpaliy.mediaplayer.domain.interactor.ClearInteractor
+import com.vpaliy.mediaplayer.di.scope.ViewScope
 
 @ViewScope
 abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void>,
@@ -33,19 +33,13 @@ abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void
         view.error()
     }
 
-    override fun remove(track: Track) {
-        clear.remove({view.removed(track)},this::onError,track)
-    }
-
-    override fun clear() {
-        clear.clear(view::cleared,this::onError)
-    }
-
-    override fun stop() {
-        interactor.dispose()
-    }
-
     override fun attach(view: View) {
-        this.view=view
+        this.view = view
     }
+
+    override fun remove(track: Track) = clear.remove({view.removed(track)}, this::onError,track)
+
+    override fun clear()=clear.clear(view::cleared,this::onError)
+
+    override fun stop()=interactor.dispose()
 }
