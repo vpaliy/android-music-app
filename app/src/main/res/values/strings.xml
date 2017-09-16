@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MediaPlayer</string>
+
+    <string name="empty_message_description">A message which indicates that there is no data</string>
+    <string name="removed_message">Track has been removed</string>
+    <string name="cleared_message">List has been cleared</string>
 </resources>

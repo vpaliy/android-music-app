@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import javax.inject.Inject
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
+import android.support.design.widget.Snackbar
+import kotlinx.android.synthetic.main.activity_home.*
 
 abstract class BaseFragment : Fragment() {
 
@@ -30,9 +32,7 @@ abstract class BaseFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (unbinder != null) {
-            unbinder!!.unbind()
-        }
+        unbinder?.unbind()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -41,11 +41,9 @@ abstract class BaseFragment : Fragment() {
         return view
     }
 
-    protected fun showMessage(@StringRes res: Int) {
-
-    }
-
     @LayoutRes abstract fun layoutId(): Int
 
-    open fun inject() {}
+    protected open fun inject() {}
+
+    protected fun showMessage(@StringRes res: Int)=Snackbar.make(rootView,res,300).show()
 }

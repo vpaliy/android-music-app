@@ -3,7 +3,6 @@ package com.vpaliy.mediaplayer.ui.home.loved
 import com.vpaliy.mediaplayer.FitnessSound
 import com.vpaliy.mediaplayer.di.component.DaggerViewComponent
 import com.vpaliy.mediaplayer.di.module.PresenterModule
-import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.home.HomeContract.Presenter
 import com.vpaliy.mediaplayer.ui.home.HomeFragment
 import javax.inject.Inject

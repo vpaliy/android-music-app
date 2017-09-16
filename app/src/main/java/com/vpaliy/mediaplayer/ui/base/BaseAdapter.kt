@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import java.util.ArrayList
 import android.view.ViewGroup
-import kotlinx.android.extensions.LayoutContainer
 
 abstract class BaseAdapter<T>(context: Context,
                               protected var rxBus: RxBus) :
@@ -41,8 +40,7 @@ abstract class BaseAdapter<T>(context: Context,
 
     override fun getItemCount()=data.size
 
-    protected fun inflate(@LayoutRes id: Int, container: ViewGroup):View
-            =inflater.inflate(id, container, false)
+    protected fun inflate(@LayoutRes id: Int, container: ViewGroup):View =inflater.inflate(id, container, false)
 
     protected fun at(index: Int)=data[index]
 }

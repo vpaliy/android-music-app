@@ -1,29 +1,22 @@
 package com.vpaliy.mediaplayer.ui.home
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
 import com.vpaliy.mediaplayer.ui.base.BaseFragment
 import com.vpaliy.mediaplayer.ui.home.HomeContract.Presenter
-import butterknife.BindView
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.fragment_home.*
 
 abstract class HomeFragment: BaseFragment(),HomeContract.View{
 
     protected lateinit var presenter: Presenter
     protected lateinit var adapter:BaseAdapter<Track>
 
-    @BindView(R.id.list)
-    lateinit var list: RecyclerView
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(view!=null){
+        view?.let {
             adapter=TrackAdapter(context,rxBus)
             list.adapter=adapter
         }
@@ -44,24 +37,18 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     }
 
     override fun error() {
-
+        empty.visibility=View.VISIBLE
     }
 
-    override fun cleared() {
-
+    override fun empty(){
+        empty.visibility=View.VISIBLE
     }
 
-    override fun empty() {
-
-    }
-
-    override fun removed(track: Track) {
-
-    }
-
-    override fun setLoading(isLoading: Boolean) {
-
+    override fun setLoading(isLoading: Boolean){
+        progress.visibility=if(isLoading) View.VISIBLE else View.GONE
     }
 
     override fun layoutId()= R.layout.fragment_home
+    override fun removed(track: Track)= showMessage(R.string.removed_message)
+    override fun cleared()= showMessage(R.string.cleared_message)
 }
