@@ -26,6 +26,7 @@ import android.transition.TransitionManager
 import android.annotation.TargetApi
 import android.support.annotation.TransitionRes
 import com.vpaliy.mediaplayer.ui.view.OnReachBottomListener
+import com.vpaliy.mediaplayer.ui.view.TransitionAdapterListener
 import javax.inject.Inject
 
 class SearchActivity:BaseActivity(), SearchContract.View{
@@ -51,6 +52,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     private fun setupSearch(){
+        back.setOnClickListener{refreshPage(false,true)}
         val searchManager=getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.queryHint=getString(R.string.search_hint)
@@ -59,7 +61,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
                 EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
         searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.isNullOrEmpty()) setResult(false)
+                if(newText.isNullOrEmpty()) refreshPage(false)
                 return true
             }
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -92,9 +94,16 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     @TargetApi(21)
-    private fun setResult(visible:Boolean){
+    private fun refreshPage(visible:Boolean, finish:Boolean=false){
         val transition=getTransition(if(visible) R.transition.search_show
                 else R.transition.search_show)
+        if(finish){
+            transition.addListener(object:TransitionAdapterListener(){
+                override fun onTransitionEnd(dummy: Transition) {
+                    finishAfterTransition()
+                }
+            })
+        }
         TransitionManager.beginDelayedTransition(root,transition)
         result.visibility=if(visible) View.VISIBLE else View.GONE
     }
@@ -111,7 +120,6 @@ class SearchActivity:BaseActivity(), SearchContract.View{
         val inflater = TransitionInflater.from(this)
         return inflater.inflateTransition(transitionId)
     }
-
 
     override fun error() {
         message.visibility=View.VISIBLE
@@ -134,7 +142,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
 
     override fun show(list: List<Track>){
         adapter.set(list.toMutableList())
-        setResult(true)
+        refreshPage(true)
     }
 
     override fun append(list: List<Track>)=adapter.appendData(list.toMutableList())

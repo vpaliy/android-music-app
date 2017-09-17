@@ -32,7 +32,7 @@ class SearchPresenter @Inject constructor(val search:SearchTracks):Presenter {
 
     private fun append(list:List<Track>){
         view.setLoading(false)
-        view.show(list)
+        view.append(list)
     }
 
     private fun onError(error:Throwable){

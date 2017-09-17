@@ -23,7 +23,8 @@
         </activity>
 
         <activity
-            android:name=".ui.search.SearchActivity">
+            android:name=".ui.search.SearchActivity"
+            android:theme="@style/Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

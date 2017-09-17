@@ -9,7 +9,7 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <style name="Search">
+    <style name="Search" parent="AppTheme">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="android:windowTranslucentStatus">false</item>
