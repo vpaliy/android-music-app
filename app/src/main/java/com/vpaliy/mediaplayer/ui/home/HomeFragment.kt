@@ -17,7 +17,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view?.let {
-            adapter=TrackAdapter(context,rxBus)
+            adapter=TrackAdapter(context,{navigator.navigate(activity,it)})
             list.adapter=adapter
         }
     }

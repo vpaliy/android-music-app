@@ -18,7 +18,7 @@ abstract class BaseFragment : Fragment() {
     private var unbinder: Unbinder? = null
 
     @Inject
-    protected lateinit var rxBus: RxBus
+    protected lateinit var navigator:Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

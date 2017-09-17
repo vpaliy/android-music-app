@@ -13,7 +13,7 @@ interface SearchContract {
         fun empty()
     }
     interface Presenter:BasePresenter {
-        fun query(query:String)
+        fun query(query:String?)
         fun more()
         fun attachView(view:View)
     }

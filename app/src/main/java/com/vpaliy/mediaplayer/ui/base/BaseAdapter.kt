@@ -9,7 +9,7 @@ import java.util.ArrayList
 import android.view.ViewGroup
 
 abstract class BaseAdapter<T>(context: Context,
-                              protected var rxBus: RxBus) :
+                              protected val click:(T)->Unit) :
         RecyclerView.Adapter<BaseAdapter<T>.GenericViewHolder>() {
 
     protected var data:MutableList<T> =ArrayList<T>()

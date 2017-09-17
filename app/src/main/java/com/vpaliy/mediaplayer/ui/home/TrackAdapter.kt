@@ -9,10 +9,9 @@ import com.bumptech.glide.Glide
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
-import com.vpaliy.mediaplayer.ui.base.RxBus
 import kotlinx.android.synthetic.main.adapter_track_item.view.*
 
-class TrackAdapter(context: Context, rxBus: RxBus) : BaseAdapter<Track>(context, rxBus) {
+class TrackAdapter(context: Context, click:(Track)->Unit) : BaseAdapter<Track>(context, click) {
 
     inner class TrackViewHolder constructor(itemView: View):
             BaseAdapter<Track>.GenericViewHolder(itemView) {
@@ -21,7 +20,9 @@ class TrackAdapter(context: Context, rxBus: RxBus) : BaseAdapter<Track>(context,
         val art:ImageView=itemView.art
         val artist:TextView=itemView.artist
         val duration:TextView=itemView.duration
-
+        init{
+            itemView.setOnClickListener {click(at(adapterPosition))}
+        }
         override fun onBindData() {
             val track=at(adapterPosition)
             title.text=track.title

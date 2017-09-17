@@ -27,7 +27,7 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun query(query: String?): Single<List<Track?>> {
+    override fun query(query: String?): Single<List<Track>> {
         return service.searchTracksPage(TrackEntity.Filter
                 .start().byName(query)
                 .withPagination()
@@ -40,7 +40,7 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
                 .map(mapper::map)
     }
 
-    override fun nextPage(): Single<List<Track?>> {
+    override fun nextPage(): Single<List<Track>> {
         if(page!=null){
             return service.searchTracksPage(TrackEntity.Filter
                     .start().nextPage(page)

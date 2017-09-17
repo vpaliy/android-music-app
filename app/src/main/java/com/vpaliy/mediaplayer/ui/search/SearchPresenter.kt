@@ -11,7 +11,8 @@ class SearchPresenter @Inject constructor(val search:SearchTracks):Presenter {
 
     private lateinit var view:View
 
-    override fun query(query: String){
+    override fun query(query: String?){
+        view.setLoading(true)
         search.execute(this::onSuccess,this::onError,query)
     }
 
@@ -24,12 +25,14 @@ class SearchPresenter @Inject constructor(val search:SearchTracks):Presenter {
         this.view=view
     }
 
-    private fun onSuccess(list:List<Track?>){
+    private fun onSuccess(list:List<Track>){
         view.setLoading(false)
+        view.show(list)
     }
 
-    private fun append(list:List<Track?>){
+    private fun append(list:List<Track>){
         view.setLoading(false)
+        view.show(list)
     }
 
     private fun onError(error:Throwable){

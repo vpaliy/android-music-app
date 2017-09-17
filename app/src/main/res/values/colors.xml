@@ -13,6 +13,7 @@
     <color name="colorReveal">#42a5f5</color>
     <color name="colorRevealLight">#90caf9</color>
     <color name="dark_800">#424242</color>
+    <color name="color_grey">#424242</color>
 
     <color name="colorChipsBackground">@color/blue_grey_400</color>
 
