@@ -23,11 +23,10 @@ import android.content.Intent
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
+import com.vpaliy.mediaplayer.ui.view.OnReachBottomListener
+import javax.inject.Inject
 import android.annotation.TargetApi
 import android.support.annotation.TransitionRes
-import com.vpaliy.mediaplayer.ui.view.OnReachBottomListener
-import com.vpaliy.mediaplayer.ui.view.TransitionAdapterListener
-import javax.inject.Inject
 
 class SearchActivity:BaseActivity(), SearchContract.View{
 
@@ -52,7 +51,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     private fun setupSearch(){
-        back.setOnClickListener{refreshPage(false,true)}
+        back.setOnClickListener{onBackPressed()}
         val searchManager=getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.queryHint=getString(R.string.search_hint)
@@ -98,11 +97,9 @@ class SearchActivity:BaseActivity(), SearchContract.View{
         val transition=getTransition(if(visible) R.transition.search_show
                 else R.transition.search_show)
         if(finish){
-            transition.addListener(object:TransitionAdapterListener(){
-                override fun onTransitionEnd(dummy: Transition) {
-                    finishAfterTransition()
-                }
-            })
+            result.animate()
+            finishAfterTransition()
+            return
         }
         TransitionManager.beginDelayedTransition(root,transition)
         result.visibility=if(visible) View.VISIBLE else View.GONE
@@ -146,6 +143,14 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     override fun append(list: List<Track>)=adapter.appendData(list.toMutableList())
+
+    override fun onBackPressed(){
+        if(result.visibility!=View.VISIBLE){
+            supportFinishAfterTransition()
+        }else {
+            refreshPage(false, true)
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()

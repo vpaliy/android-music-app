@@ -25,14 +25,14 @@ class SearchPresenter @Inject constructor(val search:SearchTracks):Presenter {
         this.view=view
     }
 
-    private fun onSuccess(list:List<Track>){
+    private fun onSuccess(list:List<Track>?){
         view.setLoading(false)
-        view.show(list)
+        list?.let { view.show(it) }?:view.empty()
     }
 
-    private fun append(list:List<Track>){
+    private fun append(list:List<Track>?){
         view.setLoading(false)
-        view.append(list)
+        list?.let { view.append(it) }
     }
 
     private fun onError(error:Throwable){
@@ -40,6 +40,6 @@ class SearchPresenter @Inject constructor(val search:SearchTracks):Presenter {
         view.setLoading(false)
         view.error()
     }
-
+    
     override fun stop()=search.dispose()
 }
