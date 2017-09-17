@@ -18,7 +18,6 @@ import dagger.Provides
 
 @Module
 class MediaPlayerModule{
-
     @PlaybackScope
     @Provides
     fun playback(context: Context): Playback {
