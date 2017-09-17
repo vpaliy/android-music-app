@@ -8,9 +8,8 @@ import javax.inject.Singleton
 @Singleton
 class Filter @Inject
 constructor() {
-
     fun filter(tracks: List<TrackEntity>?): List<TrackEntity>? {
-        if (tracks != null) {
+        return tracks?.let {
             val list = LinkedList<TrackEntity>()
             tracks.forEach {
                 val result=filter(it)
@@ -18,16 +17,15 @@ constructor() {
             }
             return if (list.isEmpty()) null else list
         }
-        return null
     }
 
     fun filter(trackEntity: TrackEntity?): TrackEntity? {
-        if (trackEntity != null) {
+       return  trackEntity?.let {
             if (trackEntity.artwork_url != null && trackEntity.is_streamable) {
                 trackEntity.artwork_url = trackEntity.artwork_url.replace("large", "t500x500")
                 return trackEntity
             }
+           return null
         }
-        return null
     }
 }

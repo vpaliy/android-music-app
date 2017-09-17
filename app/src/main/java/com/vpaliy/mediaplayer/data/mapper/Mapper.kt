@@ -1,21 +1,18 @@
 package com.vpaliy.mediaplayer.data.mapper
 
 abstract class Mapper<R,F>{
-
-    fun reverse(list:List<R>?):List<F>?{
-        if(list!=null){
-            val result= arrayListOf<F>()
+    fun reverse(list:List<R>?):List<F>? {
+        return list?.let {
+            val result = arrayListOf<F>()
             list.forEach({
-                val element=reverse(it)
-                element?.let{result.add(element)}
+                val element = reverse(it)
+                element?.let { result.add(element) }
             })
             return result
         }
-        return null
     }
-
     fun map(list:List<F>?):List<R>?{
-        if(list!=null){
+        return list?.let {
             val result= arrayListOf<R>()
             list.forEach({
                 val element=map(it)
@@ -23,9 +20,7 @@ abstract class Mapper<R,F>{
             })
             return result
         }
-        return null
     }
-
     abstract fun map(fake:F?):R?
     abstract fun reverse(real:R?):F?
 }

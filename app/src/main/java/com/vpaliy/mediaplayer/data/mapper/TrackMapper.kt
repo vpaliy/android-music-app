@@ -6,10 +6,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TrackMapper @Inject constructor():Mapper<Track,TrackEntity>(){
-
+class TrackMapper @Inject
+constructor():Mapper<Track,TrackEntity>(){
     override fun map(fake: TrackEntity?): Track? {
-        if(fake!=null){
+        return fake?.let {
             val real=Track()
             real.artworkUrl=fake.artwork_url
             if(fake.user!=null){
@@ -22,14 +22,11 @@ class TrackMapper @Inject constructor():Mapper<Track,TrackEntity>(){
             real.streamUrl=fake.stream_url
             return real
         }
-        return null
     }
-
     override fun reverse(real: Track?): TrackEntity? {
-        if(real!=null){
+        return real?.let {
             val fake=TrackEntity()
             return fake
         }
-        return null
     }
 }

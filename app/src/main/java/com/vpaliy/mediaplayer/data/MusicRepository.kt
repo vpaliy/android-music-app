@@ -20,7 +20,7 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
     private var page:Page<TrackEntity>?=null
 
     override fun fetchHistory(): Single<List<Track>> {
-        return query("imagine dragons") as Single<List<Track>>
+        return query("imagine dragons")
     }
 
     override fun fetchLiked(): Single<List<Track>> {
