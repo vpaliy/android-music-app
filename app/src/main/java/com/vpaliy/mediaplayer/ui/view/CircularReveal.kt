@@ -3,7 +3,6 @@ package com.vpaliy.mediaplayer.ui.view
 import android.animation.Animator
 import android.content.Context
 import android.graphics.Point
-import android.support.annotation.IdRes
 import android.transition.TransitionValues
 import android.transition.Visibility
 import android.util.AttributeSet
@@ -11,6 +10,7 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import com.vpaliy.mediaplayer.R
+import android.support.annotation.IdRes
 
 class CircularReveal : Visibility {
 
