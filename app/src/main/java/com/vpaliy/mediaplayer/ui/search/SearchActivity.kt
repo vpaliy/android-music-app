@@ -25,6 +25,7 @@ import android.transition.TransitionInflater
 import android.transition.TransitionManager
 import android.annotation.TargetApi
 import android.support.annotation.TransitionRes
+import com.vpaliy.mediaplayer.ui.view.OnReachBottomListener
 import javax.inject.Inject
 
 class SearchActivity:BaseActivity(), SearchContract.View{
@@ -35,9 +36,18 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        setupResult()
+        setupSearch()
+    }
+
+    private fun setupResult(){
         adapter=TrackAdapter(this,{navigator.navigate(this,it)})
         result.adapter=adapter
-        setupSearch()
+        result.addOnScrollListener(object:OnReachBottomListener(result.layoutManager){
+            override fun onLoadMore() {
+                presenter.more()
+            }
+        })
     }
 
     private fun setupSearch(){
@@ -104,11 +114,11 @@ class SearchActivity:BaseActivity(), SearchContract.View{
 
 
     override fun error() {
-
+        message.visibility=View.VISIBLE
     }
 
     override fun empty() {
-
+        message.visibility=View.VISIBLE
     }
 
     override fun setLoading(isLoading: Boolean) {
