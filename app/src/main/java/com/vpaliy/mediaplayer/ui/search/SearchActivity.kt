@@ -20,6 +20,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.text.TextUtils
 import android.content.Intent
+import android.transition.Transition
+import android.transition.TransitionInflater
+import android.transition.TransitionManager
+import android.annotation.TargetApi
+import android.support.annotation.TransitionRes
 import javax.inject.Inject
 
 class SearchActivity:BaseActivity(), SearchContract.View{
@@ -44,7 +49,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
                 EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
         searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.isNullOrEmpty()) clear()
+                if(newText.isNullOrEmpty()) setResult(false)
                 return true
             }
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -76,8 +81,12 @@ class SearchActivity:BaseActivity(), SearchContract.View{
         }
     }
 
-    private fun clear(){
-
+    @TargetApi(21)
+    private fun setResult(visible:Boolean){
+        val transition=getTransition(if(visible) R.transition.search_show
+                else R.transition.search_show)
+        TransitionManager.beginDelayedTransition(root,transition)
+        result.visibility=if(visible) View.VISIBLE else View.GONE
     }
 
     override fun inject(){
@@ -86,6 +95,13 @@ class SearchActivity:BaseActivity(), SearchContract.View{
                 .applicationComponent(FitnessSound.app().component())
                 .build().inject(this)
     }
+
+    @TargetApi(21)
+    private fun getTransition(@TransitionRes transitionId: Int): Transition {
+        val inflater = TransitionInflater.from(this)
+        return inflater.inflateTransition(transitionId)
+    }
+
 
     override fun error() {
 
@@ -106,7 +122,10 @@ class SearchActivity:BaseActivity(), SearchContract.View{
         presenter.attachView(this)
     }
 
-    override fun show(list: List<Track>)=adapter.set(list.toMutableList())
+    override fun show(list: List<Track>){
+        adapter.set(list.toMutableList())
+        setResult(true)
+    }
 
     override fun append(list: List<Track>)=adapter.appendData(list.toMutableList())
 
