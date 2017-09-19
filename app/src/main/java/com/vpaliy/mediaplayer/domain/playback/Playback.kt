@@ -9,6 +9,7 @@ interface Playback {
     fun invalidateCurrent()
     fun isPlaying(): Boolean
     fun position(): Long
+    fun assignCallback(callback:Callback)
 
     interface Callback {
         fun onCompletetion()

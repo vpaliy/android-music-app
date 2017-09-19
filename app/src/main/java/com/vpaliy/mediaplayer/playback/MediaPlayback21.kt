@@ -53,7 +53,7 @@ constructor(context: Context,
         if (exoPlayer == null) {
             exoPlayer = ExoPlayerFactory.newSimpleInstance(
                     context, DefaultTrackSelector(), DefaultLoadControl())
-            exoPlayer!!.addListener(this)
+            exoPlayer?.addListener(this)
         }
         exoPlayer?.audioStreamType = AudioManager.STREAM_MUSIC
         val dataSourceFactory = DefaultDataSourceFactory(
@@ -96,7 +96,7 @@ constructor(context: Context,
 
     override fun isPlaying()=exoPlayer?.playWhenReady?:false
 
-    override fun onTimelineChanged(timeline: Timeline, manifest: Any) {
+    override fun onTimelineChanged(timeline: Timeline?, manifest: Any?) {
 
     }
 

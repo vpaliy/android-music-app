@@ -43,6 +43,10 @@ abstract class BasePlayback(protected val context: Context,
         }
     }
 
+    override fun assignCallback(callback: Playback.Callback) {
+        this.callback=callback
+    }
+
     abstract fun startPlayer()
     abstract fun stopPlayer()
     abstract fun pausePlayer()

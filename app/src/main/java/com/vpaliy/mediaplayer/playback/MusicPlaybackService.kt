@@ -10,18 +10,25 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import com.vpaliy.mediaplayer.FitnessSound
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
 import javax.inject.Inject
 
 class MusicPlaybackService : MediaBrowserServiceCompat(),
         PlaybackManager.PlaybackServiceCallback, PlaybackManager.MetadataUpdateListener {
 
-    private val mediaSession=MediaSessionCompat(applicationContext, TAG)
-    private val notification=TrackNotification(this)
+    private lateinit var mediaSession:MediaSessionCompat
+    private lateinit var notification:TrackNotification
     @Inject lateinit var playbackManager: PlaybackManager
+
+    init {
+        FitnessSound.app().playbackComponent().inject(this)
+    }
 
     override fun onCreate() {
         super.onCreate()
+        mediaSession=MediaSessionCompat(applicationContext, TAG)
+        notification=TrackNotification(this)
         playbackManager.serviceCallback = this
         playbackManager.updateListener = this
         mediaSession.setCallback(playbackManager.mediaSessionCallback)
@@ -38,7 +45,16 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
     override fun onStartCommand(startIntent: Intent?, flags: Int, startId: Int): Int {
         if (startIntent != null) {
             val action = startIntent.action
-            MediaButtonReceiver.handleIntent(mediaSession, startIntent)
+            action?.let {
+                when(action){
+                    MediaTasks.ACTION_NEXT->playbackManager.handleNextRequest()
+                    MediaTasks.ACTION_PREV->playbackManager.handlePrevRequest()
+                    MediaTasks.ACTION_PAUSE->playbackManager.handlePauseRequest()
+                    MediaTasks.ACTION_PLAY->playbackManager.handleResumeRequest()
+                    MediaTasks.ACTION_STOP->stopSelf()
+                    else ->  MediaButtonReceiver.handleIntent(mediaSession, startIntent)
+                }
+            }
         }
         return Service.START_NOT_STICKY
     }

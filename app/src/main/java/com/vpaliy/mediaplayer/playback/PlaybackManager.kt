@@ -24,6 +24,10 @@ constructor(private val playback: Playback, private val mapper: Mapper<MediaMeta
     var updateListener: MetadataUpdateListener? = null
     var serviceCallback: PlaybackServiceCallback? = null
 
+    init {
+        playback.assignCallback(this)
+    }
+
     fun handlePlayRequest(track: Track?) {
         track?.let {
             playback.play(it.streamUrl)

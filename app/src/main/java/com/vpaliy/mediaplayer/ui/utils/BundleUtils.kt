@@ -62,10 +62,11 @@ object BundleUtils {
             Gson().toJson(`object`,type)
     }
 
-    fun packHeavyObject(bundle: Bundle, key: String, `object`: Any, type: Type) {
+    fun packHeavyObject(bundle: Bundle, key: String, `object`: Any, type: Type):Bundle {
         val jsonString = convertToJsonString(`object`, type)
         val compressedStuff = compress(jsonString)
         bundle.putByteArray(key, compressedStuff)
+        return bundle
     }
 
     fun <T> fetchHeavyObject(type: Type?, bundle: Bundle?, key: String): T? {

@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.ui.base
 
 import android.content.Context
+import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,12 +9,10 @@ import android.view.View
 import java.util.ArrayList
 import android.view.ViewGroup
 
-abstract class BaseAdapter<T>(context: Context,
-                              protected val click:(T)->Unit) :
+abstract class BaseAdapter<T>(context: Context, protected val click:(Bundle)->Unit) :
         RecyclerView.Adapter<BaseAdapter<T>.GenericViewHolder>() {
 
     protected var data:MutableList<T> =ArrayList<T>()
-
     protected val inflater: LayoutInflater= LayoutInflater.from(context)
 
     abstract inner class GenericViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
