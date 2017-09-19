@@ -169,7 +169,6 @@ class PlayerActivity:AppCompatActivity(){
             updateShuffleMode(isActionApplied(stateCompat.actions,
                     PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE_ENABLED))   */
             //check the state
-            Log.d("Music","state:"+stateCompat.state)
             when (stateCompat.state) {
                 PlaybackStateCompat.STATE_PLAYING -> {
                     play_pause.visibility= View.VISIBLE
@@ -179,7 +178,6 @@ class PlayerActivity:AppCompatActivity(){
                     startSeekBarUpdate()
                 }
                 PlaybackStateCompat.STATE_PAUSED -> {
-                    Log.d("PlayerActivity","paused")
                     play_pause.visibility= View.VISIBLE
                     if (!play_pause.isPlay) {
                         play_pause.change(true, true)
