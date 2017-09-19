@@ -11,6 +11,7 @@ import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.format.DateUtils
+import android.view.View
 import android.widget.SeekBar
 import com.google.gson.reflect.TypeToken
 import com.vpaliy.mediaplayer.FitnessSound
@@ -25,6 +26,14 @@ import com.vpaliy.mediaplayer.ui.utils.Constants
 import kotlinx.android.synthetic.main.activity_player.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import android.graphics.Bitmap
+import android.util.Log
+import butterknife.ButterKnife
+import butterknife.OnClick
+import com.bumptech.glide.request.target.ImageViewTarget
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Priority
+
 
 class PlayerActivity:AppCompatActivity(){
 
@@ -38,10 +47,11 @@ class PlayerActivity:AppCompatActivity(){
 
     private val controllerCallback=object:MediaControllerCompat.Callback(){
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
-            super.onPlaybackStateChanged(state)
+            updatePlaybackState(state)
         }
         override fun onMetadataChanged(metadata: MediaMetadataCompat?) {
-            super.onMetadataChanged(metadata)
+            updateDuration(metadata)
+            updatePicture(metadata)
         }
     }
 
@@ -64,6 +74,7 @@ class PlayerActivity:AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
+        ButterKnife.bind(this)
         browser=MediaBrowserCompat(this,
                 ComponentName(this, MusicPlaybackService::class.java),
                 connectionCallback, null)
@@ -82,6 +93,32 @@ class PlayerActivity:AppCompatActivity(){
         })
     }
 
+    @OnClick(R.id.next)
+    fun next()=controlls().skipToNext()
+
+    @OnClick(R.id.prev)
+    fun prev()=controlls().skipToPrevious()
+
+    @OnClick(R.id.repeat)
+    fun repeat()=controlls().setRepeatMode(0)
+
+    @OnClick(R.id.shuffle)
+    fun shuffle()=controlls().setShuffleModeEnabled(true)
+
+    @OnClick(R.id.play_pause)
+    fun playPause() {
+        lastState = null
+        val controllerCompat = MediaControllerCompat.getMediaController(this)
+        val stateCompat = controllerCompat.playbackState
+        if (stateCompat != null) {
+            val controls = controllerCompat.transportControls
+            when (stateCompat.state) {
+                PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.STATE_BUFFERING -> controls.pause()
+                PlaybackStateCompat.STATE_NONE, PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> controls.play()
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         browser?.connect()
@@ -93,6 +130,8 @@ class PlayerActivity:AppCompatActivity(){
         MediaControllerCompat.getMediaController(this)
                 .unregisterCallback(controllerCallback)
     }
+
+    private fun controlls()=MediaControllerCompat.getMediaController(this@PlayerActivity).transportControls
 
     private fun stopSeekBarUpdate(){
         lastState=null
@@ -122,12 +161,85 @@ class PlayerActivity:AppCompatActivity(){
         executorService.shutdown()
     }
 
+    private fun updatePlaybackState(stateCompat: PlaybackStateCompat?) {
+        stateCompat?.let {
+            lastState = stateCompat
+          /*  updateRepeatMode(isActionApplied(stateCompat.actions,
+                    PlaybackStateCompat.ACTION_SET_REPEAT_MODE))
+            updateShuffleMode(isActionApplied(stateCompat.actions,
+                    PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE_ENABLED))   */
+            //check the state
+            Log.d("Music","state:"+stateCompat.state)
+            when (stateCompat.state) {
+                PlaybackStateCompat.STATE_PLAYING -> {
+                    play_pause.visibility= View.VISIBLE
+                    if (play_pause.isPlay) {
+                        play_pause.change(false, true)
+                    }
+                    startSeekBarUpdate()
+                }
+                PlaybackStateCompat.STATE_PAUSED -> {
+                    Log.d("PlayerActivity","paused")
+                    play_pause.visibility= View.VISIBLE
+                    if (!play_pause.isPlay) {
+                        play_pause.change(true, true)
+                    }
+                    stopSeekBarUpdate()
+                }
+                PlaybackStateCompat.STATE_NONE, PlaybackStateCompat.STATE_STOPPED -> {
+                    play_pause.visibility= View.VISIBLE
+                    if (play_pause.isPlay) {
+                        play_pause.change(false, true)
+                    }
+                    stopSeekBarUpdate()
+                }
+                PlaybackStateCompat.STATE_BUFFERING -> {
+                    play_pause.visibility= View.INVISIBLE
+                    stopSeekBarUpdate()
+                }
+            }
+        }
+    }
+
+    private fun updateDuration(metadataCompat: MediaMetadataCompat?) {
+        metadataCompat?.let {
+            var duration = metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_DISC_NUMBER).toInt()
+            start_time.text=DateUtils.formatElapsedTime((duration / 1000).toLong())
+            duration = metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_DURATION).toInt()
+            end_time.text=DateUtils.formatElapsedTime((duration / 1000).toLong())
+            progressView.max=duration
+        }
+    }
+
+    private fun updatePicture(metadataCompat: MediaMetadataCompat?) {
+        metadataCompat?.let {
+            val text = java.lang.Long.toString(metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER))+" of " + java.lang.Long.toString(metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS))
+            track_name.text=metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE)
+            artist.text = metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_ARTIST)
+            pages.text = text
+            val imageUrl = metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
+            showArt(imageUrl)
+        }
+    }
+
+    private fun showArt(artUrl: String?) {
+        Glide.with(this)
+                .load(artUrl)
+                .asBitmap()
+                .priority(Priority.IMMEDIATE)
+                .into(object : ImageViewTarget<Bitmap>(circle) {
+                    override fun setResource(resource: Bitmap) {
+                        circle.setImageBitmap(resource)
+                    }
+                })
+    }
+
     fun inject() =FitnessSound.app().playbackComponent().inject(this)
 
     @Inject
     fun injectManager(manager:PlaybackManager){
         intent?.extras?.let {
-            val queue:QueueManager?=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>(){}.type,
+            val queue:QueueManager?=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>() {}.type,
                     it,Constants.EXTRA_QUEUE)
             queue?.let {
                 manager.setQueueManager(it)

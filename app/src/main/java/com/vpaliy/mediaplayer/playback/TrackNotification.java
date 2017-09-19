@@ -19,6 +19,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.vpaliy.mediaplayer.R;
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity;
+import static com.vpaliy.mediaplayer.playback.MediaTasks.*;
 
 public class TrackNotification {
 
@@ -30,13 +31,6 @@ public class TrackNotification {
     private static final int PLAY_NEXT_PENDING_INTENT_ID=3408;
     private static final int PLAY_PREV_PENDING_INTENT_ID=3409;
     private static final int STOP_PENDING_INTENT_ID=3410;
-
-    public static final String ACTION_PAUSE = "com.vpaliy.melophile.pause";
-    public static final String ACTION_PLAY = "com.vpaliy.melophile.play";
-    public static final String ACTION_PREV = "com.vpaliy.melophile.prev";
-    public static final String ACTION_NEXT = "com.vpaliy.melophile.next";
-    public static final String ACTION_STOP="com.vpaliy.melophile.stop";
-
 
     private PlaybackStateCompat playbackState;
     private MediaMetadataCompat mediaMetadata;

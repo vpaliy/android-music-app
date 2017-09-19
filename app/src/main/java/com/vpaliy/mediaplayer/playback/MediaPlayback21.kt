@@ -36,7 +36,7 @@ constructor(context: Context,
 
     override fun pausePlayer() {
         exoPlayer?.let {
-            isPause=false
+            isPause=true
             it.playWhenReady=false
         }
     }

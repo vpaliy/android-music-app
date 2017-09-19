@@ -4,6 +4,7 @@ import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.domain.playback.Playback
@@ -91,7 +92,7 @@ constructor(private val playback: Playback, private val mapper: Mapper<MediaMeta
     fun handleNextRequest() {
         queueManager?.let {
             playback.invalidateCurrent()
-            handlePlayRequest(queueManager?.current())
+            handlePlayRequest(it.next())
         }
     }
 
@@ -120,6 +121,7 @@ constructor(private val playback: Playback, private val mapper: Mapper<MediaMeta
     }
 
     override fun onPause() {
+        Log.d("Music:","onPause()")
         updatePlaybackState(PlaybackStateCompat.STATE_PAUSED)
         serviceCallback?.onPlaybackStop()
     }
@@ -141,7 +143,7 @@ constructor(private val playback: Playback, private val mapper: Mapper<MediaMeta
             queueManager?.let {
                 val result = MediaMetadataCompat.Builder(mapper.map(it.current()))
                         .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, it.size().toLong())
-                        .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, 1)
+                        .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, 10)
                         .putLong(MediaMetadataCompat.METADATA_KEY_DISC_NUMBER, playback.position())
                         .build()
                 updateListener?.onMetadataChanged(result)

@@ -1,6 +1,6 @@
 package com.vpaliy.mediaplayer.data
 
-import android.util.Log
+
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.model.Track
@@ -50,7 +50,7 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
                     .map({result->
                         page=result
                         result.collection
-                    })
+                    }).map(filter::filter)
                     .map(mapper::map)
         }
         return Single.error(IllegalArgumentException("No more data"))

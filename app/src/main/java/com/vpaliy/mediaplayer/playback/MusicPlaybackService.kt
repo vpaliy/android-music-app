@@ -10,6 +10,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import com.vpaliy.mediaplayer.FitnessSound
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
 import javax.inject.Inject
@@ -79,13 +80,12 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
     }
 
     override fun onPlaybackStateUpdated(newState: PlaybackStateCompat) {
+        Log.d("MusicPlaybackService","onPlaybackState"+newState.state)
         mediaSession.setPlaybackState(newState)
         notification.updatePlaybackState(newState)
     }
 
-    override fun onNotificationRequired() {
-        notification.startNotification()
-    }
+    override fun onNotificationRequired()=notification.startNotification()
 
     override fun onDestroy() {
         mediaSession.release()
@@ -94,10 +94,9 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
     }
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): MediaBrowserServiceCompat.BrowserRoot? {
-        if (clientPackageName != packageName) {
-            return MediaBrowserServiceCompat.BrowserRoot("root", null)
-        }
-        return MediaBrowserServiceCompat.BrowserRoot("empty", null)
+        return if (clientPackageName != packageName) {
+             MediaBrowserServiceCompat.BrowserRoot("root", null)
+        }else MediaBrowserServiceCompat.BrowserRoot("empty", null)
     }
 
     override fun onLoadChildren(parentId: String, result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>) {}
