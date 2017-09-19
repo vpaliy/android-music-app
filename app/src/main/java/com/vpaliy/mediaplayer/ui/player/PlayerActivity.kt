@@ -25,15 +25,15 @@ import com.vpaliy.mediaplayer.ui.utils.BundleUtils
 import com.vpaliy.mediaplayer.ui.utils.Constants
 import kotlinx.android.synthetic.main.activity_player.*
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import android.graphics.Bitmap
-import android.util.Log
+import android.graphics.Color
+import android.graphics.PorterDuff
 import butterknife.ButterKnife
-import butterknife.OnClick
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-
+import butterknife.OnClick
+import javax.inject.Inject
 
 class PlayerActivity:AppCompatActivity(){
 
@@ -78,6 +78,8 @@ class PlayerActivity:AppCompatActivity(){
         browser=MediaBrowserCompat(this,
                 ComponentName(this, MusicPlaybackService::class.java),
                 connectionCallback, null)
+        progressView.progressDrawable?.setColorFilter(Color.WHITE,PorterDuff.Mode.MULTIPLY)
+        progressView.thumb?.setColorFilter(Color.WHITE,PorterDuff.Mode.SRC_ATOP)
         progressView.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
             override fun onStopTrackingTouch(seekBar: SeekBar?){
                 seekBar?.let {
@@ -117,6 +119,14 @@ class PlayerActivity:AppCompatActivity(){
                 PlaybackStateCompat.STATE_NONE, PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.STATE_STOPPED -> controls.play()
             }
         }
+    }
+
+    @OnClick(R.id.back)
+    fun back()=supportFinishAfterTransition()
+
+    @OnClick(R.id.shuffled_list)
+    fun shuffledList(){
+        //TODO implement
     }
 
     override fun onStart() {
@@ -211,7 +221,7 @@ class PlayerActivity:AppCompatActivity(){
 
     private fun updatePicture(metadataCompat: MediaMetadataCompat?) {
         metadataCompat?.let {
-            val text = java.lang.Long.toString(metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER))+" of " + java.lang.Long.toString(metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS))
+            val text = metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER).toString()+" of " + metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS).toString()
             track_name.text=metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE)
             artist.text = metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_ARTIST)
             pages.text = text

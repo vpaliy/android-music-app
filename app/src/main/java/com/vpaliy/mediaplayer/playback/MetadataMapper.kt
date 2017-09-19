@@ -1,7 +1,6 @@
 package com.vpaliy.mediaplayer.playback
 
 import android.support.v4.media.MediaMetadataCompat
-
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.domain.playback.PlaybackScope
@@ -16,7 +15,7 @@ constructor() : Mapper<MediaMetadataCompat, Track>() {
                     .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI, fake.artworkUrl)
                     .putString(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE, fake.title)
                     .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, fake.artist)
-                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, java.lang.Long.parseLong(fake.duration))
+                    .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, fake.duration!!.toLong())
                     .putString(MediaMetadataCompat.METADATA_KEY_DATE, fake.releaseDate)
                     .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_URI, fake.streamUrl)
                     .putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, fake.id).build()

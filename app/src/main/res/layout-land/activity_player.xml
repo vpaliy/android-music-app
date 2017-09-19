@@ -7,33 +7,37 @@
     android:background="#000"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#000"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0" />
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pages"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pages"
+        app:srcCompat="@drawable/ic_player_back" />
+    <ImageView
+        android:id="@+id/shuffled_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pages"
+        app:layout_constraintEnd_toStartOf="@+id/circle"
+        app:layout_constraintTop_toTopOf="@+id/pages"
+        app:srcCompat="@drawable/ic_dehaze" />
     <TextView
         android:id="@+id/pages"
-        tools:text="1 of 3"
-        android:textColor="@color/white_50"
         style="@style/Widget.NumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
+        android:textColor="@color/white_50"
+
+        app:layout_constraintEnd_toStartOf="@+id/circle"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/circle"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        app:layout_constraintTop_toTopOf="@id/circle"
+        tools:text="1 of 3" />
     <TextView
         android:id="@+id/end_time"
         tools:text="4.50"
@@ -78,7 +82,7 @@
         app:layout_constraintRight_toLeftOf="@+id/circle"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintTop_toTopOf="@+id/circle"
+        app:layout_constraintTop_toBottomOf="@+id/pages"
         android:layout_marginTop="8dp" />
     <TextView
         android:id="@+id/track_name"
@@ -91,11 +95,10 @@
         android:layout_width="wrap_content"
         style="@style/Widget.Title"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintTop_toBottomOf="@+id/artist"
         app:layout_constraintLeft_toLeftOf="@+id/artist"
         app:layout_constraintRight_toRightOf="@+id/artist" />
-
     <com.vpaliy.mediaplayer.ui.view.RoundedImageView
         android:layout_width="300dp"
         android:layout_height="320dp"
@@ -128,7 +131,7 @@
         app:layout_constraintRight_toLeftOf="@+id/end_time"
         app:layout_constraintLeft_toRightOf="@+id/start_time"
         app:layout_constraintTop_toBottomOf="@+id/track_name"
-        app:layout_constraintVertical_bias="0.55"
+        app:layout_constraintVertical_bias="0.7"
         app:layout_constraintBottom_toTopOf="@+id/play_pause" />
     <ImageView
         android:id="@+id/next"

@@ -3,38 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:transitionGroup="false"
-    android:orientation="vertical"
     android:background="#000000"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#000000"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="ContentDescription"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0" />
     <TextView
         android:id="@+id/pages"
-        tools:text="1 of 3"
-        android:textColor="@color/white_50"
         style="@style/Widget.NumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
+        android:textColor="@color/white_50"
+        android:layout_marginTop="24dp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/circle"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        tools:text="1 of 3" />
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pages"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pages"
+        app:srcCompat="@drawable/ic_player_back" />
+    <ImageView
+        android:id="@+id/shuffled_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pages"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pages"
+        app:srcCompat="@drawable/ic_dehaze" />
     <TextView
         android:id="@+id/end_time"
         tools:text="4.50"
@@ -92,7 +94,7 @@
         android:layout_width="wrap_content"
         style="@style/Widget.Title"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintTop_toBottomOf="@+id/artist"
         app:layout_constraintLeft_toLeftOf="@+id/artist"
         app:layout_constraintRight_toRightOf="@+id/artist" />
