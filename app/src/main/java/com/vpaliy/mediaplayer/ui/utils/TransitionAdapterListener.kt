@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.ui.view
+package com.vpaliy.mediaplayer.ui.utils
 
 import android.transition.Transition
 

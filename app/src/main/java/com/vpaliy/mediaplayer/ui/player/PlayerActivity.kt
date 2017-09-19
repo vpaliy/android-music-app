@@ -17,11 +17,10 @@ import com.vpaliy.mediaplayer.playback.PlaybackManager
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
-import javax.inject.Inject
 import com.vpaliy.mediaplayer.playback.MusicPlaybackService
 import kotlinx.android.synthetic.main.activity_player.*
 import java.util.concurrent.TimeUnit
-
+import javax.inject.Inject
 
 class PlayerActivity: BaseActivity(){
 
@@ -53,7 +52,6 @@ class PlayerActivity: BaseActivity(){
             } catch (ex: RemoteException) {
                 ex.printStackTrace()
             }
-
         }
     }
 
@@ -64,7 +62,6 @@ class PlayerActivity: BaseActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_full_player)
-        supportPostponeEnterTransition()
         progressView.setOnSeekBarChangeListener(object:SeekBar.OnSeekBarChangeListener{
             override fun onStopTrackingTouch(seekBar: SeekBar?){
                 seekBar?.let {
@@ -120,11 +117,12 @@ class PlayerActivity: BaseActivity(){
         executorService.shutdown()
     }
 
-    override fun inject() =FitnessSound.app().
-            playbackComponent().inject(this)
+    override fun inject() =FitnessSound.app().playbackComponent().inject(this)
 
     @Inject
     fun injectManager(manager:PlaybackManager){
+        intent?.extras?.let {
 
+        }
     }
 }

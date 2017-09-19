@@ -23,7 +23,7 @@ import android.content.Intent
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
-import com.vpaliy.mediaplayer.ui.view.OnReachBottomListener
+import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
 import javax.inject.Inject
 import android.annotation.TargetApi
 import android.support.annotation.TransitionRes
@@ -43,7 +43,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     private fun setupResult(){
         adapter=TrackAdapter(this,{navigator.navigate(this,it)})
         result.adapter=adapter
-        result.addOnScrollListener(object:OnReachBottomListener(result.layoutManager){
+        result.addOnScrollListener(object: OnReachBottomListener(result.layoutManager){
             override fun onLoadMore() {
                 presenter.more()
             }
