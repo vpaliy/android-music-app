@@ -10,6 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
+import com.vpaliy.mediaplayer.ui.details.ActionsActivity
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
 
 
@@ -29,5 +30,11 @@ class Navigator @Inject constructor(){
                     .makeSceneTransitionAnimation(activity, pair)
             activity.startActivity(intent, optionsCompat.toBundle())
         }else activity.startActivity(intent)
+    }
+
+    fun actions(activity: Activity, bundle: Bundle){
+        val intent= Intent(activity,ActionsActivity::class.java)
+        intent.putExtras(bundle)
+        activity.startActivity(intent)
     }
 }

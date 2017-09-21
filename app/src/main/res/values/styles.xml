@@ -17,6 +17,16 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <style name="Actions" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+
     <style name="Widget.SearchView" parent="android:style/Widget.Material.SearchView"/>
 
     <style name="Widget">

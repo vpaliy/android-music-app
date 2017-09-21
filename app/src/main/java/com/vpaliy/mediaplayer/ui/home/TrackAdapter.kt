@@ -16,7 +16,7 @@ import com.vpaliy.mediaplayer.ui.utils.BundleUtils
 import com.vpaliy.mediaplayer.ui.utils.Constants
 import kotlinx.android.synthetic.main.adapter_track_item.view.*
 
-class TrackAdapter(context: Context, click:(Bundle)->Unit) : BaseAdapter<Track>(context,click) {
+class TrackAdapter(context: Context, click:(Bundle)->Unit, val clickMore:(Bundle)->Unit) : BaseAdapter<Track>(context,click) {
 
     inner class TrackViewHolder constructor(itemView: View):
             BaseAdapter<Track>.GenericViewHolder(itemView) {
@@ -29,6 +29,14 @@ class TrackAdapter(context: Context, click:(Bundle)->Unit) : BaseAdapter<Track>(
                 val queue=QueueManager(data,adapterPosition)
                 click(BundleUtils.packHeavyObject(Bundle(),Constants.EXTRA_QUEUE,
                         queue,object:TypeToken<QueueManager>(){}.type))
+            }
+            itemView.more.setOnClickListener {
+                val track=at(adapterPosition)
+                clickMore.invoke(BundleUtils.packHeavyObject(Bundle(),Constants.EXTRA_TRACK,
+                        track,object:TypeToken<Track>(){}.type))
+            }
+            itemView.setOnLongClickListener {
+                itemView.more.performClick()
             }
         }
         override fun onBindData() {

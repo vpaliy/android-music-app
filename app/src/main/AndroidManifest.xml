@@ -36,6 +36,10 @@
                 android:resource="@xml/searchable" />
         </activity>
 
+        <activity android:name=".ui.details.ActionsActivity"
+                  android:theme="@style/Actions">
+        </activity>
+
         <activity android:name=".ui.player.PlayerActivity">
         </activity>
 

@@ -41,7 +41,8 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     private fun setupResult(){
-        adapter=TrackAdapter(this,{navigator.navigate(this,it)})
+        adapter=TrackAdapter(this,{navigator.navigate(this,it)},
+                {navigator.actions(this,it)})
         result.adapter=adapter
         result.addOnScrollListener(object: OnReachBottomListener(result.layoutManager){
             override fun onLoadMore() {
