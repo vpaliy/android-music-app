@@ -24,7 +24,6 @@ class TrackAdapter(context: Context, click:(Bundle)->Unit) : BaseAdapter<Track>(
         val title:TextView=itemView.title
         val art:ImageView=itemView.art
         val artist:TextView=itemView.artist
-        val duration:TextView=itemView.duration
         init{
             itemView.setOnClickListener {
                 val queue=QueueManager(data,adapterPosition)
@@ -36,7 +35,6 @@ class TrackAdapter(context: Context, click:(Bundle)->Unit) : BaseAdapter<Track>(
             val track=at(adapterPosition)
             title.text=track.title
             artist.text=track.artist
-            duration.text=track.formatedDuration
             Glide.with(itemView.context)
                     .load(track.artworkUrl)
                     .placeholder(R.drawable.placeholder)

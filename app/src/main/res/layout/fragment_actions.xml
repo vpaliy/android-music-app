@@ -1,0 +1,63 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        tools:src="@drawable/evolve"
+        android:id="@+id/art"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+    <TextView
+        tools:text="Imagine Dragons"
+        style="@style/Widget.BigTitle"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:id="@+id/artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        tools:text="Whatever It Takes"
+        style="@style/Widget.Title"
+        android:textSize="16sp"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:id="@+id/track"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        tools:text="Share"
+        android:id="@+id/share"
+        style="@style/Widget.BigTitle"
+        android:layout_gravity="center"
+        android:textColor="@color/grey_800"
+        android:layout_marginTop="@dimen/spacing_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        tools:text="Like"
+        android:id="@+id/like"
+        style="@style/Widget.BigTitle"
+        android:textColor="@color/grey_800"
+        android:layout_marginTop="@dimen/spacing_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        tools:text="Play"
+        android:id="@+id/play"
+        style="@style/Widget.BigTitle"
+        android:layout_gravity="center"
+        android:textColor="@color/grey_800"
+        android:layout_marginTop="@dimen/spacing_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        tools:text="Remove from recent"
+        android:id="@+id/history"
+        style="@style/Widget.BigTitle"
+        android:layout_gravity="center"
+        android:textColor="@color/grey_800"
+        android:layout_marginTop="@dimen/spacing_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

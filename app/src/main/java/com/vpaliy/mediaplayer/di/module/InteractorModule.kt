@@ -2,9 +2,7 @@ package com.vpaliy.mediaplayer.di.module
 
 import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
-import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
-import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
-import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
+import com.vpaliy.mediaplayer.domain.interactor.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

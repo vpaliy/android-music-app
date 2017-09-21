@@ -125,8 +125,8 @@ class PlayerActivity:AppCompatActivity(){
     fun back()=supportFinishAfterTransition()
 
     @OnClick(R.id.shuffled_list)
-    fun shuffledList(){
-        //TODO implement
+    fun additional(){
+
     }
 
     override fun onStart() {
