@@ -1,11 +1,22 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Themes -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:statusBarColor">@color/background_super_dark</item>
     </style>
 
     <style name="Search" parent="AppTheme">
@@ -58,6 +69,7 @@
     <style name="Widget">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white_50</item>
     </style>
 
     <style name="Widget.NumberText" parent="@android:style/TextAppearance.Material.Caption">
@@ -67,7 +79,7 @@
         <item name="android:letterSpacing">0.02</item>
     </style>
 
-    <style name="Widget.BigTitle">
+    <style name="Widget.BigTitle" parent="Widget">
         <item name="android:textSize">22sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -76,7 +88,7 @@
         <item name="android:letterSpacing">0.2</item>
     </style>
 
-    <style name="Widget.Title">
+    <style name="Widget.Title" parent="Widget">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
@@ -84,7 +96,7 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="Widget.ToolbarText">
+    <style name="Widget.ToolbarText" parent="Widget">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFeatureSettings">smcp</item>
         <item name="android:letterSpacing">0.2</item>

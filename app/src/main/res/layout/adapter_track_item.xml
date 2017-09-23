@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <ImageView
+    <com.vpaliy.mediaplayer.ui.view.RoundedImageView
         tools:src="@drawable/evolve"
         android:layout_width="@dimen/small_media_size"
         android:layout_height="@dimen/small_media_size"
@@ -35,6 +35,7 @@
         android:textSize="@dimen/second_media_text"
         android:maxLines="1"
         android:maxWidth="@dimen/max_track_length"
+        style="@style/Widget.Title"
         android:ellipsize="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
