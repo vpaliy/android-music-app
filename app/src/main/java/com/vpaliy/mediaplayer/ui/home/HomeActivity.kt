@@ -13,16 +13,21 @@ import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
 import com.vpaliy.mediaplayer.ui.home.loved.LovedFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v4.view.ViewCompat
-
+import android.support.v7.app.ActionBarDrawerToggle
 
 
 class HomeActivity : BaseActivity() {
+
+    private val toggle by lazy {
+        ActionBarDrawerToggle(this,drawer,toolbar,0,0)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         ButterKnife.bind(this)
         setSupportActionBar(toolbar)
+        drawer.setDrawerListener(toggle)
         navigation.setNavigationItemSelectedListener { item ->
             when(item.itemId){
                 R.id.history->load(HistoryFragment())
@@ -46,6 +51,11 @@ class HomeActivity : BaseActivity() {
         return true
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?){
+        super.onPostCreate(savedInstanceState)
+        toggle.syncState()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.search-> {
@@ -55,7 +65,7 @@ class HomeActivity : BaseActivity() {
                 return true
             }
         }
-        return super.onOptionsItemSelected(item)
+        return toggle.onOptionsItemSelected(item)||super.onOptionsItemSelected(item)
     }
 
     override fun inject()=FitnessSound.app().component().inject(this)

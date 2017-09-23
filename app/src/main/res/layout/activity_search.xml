@@ -28,7 +28,7 @@
         android:id="@+id/result"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#ffff"
+        android:background="#000"
         android:visibility="gone"
         app:layoutManager="LinearLayoutManager"
         android:orientation="vertical"

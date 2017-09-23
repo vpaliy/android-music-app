@@ -34,12 +34,13 @@
     </android.support.design.widget.CoordinatorLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation"
-        android:paddingTop="@dimen/spacing_big"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
+        app:itemTextAppearance="@style/Widget.Title"
         android:layout_gravity="start"
+        app:headerLayout="@layout/layout_header"
         app:itemIconTint="@drawable/drawer_icon_tint"
         app:itemTextColor="@drawable/drawer_item"
         app:menu="@menu/drawer"
-        android:background="@color/colorPrimary" />
+        android:background="@color/color_grey" />
 </android.support.v4.widget.DrawerLayout>
