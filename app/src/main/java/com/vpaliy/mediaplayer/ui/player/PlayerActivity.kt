@@ -130,9 +130,11 @@ class PlayerActivity:AppCompatActivity(){
     fun back()=supportFinishAfterTransition()
 
     @OnClick(R.id.shuffled_list)
-    fun additional()=queue?.let {
-        navigator.actions(this,BundleUtils.packHeavyObject(Bundle(),
-                Constants.EXTRA_TRACK, it.current(),object:TypeToken<Track>(){}.type))
+    fun additional(){
+        queue?.let {
+            navigator.actions(this,BundleUtils.packHeavyObject(Bundle(),
+                    Constants.EXTRA_TRACK, it.current(),object:TypeToken<Track>(){}.type))
+        }
     }
 
     override fun onStart() {

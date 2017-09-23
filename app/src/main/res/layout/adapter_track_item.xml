@@ -2,6 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/spacing_small"
+    android:paddingBottom="@dimen/spacing_small"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.vpaliy.mediaplayer.ui.view.RoundedImageView
@@ -25,7 +27,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/art"
-        android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintLeft_toRightOf="@+id/art"
         android:layout_marginStart="@dimen/spacing_medium"
         android:layout_marginLeft="@dimen/spacing_medium"/>
@@ -35,6 +36,7 @@
         android:textSize="@dimen/second_media_text"
         android:maxLines="1"
         android:maxWidth="250dp"
+        android:textColor="#bdbdbd"
         style="@style/Widget.Title"
         android:ellipsize="end"
         android:layout_width="wrap_content"
@@ -42,6 +44,17 @@
         app:layout_constraintLeft_toLeftOf="@+id/artist"
         android:layout_marginTop="@dimen/spacing_small"
         app:layout_constraintTop_toBottomOf="@+id/artist"/>
+    <TextView
+        android:id="@+id/duration"
+        style="@style/Widget.NumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#bdbdbd"
+        android:layout_marginTop="1dp"
+        android:textSize="@dimen/second_media_text"
+        app:layout_constraintStart_toStartOf="@+id/artist"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="2:56" />
     <ImageView
         android:id="@+id/more"
         android:layout_width="wrap_content"
