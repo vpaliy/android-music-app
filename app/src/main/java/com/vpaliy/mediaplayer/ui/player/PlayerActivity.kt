@@ -33,6 +33,8 @@ import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import butterknife.OnClick
+import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.ui.base.Navigator
 import javax.inject.Inject
 
 class PlayerActivity:AppCompatActivity(){
@@ -44,6 +46,9 @@ class PlayerActivity:AppCompatActivity(){
     private val PROGRESS_UPDATE_INTERNAL: Long = 100
     private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 10
     private var lastState:PlaybackStateCompat?=null
+    private var queue:QueueManager?=null
+
+    @Inject lateinit var navigator:Navigator
 
     private val controllerCallback=object:MediaControllerCompat.Callback(){
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
@@ -125,8 +130,9 @@ class PlayerActivity:AppCompatActivity(){
     fun back()=supportFinishAfterTransition()
 
     @OnClick(R.id.shuffled_list)
-    fun additional(){
-
+    fun additional()=queue?.let {
+        navigator.actions(this,BundleUtils.packHeavyObject(Bundle(),
+                Constants.EXTRA_TRACK, it.current(),object:TypeToken<Track>(){}.type))
     }
 
     override fun onStart() {
@@ -174,10 +180,10 @@ class PlayerActivity:AppCompatActivity(){
     private fun updatePlaybackState(stateCompat: PlaybackStateCompat?) {
         stateCompat?.let {
             lastState = stateCompat
-          /*  updateRepeatMode(isActionApplied(stateCompat.actions,
-                    PlaybackStateCompat.ACTION_SET_REPEAT_MODE))
-            updateShuffleMode(isActionApplied(stateCompat.actions,
-                    PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE_ENABLED))   */
+            /*  updateRepeatMode(isActionApplied(stateCompat.actions,
+                      PlaybackStateCompat.ACTION_SET_REPEAT_MODE))
+              updateShuffleMode(isActionApplied(stateCompat.actions,
+                      PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE_ENABLED))   */
             //check the state
             when (stateCompat.state) {
                 PlaybackStateCompat.STATE_PLAYING -> {
@@ -247,7 +253,7 @@ class PlayerActivity:AppCompatActivity(){
     @Inject
     fun injectManager(manager:PlaybackManager){
         intent?.extras?.let {
-            val queue:QueueManager?=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>() {}.type,
+            queue=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>() {}.type,
                     it,Constants.EXTRA_QUEUE)
             queue?.let {
                 manager.setQueueManager(it)
