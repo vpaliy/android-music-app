@@ -9,7 +9,6 @@ class Track {
     var streamUrl: String? = null
     var artworkUrl: String? = null
     var duration: String? = null
-    var tags: List<String>? = null
     var releaseDate: String? = null
     var title: String? = null
     var artist: String? = null
