@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager
 import android.media.AudioManager
 import android.support.v4.media.MediaMetadataCompat
 import com.vpaliy.mediaplayer.data.mapper.Mapper
+import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.domain.playback.Playback
 import com.vpaliy.mediaplayer.playback.MetadataMapper
@@ -34,7 +35,7 @@ class MediaPlayerModule{
 
     @PlaybackScope
     @Provides
-    fun manager(playback:Playback,mapper:Mapper<MediaMetadataCompat,Track>)
-            =PlaybackManager(playback,mapper)
+    fun manager(playback:Playback,mapper:Mapper<MediaMetadataCompat,Track>,history:TrackHistory)
+            =PlaybackManager(playback,history,mapper)
 
 }

@@ -57,7 +57,7 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
     }
 
     override fun like(track: Track?):Completable=
-            Completable.fromCallable({handler.update(track)})
+            Completable.fromCallable({handler.update(love(track,true))})
 
     override fun clearHistory():Completable=
             Completable.fromCallable({handler.deleteHistory()})
@@ -66,11 +66,21 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
             Completable.fromCallable({handler.deleteLoved()})
 
     override fun removeLoved(track: Track):Completable=
-            Completable.fromCallable({handler.update(track)})
+            Completable.fromCallable({handler.update(love(track,false))})
 
     override fun removeRecent(track: Track):Completable=
-            Completable.fromCallable({handler.update(track)})
+            Completable.fromCallable({handler.update(save(track,false))})
 
     override fun insertRecent(track: Track?):Completable=
-            Completable.fromCallable({handler.update(track)})
+            Completable.fromCallable({handler.update(save(track,true))})
+
+    private fun save(track:Track?,saved:Boolean)=track?.let {
+        it.isSaved=saved
+        it
+    }
+
+    private fun love(track:Track?,liked:Boolean)=track?.let {
+        it.isLiked=liked
+        it
+    }
 }
