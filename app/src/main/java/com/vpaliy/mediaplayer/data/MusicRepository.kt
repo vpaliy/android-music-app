@@ -14,10 +14,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MusicRepository @Inject constructor(val mapper: Mapper<Track,TrackEntity>,
-                                          val service:SoundCloudService,
-                                          val handler: TrackHandler,
-                                          val filter:Filter):Repository{
+class MusicRepository @Inject
+constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService,
+            val handler: TrackHandler, val filter:Filter):Repository{
 
     private var page:Page<TrackEntity>?=null
 

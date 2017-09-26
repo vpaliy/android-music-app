@@ -125,7 +125,6 @@ constructor(private val playback: Playback,
     }
 
     override fun onPause() {
-        Log.d("Music:","onPause()")
         updatePlaybackState(PlaybackStateCompat.STATE_PAUSED)
         serviceCallback?.onPlaybackStop()
     }
