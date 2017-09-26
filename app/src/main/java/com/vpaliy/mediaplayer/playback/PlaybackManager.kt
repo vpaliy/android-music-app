@@ -146,7 +146,7 @@ constructor(private val playback: Playback,
             queueManager?.let {
                 val result = MediaMetadataCompat.Builder(mapper.map(it.current()))
                         .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, it.size().toLong())
-                        .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, 10)
+                        .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, it.index.toLong()+1L)
                         .putLong(MediaMetadataCompat.METADATA_KEY_DISC_NUMBER, playback.position())
                         .build()
                 updateListener?.onMetadataChanged(result)

@@ -30,8 +30,14 @@ class HomeActivity : BaseActivity() {
         drawer.setDrawerListener(toggle)
         navigation.setNavigationItemSelectedListener { item ->
             when(item.itemId){
-                R.id.history->load(HistoryFragment())
-                R.id.loved->load(LovedFragment())
+                R.id.history->{
+                    toolbar.title=getString(R.string.history_label)
+                    load(HistoryFragment())
+                }
+                R.id.loved->{
+                    toolbar.title=getString(R.string.liked_label)
+                    load(LovedFragment())
+                }
                 else ->false
             }
         }

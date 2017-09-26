@@ -3,7 +3,7 @@ package com.vpaliy.mediaplayer.domain.playback
 import com.vpaliy.mediaplayer.domain.model.Track
 import java.util.Collections
 
-class QueueManager(private var tracks: MutableList<Track>, private var index: Int) {
+class QueueManager(private var tracks: MutableList<Track>, var index: Int) {
 
     fun setTracks(tracks: MutableList<Track>) {
         this.tracks = tracks
