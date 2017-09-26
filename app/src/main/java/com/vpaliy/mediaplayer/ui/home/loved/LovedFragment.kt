@@ -15,6 +15,10 @@ class LovedFragment : HomeFragment() {
         presenter.attach(this)
     }
 
+    override fun empty() {
+        super.empty()
+
+    }
     override fun inject() {
         DaggerViewComponent.builder()
                 .applicationComponent(FitnessSound.app().component())

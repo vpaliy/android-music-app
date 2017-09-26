@@ -12,9 +12,7 @@ constructor():Mapper<Track,TrackEntity>(){
         return fake?.let {
             val real=Track()
             real.artworkUrl=fake.artwork_url
-            if(fake.user!=null){
-                real.artist=fake.user!!.username
-            }
+            real.artist=fake.user?.username
             real.title=fake.title
             real.duration=fake.duration
             real.releaseDate=fake.release
@@ -26,6 +24,12 @@ constructor():Mapper<Track,TrackEntity>(){
     override fun reverse(real: Track?): TrackEntity? {
         return real?.let {
             val fake=TrackEntity()
+            fake.title=real.title
+            fake.artwork_url=real.artworkUrl
+            fake.duration=real.duration
+            fake.release=real.releaseDate
+            fake.id=real.id
+            fake.stream_url=real.streamUrl
             return fake
         }
     }

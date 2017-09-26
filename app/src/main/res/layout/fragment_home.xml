@@ -17,10 +17,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:visibility="visible"/>
-    <ImageView
+    <TextView
         android:id="@+id/empty"
         android:layout_centerInParent="true"
-        android:visibility="gone"
+        style="@style/Widget.BigTitle"
+        android:gravity="center"
+        android:drawableTop="@drawable/ic_cloud"
+        android:maxWidth="350dp"
+        android:text="@string/empty_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/empty_message_description"/>

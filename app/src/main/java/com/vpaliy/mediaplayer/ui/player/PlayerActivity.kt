@@ -133,7 +133,7 @@ class PlayerActivity:AppCompatActivity(){
     fun additional(){
         queue?.let {
             navigator.actions(this,BundleUtils.packHeavyObject(Bundle(),
-                    Constants.EXTRA_TRACK, it.current(),object:TypeToken<Track>(){}.type))
+                    Constants.EXTRA_TRACK, it.current(), object:TypeToken<Track>(){}.type))
         }
     }
 
