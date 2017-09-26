@@ -31,6 +31,10 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
             val track= BundleUtils.fetchHeavyObject<Track>(object: TypeToken<Track>() {}.type, it, Constants.EXTRA_TRACK)
             track?.let {
                 loadTrack(it)
+                like.text=if(!it.isLiked) getString(R.string.like_action)
+                    else getString(R.string.dislike_action)
+                history.text=if(!it.isSaved) getString(R.string.add_action)
+                    else getString(R.string.remove_action)
                 like.setOnClickListener {_->
                     if(!it.isLiked) presenter.like(it)
                         else presenter.dislike(it)
@@ -48,14 +52,13 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
         text.animate()
                 .scaleX(0f)
                 .scaleY(0f)
+                .alpha(0f)
                 .setDuration(100)
                 .setListener(object:AnimatorListenerAdapter(){
-                    override fun onAnimationStart(animation: Animator?) {
-                        super.onAnimationStart(animation)
-                        text.text=string
-                    }
                     override fun onAnimationEnd(animation: Animator?) {
                         super.onAnimationEnd(animation)
+                        text.text=string
+                        text.alpha=1f
                         text.animate()
                                 .scaleY(1f)
                                 .scaleX(1f)

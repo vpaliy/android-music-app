@@ -50,6 +50,7 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
                     result.collection
                 }).map(filter::filter)
                 .map(mapper::map)
+                .map(this::filter)
     }
 
     override fun nextPage(): Single<List<Track>> {
@@ -64,6 +65,7 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
                         result.collection
                     }).map(filter::filter)
                     .map(mapper::map)
+                    .map(this::filter)
         }
         return Single.error(IllegalArgumentException("No more data"))
     }
@@ -86,8 +88,16 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
     override fun insertRecent(track: Track?):Completable=
             Completable.fromCallable({handler.update(save(track,true))})
 
-    private fun convertToSet(set:HashSet<String>, list:List<Track>){
-        list.forEach({it.id?.let {set.add(it)}})
+    private fun convertToSet(set:HashSet<String>, list:List<Track>)=list.forEach{
+        it.id?.let {set.add(it)}
+    }
+
+    private fun filter(list: List<Track>?)=list?.let{
+        it.forEach{track->
+            track.isSaved=likeSet.contains(track.id)
+            track.isLiked=likeSet.contains(track.id)
+        }
+        it
     }
 
     private fun save(track:Track?,saved:Boolean)=track?.let {
