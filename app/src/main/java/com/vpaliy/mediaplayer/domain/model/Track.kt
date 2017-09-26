@@ -13,7 +13,7 @@ class Track {
     var title: String? = null
     var artist: String? = null
     var isLiked: Boolean = false
-    val isSaved:Boolean=false
+    var isSaved:Boolean=false
 
     val formatedDuration: String?
         get() {

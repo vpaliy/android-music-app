@@ -2,6 +2,8 @@ package com.vpaliy.mediaplayer.di.module
 
 import com.vpaliy.mediaplayer.data.Filter
 import com.vpaliy.mediaplayer.data.MusicRepository
+import com.vpaliy.mediaplayer.data.local.MusicDatabase
+import com.vpaliy.mediaplayer.data.local.TrackHandler
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.data.mapper.TrackMapper
 import com.vpaliy.mediaplayer.domain.Repository
@@ -24,4 +26,8 @@ class DataModule {
     @Singleton
     @Provides
     fun filter()=Filter()
+
+    @Singleton
+    @Provides
+    fun handler(helper: MusicDatabase)=TrackHandler(helper)
 }
