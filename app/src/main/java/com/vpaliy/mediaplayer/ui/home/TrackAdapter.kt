@@ -1,5 +1,6 @@
 package com.vpaliy.mediaplayer.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.util.Pair
@@ -18,7 +19,8 @@ import com.vpaliy.mediaplayer.ui.utils.Constants
 import com.vpaliy.mediaplayer.ui.utils.Packer
 import kotlinx.android.synthetic.main.adapter_track_item.view.*
 
-class TrackAdapter(context: Context, click:(Packer)->Unit, val clickMore:(Bundle)->Unit) : BaseAdapter<Track>(context,click) {
+class TrackAdapter
+constructor(context: Context, click:(Packer)->Unit, val clickMore:(Bundle)->Unit):BaseAdapter<Track>(context,click) {
 
     inner class TrackViewHolder constructor(itemView: View):
             BaseAdapter<Track>.GenericViewHolder(itemView) {
@@ -27,16 +29,16 @@ class TrackAdapter(context: Context, click:(Packer)->Unit, val clickMore:(Bundle
         val art:ImageView=itemView.art
         val artist:TextView=itemView.artist
         val duration:TextView=itemView.duration
+        val transitionName:String=inflater.context.getString(R.string.art_trans)
+
         init{
             itemView.setOnClickListener {
                 val queue=QueueManager(data,adapterPosition)
                 val context=inflater.context;
                 val bundle=BundleUtils.packHeavyObject(Bundle(),Constants.EXTRA_QUEUE,
                         queue,object:TypeToken<QueueManager>(){}.type)
-                art.transitionName=context.getString(R.string.art_trans)
-                itemView.transitionName=context.getString(R.string.background_trans)
                 click(Packer(bundle, arrayOf(Pair(art,art.transitionName),
-                        Pair(itemView,itemView.transitionName))))
+                        Pair(art,context.getString(R.string.background_trans)))))
             }
             itemView.more.setOnClickListener {
                 val track=at(adapterPosition)
@@ -47,11 +49,13 @@ class TrackAdapter(context: Context, click:(Packer)->Unit, val clickMore:(Bundle
                 itemView.more.performClick()
             }
         }
+        @SuppressLint("SetTextI18n")
         override fun onBindData() {
             val track=at(adapterPosition)
             title.text=track.title
             artist.text=track.artist
             duration.text="\u2022 ${track.formatedDuration}"
+            art.transitionName= transitionName +adapterPosition.toString()
             Glide.with(itemView.context)
                     .load(track.artworkUrl)
                     .placeholder(R.drawable.placeholder)

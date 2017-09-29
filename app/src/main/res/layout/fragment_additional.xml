@@ -10,7 +10,6 @@
         android:layout_height="@dimen/small_media_size"
         android:scaleType="centerCrop"
         android:layout_marginStart="@dimen/spacing_medium"
-        android:layout_marginLeft="@dimen/spacing_medium"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/spacing_medium"
@@ -27,8 +26,7 @@
         app:layout_constraintTop_toTopOf="@+id/art"
         android:layout_marginTop="@dimen/spacing_medium"
         app:layout_constraintLeft_toRightOf="@+id/art"
-        android:layout_marginStart="@dimen/spacing_medium"
-        android:layout_marginLeft="@dimen/spacing_medium"/>
+        android:layout_marginStart="@dimen/spacing_medium" />
     <TextView
         android:id="@+id/title"
         tools:text="Whatever It Takes"

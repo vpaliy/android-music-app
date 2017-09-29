@@ -85,8 +85,14 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
     override fun removeRecent(track: Track):Completable=
             Completable.fromCallable({handler.update(save(track,false))})
 
-    override fun insertRecent(track: Track?):Completable=
-            Completable.fromCallable({handler.update(save(track,true))})
+    override fun insertRecent(track: Track?):Completable {
+        if(track!=null){
+            if(!recentSet.contains(track.id)){
+                Completable.fromCallable({handler.update(save(track,true))})
+            }
+        }
+        return Completable.complete()
+    }
 
     private fun convertToSet(set:HashSet<String>, list:List<Track>)=list.forEach{
         it.id?.let {set.add(it)}

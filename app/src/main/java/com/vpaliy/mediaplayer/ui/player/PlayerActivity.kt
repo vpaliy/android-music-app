@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.ui.player
 
 import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.RemoteException
@@ -28,14 +29,15 @@ import java.util.concurrent.TimeUnit
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.view.ViewTreeObserver
 import butterknife.ButterKnife
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import butterknife.OnClick
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.Navigator
 import javax.inject.Inject
+import butterknife.OnClick
 
 class PlayerActivity:AppCompatActivity(){
 
@@ -47,6 +49,7 @@ class PlayerActivity:AppCompatActivity(){
     private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 10
     private var lastState:PlaybackStateCompat?=null
     private var queue:QueueManager?=null
+    private var hasTransition=false
 
     @Inject lateinit var navigator:Navigator
 
@@ -230,11 +233,13 @@ class PlayerActivity:AppCompatActivity(){
 
     private fun updatePicture(metadataCompat: MediaMetadataCompat?) {
         metadataCompat?.let {
-            val text = metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER).toString()+" of " + metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS).toString()
+            val number=metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER).toString()
+            val text = number+" of " + metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS).toString()
+            val imageUrl = metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
             track_name.text=metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE)
             artist.text = metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_ARTIST)
             pages.text = text
-            val imageUrl = metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
+            circle.transitionName=getString(R.string.art_trans)+number
             showArt(imageUrl)
         }
     }
@@ -247,9 +252,27 @@ class PlayerActivity:AppCompatActivity(){
                 .into(object : ImageViewTarget<Bitmap>(circle) {
                     override fun setResource(resource: Bitmap) {
                         circle.setImageBitmap(resource)
-                        startPostponedEnterTransition()
+                        if(!hasTransition) {
+                            hasTransition=true
+                            circle.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+                                override fun onPreDraw(): Boolean {
+                                    circle.viewTreeObserver.removeOnPreDrawListener(this)
+                                    this@PlayerActivity.startPostponedEnterTransition()
+                                    return true
+                                }
+                            })
+                        }
                     }
                 })
+    }
+
+    override fun finishAfterTransition() {
+        queue?.let {
+            val data=Intent()
+            data.putExtra(Constants.EXTRA_POSITION,it.index)
+            setResult(RESULT_OK,data)
+        }
+        super.finishAfterTransition()
     }
 
     fun inject() =FitnessSound.app().playbackComponent().inject(this)

@@ -1,5 +1,6 @@
 package com.vpaliy.mediaplayer.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.util.Pair
 import android.view.Menu
@@ -8,16 +9,16 @@ import butterknife.ButterKnife
 import com.vpaliy.mediaplayer.FitnessSound
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
-import com.vpaliy.mediaplayer.ui.base.BaseFragment
 import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
 import com.vpaliy.mediaplayer.ui.home.loved.LovedFragment
 import kotlinx.android.synthetic.main.activity_home.*
-import android.support.v4.view.ViewCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import com.vpaliy.mediaplayer.ui.utils.Constants
 
 
 class HomeActivity : BaseActivity() {
 
+    private var fragment:HomeFragment?=null
     private val toggle by lazy {
         ActionBarDrawerToggle(this,drawer,toolbar,0,0)
     }
@@ -44,12 +45,20 @@ class HomeActivity : BaseActivity() {
         load(HistoryFragment())
     }
 
-    private fun load(fragment: BaseFragment):Boolean{
+    private fun load(fragment: HomeFragment):Boolean{
+        this.fragment=fragment
         supportFragmentManager.beginTransaction()
                 .replace(R.id.frame,fragment)
                 .commit()
         drawer.closeDrawers()
         return true
+    }
+
+    override fun onActivityReenter(resultCode: Int, data: Intent) {
+        super.onActivityReenter(resultCode, data)
+        if(resultCode== RESULT_OK){
+            fragment?.adjustPosition(data.getIntExtra(Constants.EXTRA_POSITION,0))
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,7 +75,7 @@ class HomeActivity : BaseActivity() {
         when(item?.itemId){
             R.id.search-> {
                 val search =toolbar.findViewById(R.id.search)
-                ViewCompat.setTransitionName(search, getString(R.string.search_trans))
+                search.transitionName=getString(R.string.search_trans)
                 navigator.search(this, Pair(search, getString(R.string.search_trans)))
                 return true
             }

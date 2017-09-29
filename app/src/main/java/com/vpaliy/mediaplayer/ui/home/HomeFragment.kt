@@ -2,6 +2,7 @@ package com.vpaliy.mediaplayer.ui.home
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewTreeObserver
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
@@ -21,6 +22,19 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
                     {navigator.actions(activity,it)})
             list.adapter=adapter
         }
+    }
+
+    fun adjustPosition(position:Int){
+        list.scrollToPosition(position)
+        postponeEnterTransition()
+        list.viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener{
+            override fun onPreDraw(): Boolean {
+                list.viewTreeObserver.removeOnPreDrawListener(this)
+                list.requestLayout()
+                startPostponedEnterTransition()
+                return true
+            }
+        })
     }
 
     override fun onStart() {

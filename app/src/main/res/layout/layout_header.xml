@@ -4,5 +4,4 @@
     android:background="@drawable/music"
     android:layout_width="match_parent"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:layout_height="250dp">
-</LinearLayout>
+    android:layout_height="250dp"/>

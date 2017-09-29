@@ -68,7 +68,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/item_padding"
-            android:layout_marginRight="@dimen/item_padding"
             android:iconifiedByDefault="false"
             android:transitionGroup="true" />
         <FrameLayout
@@ -92,7 +91,6 @@
             android:id="@+id/end"
             android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="@dimen/spacing_huge"
-            android:layout_marginRight="@dimen/spacing_huge"
             android:layout_width="0dp"
             android:layout_height="0dp"/>
     </FrameLayout>
