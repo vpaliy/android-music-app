@@ -22,6 +22,7 @@
         android:layout_centerInParent="true"
         style="@style/Widget.BigTitle"
         android:gravity="center"
+        android:visibility="gone"
         android:drawableTop="@drawable/ic_cloud"
         android:maxWidth="350dp"
         android:text="@string/empty_history"

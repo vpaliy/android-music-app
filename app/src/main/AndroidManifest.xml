@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name=".FitnessSound"
-        android:theme="@style/AppTheme">
+        android:theme="@style/FitnessSound">
         <activity android:name=".ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
 
         <activity
             android:name=".ui.search.SearchActivity"
-            android:theme="@style/Search">
+            android:theme="@style/FitnessSound.Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -37,7 +37,7 @@
         </activity>
 
         <activity android:name=".ui.details.ActionsActivity"
-                  android:theme="@style/Actions">
+                  android:theme="@style/FitnessSound.Actions">
         </activity>
 
         <activity android:name=".ui.player.PlayerActivity">

@@ -2,6 +2,7 @@ package com.vpaliy.mediaplayer.ui.home
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.util.Pair
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,9 +15,10 @@ import com.vpaliy.mediaplayer.domain.playback.QueueManager
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
 import com.vpaliy.mediaplayer.ui.utils.BundleUtils
 import com.vpaliy.mediaplayer.ui.utils.Constants
+import com.vpaliy.mediaplayer.ui.utils.Packer
 import kotlinx.android.synthetic.main.adapter_track_item.view.*
 
-class TrackAdapter(context: Context, click:(Bundle)->Unit, val clickMore:(Bundle)->Unit) : BaseAdapter<Track>(context,click) {
+class TrackAdapter(context: Context, click:(Packer)->Unit, val clickMore:(Bundle)->Unit) : BaseAdapter<Track>(context,click) {
 
     inner class TrackViewHolder constructor(itemView: View):
             BaseAdapter<Track>.GenericViewHolder(itemView) {
@@ -28,8 +30,13 @@ class TrackAdapter(context: Context, click:(Bundle)->Unit, val clickMore:(Bundle
         init{
             itemView.setOnClickListener {
                 val queue=QueueManager(data,adapterPosition)
-                click(BundleUtils.packHeavyObject(Bundle(),Constants.EXTRA_QUEUE,
-                        queue,object:TypeToken<QueueManager>(){}.type))
+                val context=inflater.context;
+                val bundle=BundleUtils.packHeavyObject(Bundle(),Constants.EXTRA_QUEUE,
+                        queue,object:TypeToken<QueueManager>(){}.type)
+                art.transitionName=context.getString(R.string.art_trans)
+                itemView.transitionName=context.getString(R.string.background_trans)
+                click(Packer(bundle, arrayOf(Pair(art,art.transitionName),
+                        Pair(itemView,itemView.transitionName))))
             }
             itemView.more.setOnClickListener {
                 val track=at(adapterPosition)

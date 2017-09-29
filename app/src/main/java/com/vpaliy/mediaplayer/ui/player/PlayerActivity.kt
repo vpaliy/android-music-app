@@ -80,6 +80,7 @@ class PlayerActivity:AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         ButterKnife.bind(this)
+        postponeEnterTransition()
         browser=MediaBrowserCompat(this,
                 ComponentName(this, MusicPlaybackService::class.java),
                 connectionCallback, null)
@@ -246,6 +247,7 @@ class PlayerActivity:AppCompatActivity(){
                 .into(object : ImageViewTarget<Bitmap>(circle) {
                     override fun setResource(resource: Bitmap) {
                         circle.setImageBitmap(resource)
+                        startPostponedEnterTransition()
                     }
                 })
     }

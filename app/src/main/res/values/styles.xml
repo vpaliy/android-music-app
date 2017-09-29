@@ -1,31 +1,87 @@
 <resources>
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="FitnessSound" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:statusBarColor">@color/background_super_dark</item>
     </style>
-
-    <style name="Search">
+    <style name="FitnessSound.Search" parent="FitnessSound">
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/shared_search_enter</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/shared_search_return</item>
+        <item name="android:windowEnterTransition">@transition/search_enter</item>
+        <item name="android:windowReturnTransition">@transition/search_return</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowBackground">@color/scrim</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowSharedElementsUseOverlay">true</item>
     </style>
-
-    <style name="Actions" parent="AppTheme">
+    <style name="FitnessSound.Actions" parent="FitnessSound">
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowEnterTransition">@transition/actions_enter</item>
+        <item name="android:windowExitTransition">@transition/actions_exit</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowBackground">@color/scrim</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowSharedElementsUseOverlay">true</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+    </style>
+    <style name="FitnessSound.Track" parent="FitnessSound">
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/shared_player_enter</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/shared_player_return</item>
+        <item name="android:windowEnterTransition">@transition/player_enter</item>
+        <item name="android:windowReturnTransition">@transition/player_exit</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
+    <style name="Widget.SearchView" parent="android:style/Widget.Material.SearchView">
+        <item name="android:searchIcon">@android:color/transparent</item>
+        <item name="android:queryBackground">@android:color/transparent</item>
+        <item name="android:submitBackground">@android:color/transparent</item>
+    </style>
 
-    <style name="Widget.SearchView" parent="android:style/Widget.Material.SearchView"/>
+    <style name="SearchTheme" parent="@android:style/ThemeOverlay.Material.ActionBar">
+        <item name="colorControlActivated">?android:colorAccent</item>
+        <item name="android:searchViewStyle">@style/Widget.SearchView</item>
+    </style>
 
     <style name="Widget">
         <item name="android:layout_width">wrap_content</item>
@@ -33,9 +89,11 @@
         <item name="android:textColor">@color/white_50</item>
     </style>
 
-    <style name="Widget.NumberText" parent="Widget">
+    <style name="Widget.NumberText" parent="@android:style/TextAppearance.Material.Caption">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:fontFeatureSettings">smcp, onum</item>
+        <item name="android:letterSpacing">0.02</item>
     </style>
 
     <style name="Widget.BigTitle" parent="Widget">
@@ -43,16 +101,22 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFeatureSettings">smcp</item>
+        <item name="android:letterSpacing">0.2</item>
     </style>
 
     <style name="Widget.Title" parent="Widget">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:fontFeatureSettings">smcp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="Widget.ToolbarText" parent="Widget">
         <item name="android:textSize">18sp</item>
+        <item name="android:fontFeatureSettings">smcp</item>
+        <item name="android:letterSpacing">0.2</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-medium</item>

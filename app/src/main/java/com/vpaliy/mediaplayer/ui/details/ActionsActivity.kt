@@ -27,6 +27,7 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_actions)
         val bundle=savedInstanceState?:intent.extras
+        container.setOnClickListener{supportFinishAfterTransition()}
         bundle?.let {
             val track= BundleUtils.fetchHeavyObject<Track>(object: TypeToken<Track>() {}.type, it, Constants.EXTRA_TRACK)
             track?.let {
