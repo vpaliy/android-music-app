@@ -79,7 +79,7 @@ class HomeActivity : BaseActivity() {
                 return true
             }
         }
-        return toggle.onOptionsItemSelected(item)||super.onOptionsItemSelected(item)
+        return toggle.onOptionsItemSelected(item)
     }
 
     override fun inject()=FitnessSound.app().component().inject(this)

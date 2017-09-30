@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.ui.home
 
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.*
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.domain.model.Track
@@ -16,6 +17,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         view?.let {
             adapter=TrackAdapter(context,{navigator.navigate(activity,it)},
                     {navigator.actions(activity,it)})
@@ -42,7 +44,14 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item?.itemId==R.id.clear) presenter.clear()
+        if(item?.itemId==R.id.delete){
+            AlertDialog.Builder(context)
+                    .setMessage(alertMessage())
+                    .setPositiveButton("Yes",{_,_->presenter.clear()})
+                    .setNegativeButton("No",{dialog,_->dialog.dismiss()})
+                    .show()
+            return true
+        }
         return super.onOptionsItemSelected(item)
     }
 
@@ -57,16 +66,20 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     }
 
     override fun error() {
+        setMenuVisibility(false)
         empty.visibility=View.VISIBLE
     }
 
     override fun empty(){
+        setMenuVisibility(false)
         empty.visibility=View.VISIBLE
     }
 
     override fun setLoading(isLoading: Boolean){
         progress.visibility=if(isLoading) View.VISIBLE else View.GONE
     }
+
+    abstract fun alertMessage():String
 
     override fun show(list: List<Track>)=adapter.set(list.toMutableList())
 

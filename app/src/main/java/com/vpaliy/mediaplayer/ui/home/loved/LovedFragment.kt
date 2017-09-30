@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.ui.home.loved
 
 import com.vpaliy.mediaplayer.FitnessSound
+import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.di.component.DaggerViewComponent
 import com.vpaliy.mediaplayer.di.module.PresenterModule
 import com.vpaliy.mediaplayer.ui.home.HomeContract.Presenter
@@ -15,14 +16,13 @@ class LovedFragment : HomeFragment() {
         presenter.attach(this)
     }
 
-    override fun empty() {
-        super.empty()
-
-    }
     override fun inject() {
         DaggerViewComponent.builder()
                 .applicationComponent(FitnessSound.app().component())
                 .presenterModule(PresenterModule())
                 .build().inject(this)
     }
+
+    override fun alertMessage():String =
+            getString(R.string.loved_alert)
 }

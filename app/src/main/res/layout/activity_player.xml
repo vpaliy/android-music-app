@@ -137,7 +137,7 @@
         app:layout_constraintRight_toLeftOf="@+id/end_time"
         app:layout_constraintLeft_toRightOf="@+id/start_time"
         app:layout_constraintTop_toBottomOf="@+id/track_name"
-        app:layout_constraintVertical_bias="0.55"
+        app:layout_constraintVertical_bias="0.65"
         app:layout_constraintBottom_toTopOf="@+id/play_pause" />
     <ImageView
         android:id="@+id/next"
@@ -160,7 +160,7 @@
         app:layout_constraintLeft_toRightOf="@+id/prev"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintVertical_bias="0.97" />
     <ImageView
         android:id="@+id/shuffle"
         app:srcCompat="@drawable/ic_shuffle"

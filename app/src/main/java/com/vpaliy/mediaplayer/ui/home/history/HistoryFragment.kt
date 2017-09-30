@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.ui.home.history
 
 import com.vpaliy.mediaplayer.FitnessSound
+import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.di.component.DaggerViewComponent
 import com.vpaliy.mediaplayer.di.module.PresenterModule
 import com.vpaliy.mediaplayer.ui.home.HomeContract.Presenter
@@ -21,4 +22,7 @@ class HistoryFragment : HomeFragment(){
                 .presenterModule(PresenterModule())
                 .build().inject(this)
     }
+
+    override fun alertMessage():String =
+            getString(R.string.history_alert)
 }
