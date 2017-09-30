@@ -47,7 +47,8 @@ abstract class BaseAdapter<T>(context: Context, protected val click:(Packer)->Un
 
     override fun getItemCount()=data.size
 
-    protected fun inflate(@LayoutRes id: Int, container: ViewGroup):View =inflater.inflate(id, container, false)
+    protected fun inflate(@LayoutRes id: Int, container: ViewGroup):View
+            =inflater.inflate(id, container, false)
 
     protected fun at(index: Int)=data[index]
 }

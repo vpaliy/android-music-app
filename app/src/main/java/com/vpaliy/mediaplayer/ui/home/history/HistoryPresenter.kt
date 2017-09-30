@@ -6,4 +6,5 @@ import javax.inject.Inject
 import com.vpaliy.mediaplayer.di.scope.ViewScope
 
 @ViewScope
-class HistoryPresenter @Inject constructor(interactor:TrackHistory): HomePresenter(interactor,interactor)
+class HistoryPresenter @Inject
+constructor(interactor:TrackHistory): HomePresenter(interactor,interactor)

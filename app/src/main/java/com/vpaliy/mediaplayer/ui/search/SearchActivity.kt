@@ -26,18 +26,29 @@ import android.transition.TransitionManager
 import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
 import javax.inject.Inject
 import android.annotation.TargetApi
+import android.app.SharedElementCallback
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.support.annotation.TransitionRes
 
 class SearchActivity:BaseActivity(), SearchContract.View{
 
     private lateinit var presenter:Presenter
     private lateinit var adapter:BaseAdapter<Track>
+    private var checked=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setupResult()
         setupSearch()
+        setEnterSharedElementCallback(object : SharedElementCallback(){
+            override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
+                checked=!checked
+                back.setImageState(intArrayOf(android.R.attr.state_checked * (if(checked) 1 else -1)),true)
+                super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
+            }
+        })
     }
 
     private fun setupResult(){
