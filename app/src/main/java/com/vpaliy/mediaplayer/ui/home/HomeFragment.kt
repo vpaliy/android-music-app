@@ -1,8 +1,7 @@
 package com.vpaliy.mediaplayer.ui.home
 
 import android.os.Bundle
-import android.view.View
-import android.view.ViewTreeObserver
+import android.view.*
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
@@ -35,6 +34,16 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
                 return true
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.home,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId==R.id.clear) presenter.clear()
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onStart() {

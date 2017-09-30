@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v7.app.ActionBarDrawerToggle
 import com.vpaliy.mediaplayer.ui.utils.Constants
 
-
 class HomeActivity : BaseActivity() {
 
     private var fragment:HomeFragment?=null
