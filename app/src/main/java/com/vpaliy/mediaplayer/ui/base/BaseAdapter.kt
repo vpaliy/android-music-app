@@ -38,6 +38,13 @@ abstract class BaseAdapter<T>(context: Context, protected val click:(Packer)->Un
         return this
     }
 
+    fun clear(){
+        if(!data.isEmpty()) {
+            data.clear()
+            notifyDataSetChanged()
+        }
+    }
+
     override fun getItemCount()=data.size
 
     protected fun inflate(@LayoutRes id: Int, container: ViewGroup):View =inflater.inflate(id, container, false)

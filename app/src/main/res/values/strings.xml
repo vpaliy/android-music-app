@@ -14,6 +14,9 @@
     <string name="empty_liked">You do not have favorite songs</string>
     <string name="history_alert">Are you sure you want to delete your listening history?</string>
     <string name="loved_alert">Are you sure you want to delete all your liked tracks?</string>
+    <string name="yes_label">Yes</string>
+    <string name="no_label">No</string>
+    <string name="erase_label">Erasing personal data</string>
     <string name="art_trans" translatable="false">art_trans</string>
     <string name="background_trans" translatable="false">back_trans</string>
     <string name="search_trans" translatable="false">search_trans</string>

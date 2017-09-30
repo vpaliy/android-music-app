@@ -46,9 +46,10 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId==R.id.delete){
             AlertDialog.Builder(context)
+                    .setTitle(R.string.erase_label)
                     .setMessage(alertMessage())
-                    .setPositiveButton("Yes",{_,_->presenter.clear()})
-                    .setNegativeButton("No",{dialog,_->dialog.dismiss()})
+                    .setPositiveButton(getString(R.string.yes_label),{_,_->presenter.clear()})
+                    .setNegativeButton(getString(R.string.no_label),{dialog,_->dialog.dismiss()})
                     .show()
             return true
         }
@@ -71,6 +72,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     }
 
     override fun empty(){
+        adapter.clear()
         setMenuVisibility(false)
         empty.visibility=View.VISIBLE
     }
@@ -87,5 +89,8 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
 
     override fun removed(track: Track)= showMessage(R.string.removed_message)
 
-    override fun cleared()= showMessage(R.string.cleared_message)
+    override fun cleared(){
+        empty()
+        showMessage(R.string.cleared_message)
+    }
 }
