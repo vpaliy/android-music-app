@@ -57,7 +57,7 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
                 }
             }
         }
-        return Service.START_NOT_STICKY
+        return Service.START_STICKY
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat) {
@@ -80,7 +80,6 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
     }
 
     override fun onPlaybackStateUpdated(newState: PlaybackStateCompat) {
-        Log.d("MusicPlaybackService","onPlaybackState"+newState.state)
         mediaSession.setPlaybackState(newState)
         notification.updatePlaybackState(newState)
     }

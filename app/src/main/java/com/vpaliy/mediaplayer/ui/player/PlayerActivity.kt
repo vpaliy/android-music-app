@@ -33,8 +33,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.util.Log
-import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
@@ -206,7 +204,6 @@ class PlayerActivity:AppCompatActivity(){
                       and PlaybackStateCompat.ACTION_SET_REPEAT_MODE.toInt())!=0)
               updateMode(shuffle,(stateCompat.actions.toInt()
                       and PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE_ENABLED.toInt())!=0)
-            //check the state
             when (stateCompat.state) {
                 PlaybackStateCompat.STATE_PLAYING -> {
                     play_pause.visibility= View.VISIBLE
