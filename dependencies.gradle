@@ -48,6 +48,7 @@ ext {
     playPauseVersion="1.0.1"
 
 
+
     /* Testing versions */
     robolectricVersion = '3.1.1'
     jUnitVersion = '4.12'
@@ -56,6 +57,7 @@ ext {
     dexmakerVersion = '1.0'
     espressoVersion = '2.0'
     testingSupportLibVersion = '0.1'
+    kotlinMockitoVersion="1.5.0"
 
     /* Other stuff */
     leakCanaryVersion = '1.4'
@@ -104,7 +106,7 @@ ext {
             bottomBar          : 'com.roughike:bottom-bar:2.3.1',
             firebaseInvites    : 'com.google.firebase:firebase-invites:11.2.0',
             firebaseCore       : 'com.google.firebase:firebase-core:11.2.0',
-            firebaseCrash      : 'com.google.firebase:firebase-crash:11.2.0',
+            firebaseCrash      : 'com.google.firebase:firebase-crash:11.2.0'
     ]
 
     testDependencies = [
@@ -113,5 +115,6 @@ ext {
             mockito:            "org.mockito:mockito-core:${mockitoVersion}",
             espresso:           "com.android.support.test.espresso:espresso-core:${espressoVersion}",
             testingSupportLib:  "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+            kotlinMockito      : "com.nhaarman:mockito-kotlin:${kotlinMockitoVersion}"
     ]
 }

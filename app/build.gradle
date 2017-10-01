@@ -47,13 +47,12 @@ android {
 }
 
 dependencies {
-
     implementation 'com.google.android.exoplayer:exoplayer:r2.4.1'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
     implementation 'com.sdsmdg.harjot:croller:1.0.2'
     implementation 'jp.wasabeef:blurry:2.1.1'
     implementation 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
-
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation libs.soundcloud
     implementation libs.constraintLayout
     implementation libs.rxRelay
@@ -71,10 +70,9 @@ dependencies {
     kapt libs.butterKnifeCompiler
 
     /* Testing Libraries */
-    testImplementation testLibs.mockito
     testImplementation testLibs.espresso
     testImplementation testLibs.jUnit
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    testImplementation testLibs.kotlinMockito
 }
 repositories {
     mavenCentral()

@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TrackHistory @Inject constructor(val repository: Repository,
+open class TrackHistory @Inject constructor(val repository: Repository,
                                scheduler: BaseScheduler) :InsertInteractor<Track>,
         ClearInteractor<Track>, SingleInteractor<List<Track>,Void?>(scheduler){
 

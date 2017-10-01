@@ -37,9 +37,9 @@ abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void
         this.view = view
     }
 
-    override fun remove(track: Track) = clear.remove({view.removed(track)}, this::onError,track)
-
-    override fun clear()=clear.clear(view::cleared,this::onError)
-
-    override fun stop()=interactor.dispose()
+    override fun remove(track: Track)
+            = clear.remove({view.removed(track)}, this::onError,track)
+    override fun clear()
+            = clear.clear(view::cleared,this::onError)
+    override fun stop()= interactor.dispose()
 }

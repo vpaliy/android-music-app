@@ -5,9 +5,9 @@ import com.vpaliy.mediaplayer.data.mapper.TrackMapper
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.soundcloud.model.TrackEntity
 import org.junit.runners.JUnit4
+import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import junit.framework.Assert.assertEquals
 
 @RunWith(JUnit4::class)
 class TrackMapperTest {
