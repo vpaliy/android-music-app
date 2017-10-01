@@ -23,7 +23,7 @@ constructor(private val playback: Playback,
     private var isRepeat: Boolean = false
     private var isShuffle: Boolean = false
     private var lastState: Int = 0
-    private var queueManager: QueueManager? = null
+    var queueManager: QueueManager? = null
     val mediaSessionCallback=MediaSessionCallback()
     var updateListener: MetadataUpdateListener? = null
     var serviceCallback: PlaybackServiceCallback? = null
@@ -104,13 +104,9 @@ constructor(private val playback: Playback,
         queueManager?.let {
             val position = TimeUnit.MILLISECONDS.toSeconds(playback.position())
             playback.invalidateCurrent()
-            handlePlayRequest(if(position > 5 || position <=2)
+            handlePlayRequest(if(position > 5)
                 it.current() else it.previous())
         }
-    }
-
-    fun setQueueManager(manager:QueueManager){
-        queueManager=manager
     }
 
     private fun handleRepeatMode() {
@@ -127,6 +123,11 @@ constructor(private val playback: Playback,
     override fun onPause() {
         updatePlaybackState(PlaybackStateCompat.STATE_PAUSED)
         serviceCallback?.onPlaybackStop()
+    }
+
+    fun requestUpdate(){
+        updatePlaybackState(lastState)
+        updateMetadata()
     }
 
     fun updatePlaybackState(state: Int) {

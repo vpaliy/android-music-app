@@ -33,6 +33,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
+import android.util.Log
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.OvershootInterpolator
@@ -323,11 +324,14 @@ class PlayerActivity:AppCompatActivity(){
 
     @Inject
     fun injectManager(manager:PlaybackManager){
-        intent?.extras?.let {
+        if(intent==null || intent.extras==null){
+            queue=manager.queueManager
+            manager.requestUpdate()
+        }else{
             queue=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>() {}.type,
-                    it,Constants.EXTRA_QUEUE)
+                    intent.extras,Constants.EXTRA_QUEUE)
             queue?.let {
-                manager.setQueueManager(it)
+                manager.queueManager=it
                 manager.handleResumeRequest()
                 play_pause.change(false)
             }
