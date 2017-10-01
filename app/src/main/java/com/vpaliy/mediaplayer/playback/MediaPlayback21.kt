@@ -1,11 +1,9 @@
 package com.vpaliy.mediaplayer.playback
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.media.AudioManager
 import android.net.Uri
 import android.net.wifi.WifiManager
-import android.os.Build
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
@@ -23,7 +21,6 @@ import com.google.android.exoplayer2.util.Util
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 @Singleton
 class MediaPlayback21 @Inject
 constructor(context: Context,
@@ -33,6 +30,7 @@ constructor(context: Context,
 
     private var exoPlayer: SimpleExoPlayer? = null
     private var isPause = false
+    private var wasFocusLost=false
 
     override fun pausePlayer() {
         exoPlayer?.let {
@@ -47,7 +45,9 @@ constructor(context: Context,
         }
     }
 
-    override fun updatePlayer()= configPlayer()
+    override fun updatePlayer(){
+        if(wasFocusLost || isPause) configPlayer()
+    }
 
     override fun startPlayer() {
         if (exoPlayer == null) {
@@ -66,8 +66,10 @@ constructor(context: Context,
     }
 
     private fun configPlayer() {
+        wasFocusLost=false
         when (focusState) {
             BasePlayback.AUDIO_NO_FOCUS_NO_DUCK -> {
+                wasFocusLost=true
                 pause()
                 return
             }
