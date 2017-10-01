@@ -15,7 +15,7 @@ class InteractorModule{
 
     @Singleton
     @Provides
-    fun searchInteractor(repository:Repository, scheduler: BaseScheduler) = SearchTracks(repository,scheduler)
+    fun searchInteractor(repository:Repository, scheduler: BaseScheduler)= SearchTracks(repository,scheduler)
 
     @Singleton
     @Provides

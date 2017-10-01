@@ -1,19 +1,20 @@
 package com.vpaliy.mediaplayer.ui.search
 
-import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.search.SearchContract.*
+import com.vpaliy.mediaplayer.domain.interactor.SearchInteractor
 import javax.inject.Inject
 import com.vpaliy.mediaplayer.di.scope.ViewScope
 
 @ViewScope
-class SearchPresenter @Inject constructor(val search:SearchTracks):Presenter {
+class SearchPresenter @Inject
+constructor(private val search:SearchInteractor):Presenter {
 
     private lateinit var view:View
 
     override fun query(query: String?){
         view.setLoading(true)
-        search.execute(this::onSuccess,this::onError,query)
+        search.query(this::onSuccess,this::onError,query)
     }
 
     override fun more() {
@@ -27,7 +28,8 @@ class SearchPresenter @Inject constructor(val search:SearchTracks):Presenter {
 
     private fun onSuccess(list:List<Track>?){
         view.setLoading(false)
-        list?.let { view.show(it) }?:view.empty()
+        if(list==null || list.isEmpty()) view.empty()
+            else view.show(list)
     }
 
     private fun append(list:List<Track>?){

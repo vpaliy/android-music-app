@@ -19,8 +19,8 @@ abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void
 
     private fun onSuccess(result:List<Track>?){
         view.setLoading(false)
-        if(result!=null) {
-            when (result.isEmpty()) {
+        result?.let {
+            when(it.isEmpty()) {
                 true -> view.empty()
                 else -> view.show(result)
             }

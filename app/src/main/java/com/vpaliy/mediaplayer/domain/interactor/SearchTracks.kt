@@ -9,8 +9,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchTracks @Inject constructor(val repository: Repository, scheduler: BaseScheduler):
-        SingleInteractor<List<Track>,String>(scheduler){
+open class SearchTracks @Inject
+constructor(val repository: Repository, scheduler: BaseScheduler):
+        SingleInteractor<List<Track>,String>(scheduler), SearchInteractor{
 
     override fun buildObservable(params: String?): Single<List<Track>> {
         if(!params.isNullOrBlank()){
@@ -19,10 +20,12 @@ class SearchTracks @Inject constructor(val repository: Repository, scheduler: Ba
         return Single.error(IllegalArgumentException("Query is null or empty!"))
     }
 
-    fun nextPage(onSuccess:(List<Track>)->Unit,onError:(Throwable)->Unit){
+    override fun query(success: (List<Track>) -> Unit, error: (Throwable) -> Unit, query: String?)= execute(success,error,query)
+
+    override fun nextPage(success:(List<Track>)->Unit,error:(Throwable)->Unit){
         repository.nextPage()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
-                .subscribe(onSuccess,onError)
+                .subscribe(success,error)
     }
 }

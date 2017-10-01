@@ -8,6 +8,7 @@ import com.vpaliy.mediaplayer.ui.home.loved.LovedPresenter
 import com.vpaliy.mediaplayer.di.qualifier.History
 import com.vpaliy.mediaplayer.di.qualifier.Loved
 import com.vpaliy.mediaplayer.di.scope.ViewScope
+import com.vpaliy.mediaplayer.domain.interactor.SearchInteractor
 import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
 import com.vpaliy.mediaplayer.ui.details.ActionsContract
 import com.vpaliy.mediaplayer.ui.details.ActionsPresenter
@@ -34,5 +35,5 @@ class PresenterModule{
 
     @ViewScope
     @Provides
-    fun aactions(lover:LovedTracks,history: TrackHistory):ActionsContract.Presenter=ActionsPresenter(lover,history,lover,history)
+    fun actions(lover:LovedTracks,history: TrackHistory):ActionsContract.Presenter=ActionsPresenter(lover,history,lover,history)
 }
