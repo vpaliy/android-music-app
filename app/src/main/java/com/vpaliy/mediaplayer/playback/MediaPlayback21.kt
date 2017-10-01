@@ -99,7 +99,6 @@ constructor(context: Context,
     override fun isPlaying()=exoPlayer?.playWhenReady?:false
 
     override fun onTimelineChanged(timeline: Timeline?, manifest: Any?) {
-
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
@@ -114,18 +113,14 @@ constructor(context: Context,
     override fun position()=exoPlayer?.currentPosition?:0
 
     override fun onTracksChanged(trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
-
     }
 
     override fun onPositionDiscontinuity() {
-
     }
 
     override fun onLoadingChanged(isLoading: Boolean) {
-
     }
 
     override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
-
     }
 }

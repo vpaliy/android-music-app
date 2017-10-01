@@ -1,5 +1,7 @@
 package com.vpaliy.mediaplayer.ui.player
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
@@ -29,7 +31,12 @@ import java.util.concurrent.TimeUnit
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
+import android.support.v4.graphics.drawable.DrawableCompat
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.animation.OvershootInterpolator
+import android.widget.ImageView
 import butterknife.ButterKnife
 import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.Glide
@@ -102,6 +109,8 @@ class PlayerActivity:AppCompatActivity(){
                 start_time.text = DateUtils.formatElapsedTime((progress / 1000).toLong())
             }
         })
+        shuffle.tag=false
+        repeat.tag=false
     }
 
     @OnClick(R.id.next)
@@ -111,10 +120,16 @@ class PlayerActivity:AppCompatActivity(){
     fun prev()=controlls().skipToPrevious()
 
     @OnClick(R.id.repeat)
-    fun repeat()=controlls().setRepeatMode(0)
+    fun repeat(){
+        if(repeat.tag!=null)
+        controlls().setRepeatMode(0)
+    }
 
     @OnClick(R.id.shuffle)
-    fun shuffle()=controlls().setShuffleModeEnabled(true)
+    fun shuffle(){
+        if(shuffle!=null)
+        controlls().setShuffleModeEnabled(true)
+    }
 
     @OnClick(R.id.play_pause)
     fun playPause() {
@@ -186,10 +201,10 @@ class PlayerActivity:AppCompatActivity(){
     private fun updatePlaybackState(stateCompat: PlaybackStateCompat?) {
         stateCompat?.let {
             lastState = stateCompat
-            /*  updateRepeatMode(isActionApplied(stateCompat.actions,
-                      PlaybackStateCompat.ACTION_SET_REPEAT_MODE))
-              updateShuffleMode(isActionApplied(stateCompat.actions,
-                      PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE_ENABLED))   */
+              updateMode(repeat,(stateCompat.actions.toInt()
+                      and PlaybackStateCompat.ACTION_SET_REPEAT_MODE.toInt())!=0)
+              updateMode(shuffle,(stateCompat.actions.toInt()
+                      and PlaybackStateCompat.ACTION_SET_SHUFFLE_MODE_ENABLED.toInt())!=0)
             //check the state
             when (stateCompat.state) {
                 PlaybackStateCompat.STATE_PLAYING -> {
@@ -218,6 +233,35 @@ class PlayerActivity:AppCompatActivity(){
                     stopSeekBarUpdate()
                 }
             }
+        }
+    }
+
+    private fun updateMode(target: ImageView, isEnabled:Boolean){
+        if(target.tag!=isEnabled){
+            target.tag=null
+            target.animate().scaleY(0f)
+                    .scaleX(0f)
+                    .setDuration(100)
+                    .setInterpolator(OvershootInterpolator())
+                    .setListener(object: AnimatorListenerAdapter(){
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
+                            setDrawableColor(target,ContextCompat.getColor(this@PlayerActivity,
+                                    if (isEnabled) R.color.enabled_action else R.color.white_50))
+                            target.animate().scaleX(1f)
+                                    .scaleY(1f)
+                                    .setDuration(100)
+                                    .setListener(null).start()
+                            target.tag=isEnabled
+
+                        }
+                    }).start()
+        }
+    }
+
+    private fun setDrawableColor(imageView: ImageView, color:Int) {
+        imageView.drawable?.let {
+            DrawableCompat.setTint(it,color)
         }
     }
 
