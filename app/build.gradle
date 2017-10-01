@@ -48,33 +48,33 @@ android {
 
 dependencies {
 
-    compile 'com.google.android.exoplayer:exoplayer:r2.4.1'
-    compile 'com.github.lzyzsd:circleprogress:1.2.1'
-    compile 'com.sdsmdg.harjot:croller:1.0.2'
-    compile 'jp.wasabeef:blurry:2.1.1'
-    compile 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
+    implementation 'com.google.android.exoplayer:exoplayer:r2.4.1'
+    implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+    implementation 'com.sdsmdg.harjot:croller:1.0.2'
+    implementation 'jp.wasabeef:blurry:2.1.1'
+    implementation 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
 
-    compile libs.soundcloud
-    compile libs.constraintLayout
-    compile libs.rxRelay
-    compile libs.recyclerView
-    compile libs.supportDesign
-    compile libs.supportAppCompat
-    compile libs.ottoEventBus
-    compile libs.butterKnife
-    compile libs.circleImage
-    compile libs.Dagger2
-    compile libs.glide
-    compile libs.RxJava
-    compile libs.RxAndroid
+    implementation libs.soundcloud
+    implementation libs.constraintLayout
+    implementation libs.rxRelay
+    implementation libs.recyclerView
+    implementation libs.supportDesign
+    implementation libs.supportAppCompat
+    implementation libs.ottoEventBus
+    implementation libs.butterKnife
+    implementation libs.circleImage
+    implementation libs.Dagger2
+    implementation libs.glide
+    implementation libs.RxJava
+    implementation libs.RxAndroid
     kapt libs.Dagger2Compiler
     kapt libs.butterKnifeCompiler
 
     /* Testing Libraries */
-    testCompile testLibs.mockito
-    testCompile testLibs.espresso
-    testCompile testLibs.jUnit
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    testImplementation testLibs.mockito
+    testImplementation testLibs.espresso
+    testImplementation testLibs.jUnit
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()
