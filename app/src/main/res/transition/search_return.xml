@@ -1,5 +1,5 @@
 <transitionSet
-    android:startDelay="250"
+    android:startDelay="200"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <transitionSet android:duration="400">
@@ -8,7 +8,7 @@
             <target android:targetId="@id/searchBackground" />
         </targets>
         <transition
-            class="com.vpaliy.mediaplayer.ui.view.CircularReveal"
+            class="com.vpaliy.mediaplayer.ui.transition.CircularReveal"
             app:centerOn="@id/end"
             android:interpolator="@android:interpolator/linear_out_slow_in" />
     </transitionSet>

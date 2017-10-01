@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.ui.view
+package com.vpaliy.mediaplayer.ui.transition
 
 import android.animation.Animator
 import android.animation.ObjectAnimator

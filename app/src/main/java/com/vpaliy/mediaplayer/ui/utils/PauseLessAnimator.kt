@@ -1,11 +1,10 @@
-package com.vpaliy.mediaplayer.ui.view
+package com.vpaliy.mediaplayer.ui.utils
 
 import android.animation.Animator
 import android.animation.TimeInterpolator
-import android.annotation.TargetApi
 import android.util.ArrayMap
-
 import java.util.ArrayList
+import android.annotation.TargetApi
 
 class PauseLessAnimator(private val mAnimator: Animator) : Animator() {
     private val mListeners = ArrayMap<Animator.AnimatorListener, Animator.AnimatorListener>()
@@ -107,8 +106,9 @@ class PauseLessAnimator(private val mAnimator: Animator) : Animator() {
         mAnimator.start()
     }
 
-    private class AnimatorListenerWrapper(private val mAnimator: Animator,
-                                          private val mListener: Animator.AnimatorListener) : Animator.AnimatorListener {
+    private class AnimatorListenerWrapper
+        constructor(private val mAnimator: Animator, private val mListener: Animator.AnimatorListener) :
+                Animator.AnimatorListener {
 
         override fun onAnimationStart(animator: Animator) {
             mListener.onAnimationStart(mAnimator)

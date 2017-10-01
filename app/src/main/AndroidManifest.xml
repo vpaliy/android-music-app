@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:name=".FitnessSound"
         android:theme="@style/FitnessSound">
-        <activity android:name=".ui.home.HomeActivity">
+        <activity android:name=".ui.home.HomeActivity"
+            android:hardwareAccelerated="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,6 +24,8 @@
 
         <activity
             android:name=".ui.search.SearchActivity"
+            android:launchMode="singleTop"
+            android:hardwareAccelerated="true"
             android:theme="@style/FitnessSound.Search">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

@@ -18,18 +18,14 @@ import kotlinx.android.synthetic.main.activity_search.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
-import android.text.TextUtils
 import android.content.Intent
 import android.transition.Transition
 import android.transition.TransitionInflater
 import android.transition.TransitionManager
 import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
-import javax.inject.Inject
-import android.annotation.TargetApi
 import android.app.SharedElementCallback
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.support.annotation.TransitionRes
+import javax.inject.Inject
 
 class SearchActivity:BaseActivity(), SearchContract.View{
 
@@ -40,8 +36,12 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        setupTransition()
         setupResult()
         setupSearch()
+    }
+
+    private fun setupTransition(){
         setEnterSharedElementCallback(object : SharedElementCallback(){
             override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
                 checked=!checked
@@ -87,7 +87,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     override fun onNewIntent(intent: Intent) {
         if (intent.hasExtra(SearchManager.QUERY)) {
             val query = intent.getStringExtra(SearchManager.QUERY)
-            if (!TextUtils.isEmpty(query)) {
+            if (!query.isNullOrEmpty()) {
                 searchView.setQuery(query, false)
                 searchView.clearFocus()
                 hideKeyboard()
@@ -104,7 +104,6 @@ class SearchActivity:BaseActivity(), SearchContract.View{
         }
     }
 
-    @TargetApi(21)
     private fun refreshPage(visible:Boolean, finish:Boolean=false){
         val transition=getTransition(if(visible) R.transition.search_show
                 else R.transition.search_show)
@@ -124,7 +123,6 @@ class SearchActivity:BaseActivity(), SearchContract.View{
                 .build().inject(this)
     }
 
-    @TargetApi(21)
     private fun getTransition(@TransitionRes transitionId: Int): Transition {
         val inflater = TransitionInflater.from(this)
         return inflater.inflateTransition(transitionId)

@@ -9,14 +9,14 @@
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:statusBarColor">@color/background_super_dark</item>
     </style>
-    <style name="FitnessSound.Search" parent="FitnessSound">
+    <style name="FitnessSound.Search">
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="android:windowTranslucentStatus">false</item>

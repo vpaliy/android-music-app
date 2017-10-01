@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.ui.view
+package com.vpaliy.mediaplayer.ui.transition
 
 import android.animation.Animator
 import android.content.Context
@@ -11,6 +11,7 @@ import android.view.ViewAnimationUtils
 import android.view.ViewGroup
 import com.vpaliy.mediaplayer.R
 import android.support.annotation.IdRes
+import com.vpaliy.mediaplayer.ui.utils.PauseLessAnimator
 
 class CircularReveal : Visibility {
 

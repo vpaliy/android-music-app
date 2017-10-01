@@ -7,7 +7,7 @@
             <target android:targetId="@id/searchBackground" />
         </targets>
         <transition
-            class="com.vpaliy.mediaplayer.ui.view.CircularReveal"
+            class="com.vpaliy.mediaplayer.ui.transition.CircularReveal"
             app:centerOn="@id/end"
             android:interpolator="@android:interpolator/linear_out_slow_in" />
     </transitionSet>
@@ -28,5 +28,4 @@
             <target android:targetId="@android:id/navigationBarBackground" />
         </targets>
     </fade>
-
 </transitionSet>

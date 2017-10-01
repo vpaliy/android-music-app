@@ -68,16 +68,25 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginEnd="@dimen/item_padding"
+            android:layout_marginRight="@dimen/item_padding"
             android:iconifiedByDefault="false"
             android:transitionGroup="true" />
-        <ImageView
-            android:id="@+id/back"
-            android:scaleType="fitCenter"
-            android:transitionName="@string/search_trans"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/asl_trimclip_searchback"
-            tools:ignore="ContentDescription" />
+        <FrameLayout
+            android:id="@+id/backWrapper"
+            android:background="@android:color/transparent"
+            android:layout_width="96dp"
+            android:paddingStart="@dimen/spacing_large"
+            android:paddingLeft="@dimen/spacing_big"
+            android:transitionGroup="false"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/back"
+                android:transitionName="@string/search_trans"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/asl_trimclip_searchback"
+                tools:ignore="ContentDescription" />
+        </FrameLayout>
         <View
             android:id="@+id/end"
             android:layout_gravity="center_vertical|end"

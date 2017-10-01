@@ -24,7 +24,7 @@
             <target android:targetId="@id/play_pause" />
         </targets>
         <transition
-            class="com.vpaliy.mediaplayer.ui.view.Pop"
+            class="com.vpaliy.mediaplayer.ui.transition.Pop"
             android:startDelay="350"
             android:duration="350"
             android:interpolator="@android:interpolator/linear_out_slow_in" />
