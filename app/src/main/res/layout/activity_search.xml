@@ -62,7 +62,7 @@
             android:id="@+id/searchBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffff"/>
+            android:background="@color/dark_800"/>
         <SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
@@ -75,8 +75,7 @@
             android:id="@+id/backWrapper"
             android:background="@android:color/transparent"
             android:layout_width="96dp"
-            android:paddingStart="@dimen/spacing_large"
-            android:paddingLeft="@dimen/spacing_big"
+            android:paddingStart="@dimen/spacing_medium"
             android:transitionGroup="false"
             android:layout_height="match_parent">
             <ImageView

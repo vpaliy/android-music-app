@@ -78,7 +78,7 @@
         <item name="android:submitBackground">@android:color/transparent</item>
     </style>
 
-    <style name="SearchTheme" parent="@android:style/ThemeOverlay.Material.ActionBar">
+    <style name="SearchTheme" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
         <item name="colorControlActivated">?android:colorAccent</item>
         <item name="android:searchViewStyle">@style/Widget.SearchView</item>
     </style>

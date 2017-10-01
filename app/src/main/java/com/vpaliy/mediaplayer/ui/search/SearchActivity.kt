@@ -43,7 +43,9 @@ class SearchActivity:BaseActivity(), SearchContract.View{
 
     private fun setupTransition(){
         setEnterSharedElementCallback(object : SharedElementCallback(){
-            override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
+            override fun onSharedElementStart(sharedElementNames: MutableList<String>?,
+                                              sharedElements: MutableList<View>?,
+                                              sharedElementSnapshots: MutableList<View>?) {
                 checked=!checked
                 back.setImageState(intArrayOf(android.R.attr.state_checked * (if(checked) 1 else -1)),true)
                 super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
@@ -52,8 +54,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     private fun setupResult(){
-        adapter=TrackAdapter(this,{navigator.navigate(this,it)},
-                {navigator.actions(this,it)})
+        adapter=TrackAdapter(this,{navigator.navigate(this,it)}, {navigator.actions(this,it)})
         result.adapter=adapter
         result.addOnScrollListener(object: OnReachBottomListener(result.layoutManager){
             override fun onLoadMore() {
@@ -63,8 +64,8 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     private fun setupSearch(){
-        back.setOnClickListener{onBackPressed()}
         val searchManager=getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        back.setOnClickListener{onBackPressed()}
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.queryHint=getString(R.string.search_hint)
         searchView.inputType=InputType.TYPE_TEXT_FLAG_AUTO_CORRECT

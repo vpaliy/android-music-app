@@ -16,7 +16,8 @@ abstract class BaseAdapter<T>(context: Context, protected val click:(Packer)->Un
     protected var data:MutableList<T> =ArrayList<T>()
     protected val inflater: LayoutInflater= LayoutInflater.from(context)
 
-    abstract inner class GenericViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    abstract inner class GenericViewHolder
+    constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
         abstract fun onBindData()
     }
 
