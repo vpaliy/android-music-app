@@ -335,6 +335,7 @@ class PlayerActivity:AppCompatActivity(){
                 manager.handleResumeRequest()
                 play_pause.change(false)
             }
+            intent.removeExtra(Constants.EXTRA_QUEUE)
         }
     }
 }
