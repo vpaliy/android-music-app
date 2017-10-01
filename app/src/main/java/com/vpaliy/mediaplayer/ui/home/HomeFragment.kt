@@ -19,8 +19,8 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         view?.let {
-            adapter=TrackAdapter(context,{navigator.navigate(activity,it)},
-                    {navigator.actions(activity,it)})
+            refresher.setOnRefreshListener { presenter.start() }
+            adapter=TrackAdapter(context,{navigator.navigate(activity,it)}, {navigator.actions(activity,it)})
             list.adapter=adapter
         }
     }
@@ -78,12 +78,15 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     }
 
     override fun setLoading(isLoading: Boolean){
-        progress.visibility=if(isLoading) View.VISIBLE else View.GONE
+        refresher.isRefreshing=isLoading
     }
 
     abstract fun alertMessage():String
 
-    override fun show(list: List<Track>)=adapter.set(list.toMutableList())
+    override fun show(list: List<Track>){
+        empty.visibility=View.GONE
+        adapter.set(list.toMutableList())
+    }
 
     override fun layoutId()= R.layout.fragment_home
 

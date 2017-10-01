@@ -73,11 +73,15 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
     override fun like(track: Track?):Completable=
             Completable.fromCallable({handler.update(love(track,true))})
 
-    override fun clearHistory():Completable=
-            Completable.fromCallable({handler.deleteHistory()})
+    override fun clearHistory():Completable {
+        recentSet.clear()
+        return Completable.fromCallable({ handler.deleteHistory() })
+    }
 
-    override fun clearLoved():Completable=
-            Completable.fromCallable({handler.deleteLoved()})
+    override fun clearLoved():Completable{
+        likeSet.clear()
+        return Completable.fromCallable({handler.deleteLoved()})
+    }
 
     override fun removeLoved(track: Track):Completable=
             Completable.fromCallable({handler.update(love(track,false))})
@@ -88,7 +92,7 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
     override fun insertRecent(track: Track?):Completable {
         if(track!=null){
             if(!recentSet.contains(track.id)){
-                Completable.fromCallable({handler.update(save(track,true))})
+               return Completable.fromCallable({handler.update(save(track,true))})
             }
         }
         return Completable.complete()
