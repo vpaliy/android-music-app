@@ -36,8 +36,9 @@ class InteractorTest{
 
     @Test
     fun throwsErrorOnHistoryClean(){
-        whenever(repository.clearHistory()).thenReturn(Completable.error(Exception()))
-        historyInteractor.clear({},{ assertEquals(it,Exception())})
+        val exception=Exception()
+        whenever(repository.clearHistory()).thenReturn(Completable.error(exception))
+        historyInteractor.clear({},{ assertEquals(it,exception)})
         verify(repository).clearHistory()
         verify(scheduler).ui()
         verify(scheduler).io()
@@ -54,8 +55,9 @@ class InteractorTest{
 
     @Test
     fun throwsErrorOnLovedClean(){
-        whenever(repository.clearLoved()).thenReturn(Completable.error(Exception()))
-        lovedInteractor.clear({},{ assertEquals(it,Exception())})
+        val exception=Exception()
+        whenever(repository.clearLoved()).thenReturn(Completable.error(exception))
+        lovedInteractor.clear({},{ assertEquals(it,exception)})
         verify(repository).clearLoved()
         verify(scheduler).ui()
         verify(scheduler).io()
@@ -69,6 +71,28 @@ class InteractorTest{
         verify(repository).removeLoved(eq(track))
         verify(scheduler).ui()
         verify(scheduler).io()
+    }
+
+    @Test
+    fun errorOnRemoveLoved(){
+        val track=Track()
+        val exception=Exception()
+        whenever(repository.removeLoved(any<Track>())).thenReturn(Completable.error(exception))
+        lovedInteractor.remove({},{ assertEquals(it,exception)},track)
+        verify(repository).removeLoved(eq(track))
+        verify(scheduler).ui()
+        verify(scheduler).io()
+    }
+
+    @Test
+    fun errorOnRemoveRecent(){
+        val track=Track()
+        val exception=Exception()
+        whenever(repository.removeRecent(any<Track>())).thenReturn(Completable.error(exception))
+        historyInteractor.remove({},{ assertEquals(it,exception)},track)
+        verify(repository).removeRecent(eq(track))
+        verify(scheduler).io()
+        verify(scheduler).ui()
     }
 
     @Test
@@ -89,6 +113,28 @@ class InteractorTest{
         verify(repository).like(track)
         verify(scheduler).ui()
         verify(scheduler).io()
+    }
+
+    @Test
+    fun errorOnInsertLoved(){
+        val track=Track()
+        val exception=Exception()
+        whenever(repository.like(any<Track>())).thenReturn(Completable.error(exception))
+        lovedInteractor.insert({},{ assertEquals(it,exception)},track)
+        verify(repository).like(eq(track))
+        verify(scheduler).io()
+        verify(scheduler).ui()
+    }
+
+    @Test
+    fun errorOnInsertRecent(){
+        val track=Track()
+        val exception=Exception()
+        whenever(repository.insertRecent(any<Track>())).thenReturn(Completable.error(exception))
+        historyInteractor.insert({},{assertEquals(it,exception)},track)
+        verify(repository).insertRecent(eq(track))
+        verify(scheduler).io()
+        verify(scheduler).ui()
     }
 
     @Test
