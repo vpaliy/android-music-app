@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TrackHandler @Inject
+open class TrackHandler @Inject
 constructor(private val database:SQLiteOpenHelper){
 
     fun queryHistory():List<Track>{

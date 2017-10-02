@@ -8,7 +8,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class LovedTracks @Inject constructor(val repository: Repository, scheduler: BaseScheduler):
+open class LovedTracks @Inject
+constructor(val repository: Repository, scheduler: BaseScheduler):
         SingleInteractor<List<Track>,Void>(scheduler), ClearInteractor<Track>, InsertInteractor<Track>{
 
     override fun insert(success: () -> Unit, error: (Throwable) -> Unit, params: Track) {

@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.mapper
+package com.vpaliy.mediaplayer.data.mapper
 
 import com.vpaliy.mediaplayer.FakeDataProvider
 import com.vpaliy.mediaplayer.data.mapper.TrackMapper

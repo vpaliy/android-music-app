@@ -8,8 +8,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class TrackHistory @Inject constructor(val repository: Repository,
-                               scheduler: BaseScheduler) :InsertInteractor<Track>,
+open class TrackHistory @Inject
+constructor(val repository: Repository, scheduler: BaseScheduler) :InsertInteractor<Track>,
         ClearInteractor<Track>, SingleInteractor<List<Track>,Void?>(scheduler){
 
     public override fun buildObservable(params: Void?): Single<List<Track>> {

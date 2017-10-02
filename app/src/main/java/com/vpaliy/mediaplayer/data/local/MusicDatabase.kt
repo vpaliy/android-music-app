@@ -26,6 +26,8 @@ constructor(context: Context):SQLiteOpenHelper(context,name,null, version){
         const val IS_SAVED="track_is_saved"
         const val IS_LIKED="track_is_liked"
         const val DURATION="track_duration"
+
+        val COLUMNS= arrayOf(ID,TITLE,RELEASE,ARTIST,IS_SAVED,IS_LIKED,DURATION)
     }
 
 

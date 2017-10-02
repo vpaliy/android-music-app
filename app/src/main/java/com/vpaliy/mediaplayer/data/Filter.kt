@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Filter @Inject
+open class Filter @Inject
 constructor() {
     fun filter(tracks: List<TrackEntity>?): List<TrackEntity>? {
         return tracks?.let {

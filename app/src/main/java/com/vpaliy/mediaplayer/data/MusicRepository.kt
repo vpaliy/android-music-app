@@ -4,6 +4,7 @@ package com.vpaliy.mediaplayer.data
 import com.vpaliy.mediaplayer.data.local.TrackHandler
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.Repository
+import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.executor.SchedulerProvider
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.soundcloud.SoundCloudService
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 @Singleton
 class MusicRepository @Inject
 constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService,
-            val handler: TrackHandler, val filter:Filter,scheduler: SchedulerProvider):Repository{
+            val handler: TrackHandler, val filter:Filter,scheduler: BaseScheduler):Repository{
 
     private var page:Page<TrackEntity>?=null
     private var likeSet=HashSet<String>()
