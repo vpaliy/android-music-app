@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.presentation.search
+package com.vpaliy.mediaplayer.presentation
 
 import com.nhaarman.mockito_kotlin.*
 import com.vpaliy.mediaplayer.FakeDataProvider
