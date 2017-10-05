@@ -1,6 +1,5 @@
 package com.vpaliy.mediaplayer.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.util.Pair
 import android.view.Menu
@@ -13,7 +12,6 @@ import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
 import com.vpaliy.mediaplayer.ui.home.loved.LovedFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v7.app.ActionBarDrawerToggle
-import com.vpaliy.mediaplayer.ui.utils.Constants
 
 class HomeActivity : BaseActivity() {
 
@@ -51,13 +49,6 @@ class HomeActivity : BaseActivity() {
                 .commit()
         drawer.closeDrawers()
         return true
-    }
-
-    override fun onActivityReenter(resultCode: Int, data: Intent) {
-        super.onActivityReenter(resultCode, data)
-        if(resultCode== RESULT_OK){
-            fragment?.adjustPosition(data.getIntExtra(Constants.EXTRA_POSITION,0))
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

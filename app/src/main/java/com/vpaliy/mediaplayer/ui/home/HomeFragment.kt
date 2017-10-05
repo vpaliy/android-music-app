@@ -38,6 +38,9 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
         })
     }
 
+    fun fetchSharedElement(position:Int):View?
+            =list.findViewWithTag(getString(R.string.art_trans)+position)
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.home,menu)

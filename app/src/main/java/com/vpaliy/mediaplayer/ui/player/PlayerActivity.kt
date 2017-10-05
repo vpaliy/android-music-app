@@ -89,7 +89,7 @@ class PlayerActivity:AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         ButterKnife.bind(this)
-        postponeEnterTransition()
+     //   postponeEnterTransition()
         browser=MediaBrowserCompat(this,
                 ComponentName(this, MusicPlaybackService::class.java),
                 connectionCallback, null)
@@ -145,7 +145,7 @@ class PlayerActivity:AppCompatActivity(){
     }
 
     @OnClick(R.id.back)
-    fun back()=supportFinishAfterTransition()
+    fun back()=finish()
 
     @OnClick(R.id.shuffled_list)
     fun additional(){
@@ -281,7 +281,6 @@ class PlayerActivity:AppCompatActivity(){
             track_name.text=metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE)
             artist.text = metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_ARTIST)
             pages.text = text
-            circle.transitionName=getString(R.string.art_trans)+(number-1).toString()
             showArt(imageUrl)
         }
     }
@@ -291,30 +290,17 @@ class PlayerActivity:AppCompatActivity(){
                 .load(artUrl)
                 .asBitmap()
                 .priority(Priority.IMMEDIATE)
-                .into(object : ImageViewTarget<Bitmap>(circle) {
-                    override fun setResource(resource: Bitmap) {
-                        circle.setImageBitmap(resource)
-                        if(!hasTransition) {
-                            hasTransition=true
-                            circle.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-                                override fun onPreDraw(): Boolean {
-                                    circle.viewTreeObserver.removeOnPreDrawListener(this)
-                                    this@PlayerActivity.startPostponedEnterTransition()
-                                    return true
-                                }
-                            })
-                        }
-                    }
-                })
+                .into(circle)
     }
 
-    override fun finishAfterTransition() {
+    override fun finish() {
         queue?.let {
             val data=Intent()
             data.putExtra(Constants.EXTRA_POSITION,it.index)
             setResult(RESULT_OK,data)
         }
-        super.finishAfterTransition()
+        super.finish()
+        overridePendingTransition(0,R.anim.slide_out_down)
     }
 
     fun inject() =FitnessSound.app().playbackComponent().inject(this)

@@ -8,4 +8,6 @@
         <attr name="current_progress" format="integer"/>
         <attr name="morph" format="float"/>
     </declare-styleable>
+
+
 </resources>

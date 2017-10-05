@@ -9,6 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAnimation
 import android.support.v4.util.Pair
+import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.details.ActionsActivity
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
 import com.vpaliy.mediaplayer.ui.utils.Packer
@@ -19,9 +20,9 @@ class Navigator @Inject constructor(){
 
     fun navigate(activity: Activity, packer: Packer){
         val intent= Intent(activity,PlayerActivity::class.java)
-        val optionsCompat= makeSceneTransitionAnimation(activity,*packer.pairs as Array<Pair<View, String>>)
         intent.putExtras(packer.bundle)
-        activity.startActivity(intent,optionsCompat.toBundle())
+        activity.startActivity(intent)
+        activity.overridePendingTransition(R.anim.slide_out_up,0)
     }
 
     fun search(activity:Activity, pair:Pair<View,String>){
@@ -34,5 +35,6 @@ class Navigator @Inject constructor(){
         val intent= Intent(activity,ActionsActivity::class.java)
         intent.putExtras(bundle)
         activity.startActivity(intent)
+        activity.overridePendingTransition(R.anim.slide_out_up,0)
     }
 }

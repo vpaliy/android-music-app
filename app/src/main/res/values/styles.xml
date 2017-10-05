@@ -39,8 +39,6 @@
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowEnterTransition">@transition/actions_enter</item>
-        <item name="android:windowExitTransition">@transition/actions_exit</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowBackground">@color/scrim</item>
@@ -55,10 +53,6 @@
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
-        <item name="android:windowSharedElementEnterTransition">@transition/shared_player_enter</item>
-        <item name="android:windowSharedElementReturnTransition">@transition/shared_player_return</item>
-        <item name="android:windowEnterTransition">@transition/player_enter</item>
-        <item name="android:windowReturnTransition">@transition/player_exit</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
