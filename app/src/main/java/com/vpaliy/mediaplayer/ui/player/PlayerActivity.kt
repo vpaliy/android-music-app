@@ -275,13 +275,13 @@ class PlayerActivity:AppCompatActivity(){
 
     private fun updatePicture(metadataCompat: MediaMetadataCompat?) {
         metadataCompat?.let {
-            val number=metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER).toString()
-            val text = number+" of " + metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS).toString()
+            val number=metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER)
+            val text = number.toString()+" of " + metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS).toString()
             val imageUrl = metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
             track_name.text=metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE)
             artist.text = metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_ARTIST)
             pages.text = text
-            circle.transitionName=getString(R.string.art_trans)+number
+            circle.transitionName=getString(R.string.art_trans)+(number-1).toString()
             showArt(imageUrl)
         }
     }
@@ -325,12 +325,12 @@ class PlayerActivity:AppCompatActivity(){
             queue=manager.queueManager
             manager.requestUpdate()
         }else{
-            queue=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>() {}.type,
-                    intent.extras,Constants.EXTRA_QUEUE)
+            queue=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>()
+            {}.type, intent.extras,Constants.EXTRA_QUEUE)
             queue?.let {
                 manager.queueManager=it
                 manager.handleResumeRequest()
-                play_pause.change(false)
+                play_pause.change(true)
             }
             intent.removeExtra(Constants.EXTRA_QUEUE)
         }

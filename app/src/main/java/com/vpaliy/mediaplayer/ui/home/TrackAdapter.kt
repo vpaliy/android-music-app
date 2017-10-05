@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.adapter_track_item.view.*
 import android.annotation.SuppressLint
 
 class TrackAdapter
-constructor(context: Context, click:(Packer)->Unit, val clickMore:(Bundle)->Unit):BaseAdapter<Track>(context,click) {
+(context: Context, click:(Packer)->Unit, val clickMore:(Bundle)->Unit):BaseAdapter<Track>(context,click) {
 
     inner class TrackViewHolder constructor(itemView: View):
             BaseAdapter<Track>.GenericViewHolder(itemView) {
@@ -34,7 +34,7 @@ constructor(context: Context, click:(Packer)->Unit, val clickMore:(Bundle)->Unit
         init{
             itemView.setOnClickListener {
                 val queue=QueueManager(data,adapterPosition)
-                val context=inflater.context;
+                val context=inflater.context
                 val bundle=BundleUtils.packHeavyObject(Bundle(),Constants.EXTRA_QUEUE,
                         queue,object:TypeToken<QueueManager>(){}.type)
                 click(Packer(bundle, arrayOf(Pair(art,art.transitionName),
