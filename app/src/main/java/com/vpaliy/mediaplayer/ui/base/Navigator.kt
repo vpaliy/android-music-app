@@ -18,9 +18,9 @@ import com.vpaliy.mediaplayer.ui.utils.Packer
 @Singleton
 class Navigator @Inject constructor(){
 
-    fun navigate(activity: Activity, packer: Packer){
+    fun navigate(activity: Activity, bundle: Bundle){
         val intent= Intent(activity,PlayerActivity::class.java)
-        intent.putExtras(packer.bundle)
+        intent.putExtras(bundle)
         activity.startActivity(intent)
         activity.overridePendingTransition(R.anim.slide_out_up,0)
     }

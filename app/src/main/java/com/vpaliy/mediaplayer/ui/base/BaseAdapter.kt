@@ -10,7 +10,8 @@ import java.util.ArrayList
 import android.view.ViewGroup
 import com.vpaliy.mediaplayer.ui.utils.Packer
 
-abstract class BaseAdapter<T>(context: Context, protected val click:(Packer)->Unit) :
+abstract class BaseAdapter<T>
+(context: Context, protected val click:(Bundle)->Unit) :
         RecyclerView.Adapter<BaseAdapter<T>.GenericViewHolder>() {
 
     protected var data:MutableList<T> =ArrayList<T>()

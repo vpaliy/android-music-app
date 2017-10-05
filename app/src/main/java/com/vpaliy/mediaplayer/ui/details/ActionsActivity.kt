@@ -71,6 +71,11 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
                 }).start()
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0,R.anim.slide_out_down)
+    }
+
     override fun added()=
             animateText(history,getString(R.string.remove_action))
 

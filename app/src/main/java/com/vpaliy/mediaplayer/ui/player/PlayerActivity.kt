@@ -55,7 +55,6 @@ class PlayerActivity:AppCompatActivity(){
     private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 10
     private var lastState:PlaybackStateCompat?=null
     private var queue:QueueManager?=null
-    private var hasTransition=false
 
     @Inject lateinit var navigator:Navigator
 
@@ -89,7 +88,6 @@ class PlayerActivity:AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
         ButterKnife.bind(this)
-     //   postponeEnterTransition()
         browser=MediaBrowserCompat(this,
                 ComponentName(this, MusicPlaybackService::class.java),
                 connectionCallback, null)
@@ -294,11 +292,6 @@ class PlayerActivity:AppCompatActivity(){
     }
 
     override fun finish() {
-        queue?.let {
-            val data=Intent()
-            data.putExtra(Constants.EXTRA_POSITION,it.index)
-            setResult(RESULT_OK,data)
-        }
         super.finish()
         overridePendingTransition(0,R.anim.slide_out_down)
     }

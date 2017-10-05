@@ -20,25 +20,22 @@ import kotlinx.android.synthetic.main.adapter_track_item.view.*
 import android.annotation.SuppressLint
 
 class TrackAdapter
-(context: Context, click:(Packer)->Unit, val clickMore:(Bundle)->Unit):BaseAdapter<Track>(context,click) {
+constructor(context: Context, click:(Bundle)->Unit, val clickMore:(Bundle)->Unit):
+        BaseAdapter<Track>(context,click) {
 
     inner class TrackViewHolder constructor(itemView: View):
             BaseAdapter<Track>.GenericViewHolder(itemView) {
-
         val title:TextView=itemView.title
         val art:ImageView=itemView.art
         val artist:TextView=itemView.artist
         val duration:TextView=itemView.duration
-        val transitionName:String=inflater.context.getString(R.string.art_trans)
 
         init{
             itemView.setOnClickListener {
                 val queue=QueueManager(data,adapterPosition)
-                val context=inflater.context
                 val bundle=BundleUtils.packHeavyObject(Bundle(),Constants.EXTRA_QUEUE,
                         queue,object:TypeToken<QueueManager>(){}.type)
-                click(Packer(bundle, arrayOf(Pair(art,art.transitionName),
-                        Pair(art,context.getString(R.string.background_trans)))))
+                click(bundle)
             }
             itemView.more.setOnClickListener {
                 val track=at(adapterPosition)
@@ -55,7 +52,6 @@ class TrackAdapter
             title.text=track.title
             artist.text=track.artist
             duration.text="\u2022 ${track.formatedDuration}"
-            art.transitionName= transitionName +adapterPosition.toString()
             Glide.with(itemView.context)
                     .load(track.artworkUrl)
                     .placeholder(R.drawable.placeholder)
