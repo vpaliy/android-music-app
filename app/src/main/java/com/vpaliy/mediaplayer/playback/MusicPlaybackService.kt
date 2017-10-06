@@ -57,7 +57,7 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
                 }
             }
         }
-        return Service.START_STICKY
+        return Service.START_NOT_STICKY
     }
 
     override fun onMetadataChanged(metadata: MediaMetadataCompat) {

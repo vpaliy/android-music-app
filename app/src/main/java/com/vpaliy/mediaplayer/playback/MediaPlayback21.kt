@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.AudioManager
 import android.net.Uri
 import android.net.wifi.WifiManager
+import android.util.Log
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
@@ -46,7 +47,8 @@ constructor(context: Context,
     }
 
     override fun updatePlayer(){
-        if(wasFocusLost || isPause) configPlayer()
+        if(wasFocusLost || !isPause)
+            configPlayer()
     }
 
     override fun startPlayer() {
