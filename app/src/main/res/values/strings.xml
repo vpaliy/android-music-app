@@ -9,6 +9,8 @@
     <string name="search_hint">Search for tracks..</string>
 
     <string name="history_label">Recent</string>
+    <string name="intro_share_message">I am really into this:</string>
+    <string name="choose_to_share_text">Choose to whom to send</string>
     <string name="liked_label">Loved</string>
     <string name="empty_history">You have not listened to anything so far</string>
     <string name="empty_liked">You do not have favorite songs</string>

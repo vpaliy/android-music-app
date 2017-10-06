@@ -23,6 +23,7 @@ class HistoryFragment : HomeFragment(){
                 .build().inject(this)
     }
 
+    override fun emptyMessage(): Int =R.string.empty_history
     override fun alertMessage():String =
             getString(R.string.history_alert)
 }

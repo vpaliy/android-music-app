@@ -23,6 +23,7 @@ class LovedFragment : HomeFragment() {
                 .build().inject(this)
     }
 
+    override fun emptyMessage(): Int =R.string.empty_liked
     override fun alertMessage():String =
             getString(R.string.loved_alert)
 }

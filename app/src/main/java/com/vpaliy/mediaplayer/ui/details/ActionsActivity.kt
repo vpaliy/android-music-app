@@ -19,6 +19,9 @@ import com.vpaliy.mediaplayer.ui.utils.BundleUtils
 import com.vpaliy.mediaplayer.ui.utils.Constants
 import kotlinx.android.synthetic.main.fragment_actions.*
 import javax.inject.Inject
+import android.content.Intent
+
+
 
 class ActionsActivity:BaseActivity(),ActionsContract.View{
 
@@ -44,6 +47,13 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
                 history.setOnClickListener {_->
                     if(!it.isSaved) presenter.add(it)
                         else presenter.remove(it)
+                }
+                share.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_SEND)
+                    val message=getString(R.string.intro_share_message)+track.title
+                    intent.putExtra(Intent.EXTRA_TEXT,message)
+                    intent.type = "text/plain"
+                    startActivity(Intent.createChooser(intent, getString(R.string.choose_to_share_text)))
                 }
 
             }

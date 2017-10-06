@@ -3,7 +3,6 @@ package com.vpaliy.mediaplayer.ui.player
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.RemoteException

@@ -25,22 +25,6 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
         }
     }
 
-    fun adjustPosition(position:Int){
-        list.scrollToPosition(position)
-        postponeEnterTransition()
-        list.viewTreeObserver.addOnPreDrawListener(object:ViewTreeObserver.OnPreDrawListener{
-            override fun onPreDraw(): Boolean {
-                list.viewTreeObserver.removeOnPreDrawListener(this)
-                list.requestLayout()
-                startPostponedEnterTransition()
-                return true
-            }
-        })
-    }
-
-    fun fetchSharedElement(position:Int):View?
-            =list.findViewWithTag(getString(R.string.art_trans)+position)
-
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.home,menu)
@@ -77,6 +61,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     override fun empty(){
         adapter.clear()
         setMenuVisibility(false)
+        empty.setText(emptyMessage())
         empty.visibility=View.VISIBLE
     }
 
@@ -99,4 +84,6 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
         empty()
         showMessage(R.string.cleared_message)
     }
+
+    abstract fun emptyMessage():Int
 }
