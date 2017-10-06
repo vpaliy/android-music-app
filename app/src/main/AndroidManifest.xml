@@ -42,6 +42,7 @@
 
         <activity
             android:name=".ui.details.ActionsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/FitnessSound.Actions">
         </activity>
 

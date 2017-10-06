@@ -2,6 +2,7 @@ package com.vpaliy.mediaplayer.ui.details
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.animation.OvershootInterpolator
@@ -91,6 +92,7 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
     override fun error()=
             Snackbar.make(container,R.string.cleared_message,2000).show()
 
+    @SuppressLint("SetTextI18n")
     private fun loadTrack(track:Track){
         Glide.with(this)
                 .load(track.artworkUrl)
@@ -99,6 +101,7 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
                 .into(art)
         artist.text=track.artist
         song.text=track.title
+        duration.text="\u2022 ${track.formatedDuration}"
     }
 
     override fun inject()=DaggerViewComponent.builder()

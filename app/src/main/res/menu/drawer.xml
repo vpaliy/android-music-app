@@ -2,8 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/history"
-        android:title="History"/>
+        android:icon="@drawable/ic_history"
+        android:title="@string/history_label"/>
     <item
         android:id="@+id/loved"
-        android:title="Liked "/>
+        android:icon="@drawable/ic_heart"
+        android:title="@string/liked_label"/>
 </menu>

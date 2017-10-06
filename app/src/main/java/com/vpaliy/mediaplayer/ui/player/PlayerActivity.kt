@@ -28,16 +28,13 @@ import com.vpaliy.mediaplayer.ui.utils.BundleUtils
 import com.vpaliy.mediaplayer.ui.utils.Constants
 import kotlinx.android.synthetic.main.activity_player.*
 import java.util.concurrent.TimeUnit
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.view.ViewTreeObserver
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import butterknife.ButterKnife
-import com.bumptech.glide.request.target.ImageViewTarget
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.vpaliy.mediaplayer.domain.model.Track
@@ -305,7 +302,7 @@ class PlayerActivity:AppCompatActivity(){
             manager.requestUpdate()
         }else{
             queue=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>()
-            {}.type, intent.extras,Constants.EXTRA_QUEUE)
+                {}.type, intent.extras,Constants.EXTRA_QUEUE)
             queue?.let {
                 manager.queueManager=it
                 manager.handleResumeRequest()

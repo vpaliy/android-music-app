@@ -33,6 +33,16 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content" />
     <TextView
+        tools:text="2:30"
+        android:id="@+id/duration"
+        android:textSize="17sp"
+        style="@style/Widget.NumberText"
+        android:layout_gravity="center"
+        android:textColor="#ffff"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
         android:text="@string/share_action"
         android:id="@+id/share"
         style="@style/Widget.BigTitle"
@@ -45,15 +55,6 @@
         android:text="@string/like_action"
         android:id="@+id/like"
         style="@style/Widget.BigTitle"
-        android:textColor="#ffff"
-        android:layout_marginTop="@dimen/spacing_big"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:text="@string/play_action"
-        android:id="@+id/play"
-        style="@style/Widget.BigTitle"
-        android:layout_gravity="center"
         android:textColor="#ffff"
         android:layout_marginTop="@dimen/spacing_big"
         android:layout_width="wrap_content"
