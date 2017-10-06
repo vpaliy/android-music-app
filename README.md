@@ -17,6 +17,8 @@ This app doesn't require authentication. You just get in, search for music, and 
 - browse your listening history
 - browse your favorite songs.
 
+It doesn't contain ads. And it never will.
+
 # Samples #
 
 ![](https://github.com/vpaliyX/Fitness-Sound/blob/master/art/search.gif)
