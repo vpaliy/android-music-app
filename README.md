@@ -1,7 +1,8 @@
 # Fitness-Sound
 Simplified version of Melophile. 
 
-This is a simple music app which is based on Melophile.  
+This is a simple music app which is based on Melophile. 
+This app doesn't require authentication. You just get in, search for music, and listen to it. 
 
 # What can I do with it? #
 - stream music
