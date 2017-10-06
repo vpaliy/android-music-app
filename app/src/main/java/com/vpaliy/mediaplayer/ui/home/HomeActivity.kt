@@ -27,6 +27,7 @@ class HomeActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         drawer.setDrawerListener(toggle)
         navigation.setNavigationItemSelectedListener { item ->
+            item.isChecked=true
             when(item.itemId){
                 R.id.history->{
                     toolbar.title=getString(R.string.history_label)
@@ -39,6 +40,7 @@ class HomeActivity : BaseActivity() {
                 else ->false
             }
         }
+        navigation.setCheckedItem(R.id.history)
         load(HistoryFragment())
     }
 
