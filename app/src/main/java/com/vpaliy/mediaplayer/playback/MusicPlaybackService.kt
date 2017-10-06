@@ -10,8 +10,7 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
-import com.vpaliy.mediaplayer.FitnessSound
+import com.vpaliy.mediaplayer.FlashApp
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
 import javax.inject.Inject
 
@@ -23,7 +22,7 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
     @Inject lateinit var playbackManager: PlaybackManager
 
     init {
-        FitnessSound.app().playbackComponent().inject(this)
+        FlashApp.app().playbackComponent().inject(this)
     }
 
     override fun onCreate() {

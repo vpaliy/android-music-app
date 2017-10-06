@@ -41,7 +41,10 @@ constructor(context: Context,
     }
 
     override fun resumePlayer() {
-        if (exoPlayer != null) {
+        exoPlayer?.let {
+            if(it.playWhenReady){
+                callback.onPlay()
+            }
             configPlayer()
         }
     }

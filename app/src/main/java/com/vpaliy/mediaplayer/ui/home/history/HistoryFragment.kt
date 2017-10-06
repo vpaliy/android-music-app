@@ -1,6 +1,6 @@
 package com.vpaliy.mediaplayer.ui.home.history
 
-import com.vpaliy.mediaplayer.FitnessSound
+import com.vpaliy.mediaplayer.FlashApp
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.di.component.DaggerViewComponent
 import com.vpaliy.mediaplayer.di.module.PresenterModule
@@ -18,7 +18,7 @@ class HistoryFragment : HomeFragment(){
 
     override fun inject() {
         DaggerViewComponent.builder()
-                .applicationComponent(FitnessSound.app().component())
+                .applicationComponent(FlashApp.app().component())
                 .presenterModule(PresenterModule())
                 .build().inject(this)
     }

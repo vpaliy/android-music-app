@@ -1,5 +1,5 @@
 <resources>
-    <style name="FitnessSound" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Flash" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
@@ -14,7 +14,7 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:statusBarColor">@color/background_super_dark</item>
     </style>
-    <style name="FitnessSound.Search">
+    <style name="Flash.Search">
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
@@ -34,7 +34,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowSharedElementsUseOverlay">true</item>
     </style>
-    <style name="FitnessSound.Actions" parent="FitnessSound">
+    <style name="Flash.Actions" parent="Flash">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="android:windowTranslucentStatus">false</item>
@@ -49,7 +49,7 @@
         <item name="android:windowSharedElementsUseOverlay">true</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
-    <style name="FitnessSound.Track" parent="FitnessSound">
+    <style name="Flash.Track" parent="Flash">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>

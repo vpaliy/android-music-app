@@ -16,7 +16,7 @@ import android.text.format.DateUtils
 import android.view.View
 import android.widget.SeekBar
 import com.google.gson.reflect.TypeToken
-import com.vpaliy.mediaplayer.FitnessSound
+import com.vpaliy.mediaplayer.FlashApp
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.domain.playback.QueueManager
 import com.vpaliy.mediaplayer.playback.PlaybackManager
@@ -31,6 +31,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
+import android.util.Log
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import butterknife.ButterKnife
@@ -192,6 +193,7 @@ class PlayerActivity:AppCompatActivity(){
     }
 
     private fun updatePlaybackState(stateCompat: PlaybackStateCompat?) {
+        Log.d("PlayerActivity","updatePlaybackState")
         stateCompat?.let {
             lastState = stateCompat
               updateMode(repeat,(stateCompat.actions.toInt()
@@ -201,14 +203,14 @@ class PlayerActivity:AppCompatActivity(){
             when (stateCompat.state) {
                 PlaybackStateCompat.STATE_PLAYING -> {
                     play_pause.visibility= View.VISIBLE
-                    if (play_pause.isPlay) {
+                    if(play_pause.isPlay) {
                         play_pause.change(false, true)
                     }
                     startSeekBarUpdate()
                 }
                 PlaybackStateCompat.STATE_PAUSED -> {
                     play_pause.visibility= View.VISIBLE
-                    if (!play_pause.isPlay) {
+                    if(!play_pause.isPlay){
                         play_pause.change(true, true)
                     }
                     stopSeekBarUpdate()
@@ -292,7 +294,7 @@ class PlayerActivity:AppCompatActivity(){
         overridePendingTransition(0,R.anim.slide_out_down)
     }
 
-    fun inject() =FitnessSound.app().playbackComponent().inject(this)
+    fun inject() = FlashApp.app().playbackComponent().inject(this)
 
     @Inject
     fun injectManager(manager:PlaybackManager){
@@ -305,7 +307,6 @@ class PlayerActivity:AppCompatActivity(){
             queue?.let {
                 manager.queueManager=it
                 manager.handleResumeRequest()
-                play_pause.change(true)
             }
             intent.removeExtra(Constants.EXTRA_QUEUE)
         }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FitnessSound</string>
+    <string name="app_name">Flash</string>
 
     <string name="empty_message_description">A message which indicates that there is no data</string>
     <string name="removed_message">Track has been removed</string>

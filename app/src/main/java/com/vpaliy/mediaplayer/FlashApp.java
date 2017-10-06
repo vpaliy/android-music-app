@@ -11,9 +11,9 @@ import com.vpaliy.mediaplayer.di.module.InteractorModule;
 import com.vpaliy.mediaplayer.di.module.MediaPlayerModule;
 import com.vpaliy.mediaplayer.di.module.NetworkModule;
 
-public class FitnessSound extends Application {
+public class FlashApp extends Application {
 
-    private static FitnessSound instance;
+    private static FlashApp instance;
     private ApplicationComponent component;
     private PlaybackComponent playbackComponent;
 
@@ -38,7 +38,7 @@ public class FitnessSound extends Application {
                 .build();
     }
 
-    public static FitnessSound app(){
+    public static FlashApp app(){
         return instance;
     }
 
