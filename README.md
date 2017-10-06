@@ -4,6 +4,11 @@ Simplified version of Melophile.
 This is a simple music app which is based on Melophile. 
 This app doesn't require authentication. You just get in, search for music, and listen to it. 
 
+<a href="https://play.google.com/store/apps/details?id=com.vpaliy.mediaplayer">
+<img src="https://github.com/vpaliyX/LoginConcept/blob/master/art/get_it.png" />
+</a>
+
+
 # What can I do with it? #
 - stream music
 - like/dislike a song
@@ -21,9 +26,15 @@ This app doesn't require authentication. You just get in, search for music, and 
 ![](https://github.com/vpaliyX/Fitness-Sound/blob/master/art/actions.png)
 
 
-<a href="https://play.google.com/store/apps/details?id=com.vpaliy.mediaplayer">
-<img src="https://github.com/vpaliyX/LoginConcept/blob/master/art/get_it.png" />
-</a>
+# Issues #
+
+This app is a beta version. It works fine on Nexus 6P(Oreo).
+Feel free to submit any issues to the issues section of this repository. 
+
+- If you think that UI feels awkward, please mention it. 
+- If you have found any issues with the music playback, please mention it. 
+- If you have any ideas on how to improve the app, please mention it. 
+
 
 ```
 MIT License
