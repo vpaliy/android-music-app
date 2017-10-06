@@ -20,7 +20,6 @@ This app doesn't require authentication. You just get in, search for music, and 
 ![](https://github.com/vpaliyX/Fitness-Sound/blob/master/art/notification.png)
 ![](https://github.com/vpaliyX/Fitness-Sound/blob/master/art/actions.png)
 
-Get on Google Play:
 
 <a href="https://play.google.com/store/apps/details?id=com.vpaliy.mediaplayer">
 <img src="https://github.com/vpaliyX/LoginConcept/blob/master/art/get_it.png" />
