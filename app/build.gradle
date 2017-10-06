@@ -7,9 +7,9 @@ def libs=rootProject.ext.dependencies
 def testLibs=rootProject.ext.testDependencies
 
 android {
+
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
-
     defaultConfig {
         applicationId config.applicationId
         minSdkVersion config.minSdkVersion
@@ -19,28 +19,24 @@ android {
         testInstrumentationRunner config.testInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     buildTypes {
         release {
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.flashConfig
         }
     }
-
     kapt {
         generateStubs = true
     }
-
     androidExtensions {
         experimental = true
     }
-
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
@@ -53,6 +49,8 @@ dependencies {
     implementation 'jp.wasabeef:blurry:2.1.1'
     implementation 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation libs.firebaseCore
+    implementation libs.firebaseCrash
     implementation libs.soundcloud
     implementation libs.constraintLayout
     implementation libs.rxRelay
@@ -68,7 +66,6 @@ dependencies {
     implementation libs.RxAndroid
     kapt libs.Dagger2Compiler
     kapt libs.butterKnifeCompiler
-
     /* Testing Libraries */
     testImplementation testLibs.espresso
     testImplementation testLibs.jUnit
@@ -78,3 +75,4 @@ dependencies {
 repositories {
     mavenCentral()
 }
+apply plugin: 'com.google.gms.google-services'
