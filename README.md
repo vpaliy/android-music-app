@@ -1,4 +1,4 @@
-# Fitness-Sound
+# Flash
 Simplified version of Melophile. 
 
 This is a simple music app which is based on Melophile. 
