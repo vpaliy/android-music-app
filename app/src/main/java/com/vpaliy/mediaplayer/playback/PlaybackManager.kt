@@ -89,6 +89,7 @@ constructor(private val playback: Playback,
             if (isRepeat) {
                 playback.invalidateCurrent()
             }else if(!it.hasNext()){
+                playback.invalidateCurrent()
                 updatePlaybackState(PlaybackStateCompat.STATE_PAUSED)
                 serviceCallback?.onPlaybackStop()
                 return
