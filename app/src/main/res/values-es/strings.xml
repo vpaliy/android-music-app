@@ -7,6 +7,7 @@
 
     <!-- Search -->
     <string name="search_hint">"Buscar canciones..."</string>
+    <string name="by_label"> por </string>
     <string name="of_label"> de </string>
     <string name="history_label">"Recientes"</string>
     <string name="intro_share_message">"Me encanta esta canción:"</string>

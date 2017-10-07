@@ -50,7 +50,8 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
                 }
                 share.setOnClickListener {
                     val intent = Intent(Intent.ACTION_SEND)
-                    val message=getString(R.string.intro_share_message)+track.title
+                    val message=getString(R.string.intro_share_message)+track.title+
+                            getString(R.string.by_label)+track.artist
                     intent.putExtra(Intent.EXTRA_TEXT,message)
                     intent.type = "text/plain"
                     startActivity(Intent.createChooser(intent, getString(R.string.choose_to_share_text)))
