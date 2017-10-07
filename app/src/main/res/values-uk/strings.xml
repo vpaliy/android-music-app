@@ -19,7 +19,7 @@
     <string name="erase_label">Видалення персональних даних</string>
     <string name="share_action">Поділитися з іншими людьми</string>
     <string name="like_action">Подобається</string>
-    <string name="dislike_action">Не подобається</string>
+    <string name="unlike_action">Не подобається</string>
     <string name="play_action">Грати</string>
     <string name="remove_action">Видалити з історії</string>
     <string name="add_action">Додати в історію</string>

@@ -19,7 +19,7 @@
     <string name="erase_label">Удаление персональных даных</string>
     <string name="share_action">Поделиться с другими</string>
     <string name="like_action">Нравится</string>
-    <string name="dislike_action">Не нравиться</string>
+    <string name="unlike_action">Не нравиться</string>
     <string name="play_action">Играть</string>
     <string name="remove_action">Удалить из недавних</string>
     <string name="add_action">Добавить в недавние</string>

@@ -84,9 +84,17 @@ constructor(private val playback: Playback,
     }
 
     override fun onCompletetion() {
-        val track = if (isRepeat) queueManager?.current() else queueManager?.next()
-        if (isRepeat) playback.invalidateCurrent()
-        handlePlayRequest(track)
+        queueManager?.let {
+            val track = if (isRepeat) it.current() else it.next()
+            if (isRepeat) {
+                playback.invalidateCurrent()
+            }else if(!it.hasNext()){
+                updatePlaybackState(PlaybackStateCompat.STATE_PAUSED)
+                serviceCallback?.onPlaybackStop()
+                return
+            }
+            handlePlayRequest(track)
+        }
     }
 
     fun handleResumeRequest() {

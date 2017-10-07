@@ -37,7 +37,7 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
             track?.let {
                 loadTrack(it)
                 like.text=if(!it.isLiked) getString(R.string.like_action)
-                    else getString(R.string.dislike_action)
+                    else getString(R.string.unlike_action)
                 history.text=if(!it.isSaved) getString(R.string.add_action)
                     else getString(R.string.remove_action)
                 like.setOnClickListener {_->
@@ -95,7 +95,7 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
             animateText(history,getString(R.string.add_action))
 
     override fun liked()=
-            animateText(like,getString(R.string.dislike_action))
+            animateText(like,getString(R.string.unlike_action))
 
     override fun disliked() =
             animateText(like,getString(R.string.like_action))

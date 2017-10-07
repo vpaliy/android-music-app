@@ -99,8 +99,10 @@ class PlayerActivity:AppCompatActivity(){
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?)=stopSeekBarUpdate()
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                start_time.text = DateUtils.formatElapsedTime((progress / 1000).toLong())
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                if(seekBar.max >= progress) {
+                    start_time.text = DateUtils.formatElapsedTime((progress / 1000).toLong())
+                }else stopSeekBarUpdate()
             }
         })
         shuffle.tag=false
@@ -180,9 +182,11 @@ class PlayerActivity:AppCompatActivity(){
             if (it.state ==PlaybackStateCompat.STATE_PLAYING) {
                 val timeDelta = SystemClock.elapsedRealtime() - it.lastPositionUpdateTime
                 position+=(timeDelta.toInt() * it.playbackSpeed).toLong()
+                if(position <= progressView.max) {
+                    progressView.progress = position.toInt()
+                    start_time.text = DateUtils.formatElapsedTime(position / 1000)
+                }
             }
-            progressView.progress=position.toInt()
-            start_time.text=DateUtils.formatElapsedTime(position/1000)
         }
     }
 
