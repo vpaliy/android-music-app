@@ -75,9 +75,9 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     abstract fun alertMessage():String
 
     override fun show(list: List<Track>){
-        this.list.isNestedScrollingEnabled=list.size > 1
         empty.visibility=View.GONE
         adapter.set(list.toMutableList())
+        this.list.isNestedScrollingEnabled=list.size > 1
     }
 
     override fun layoutId()= R.layout.fragment_home
