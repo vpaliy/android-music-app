@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">"Flash"</string>
+
+    <string name="empty_message_description">"Un mensaje que indica que no hay datos"</string>
+    <string name="removed_message">"Se ha eliminado la canción"</string>
+    <string name="cleared_message">"Se vació la lista"</string>
+
+    <!-- Search -->
+    <string name="search_hint">"Buscar canciones..."</string>
+
+    <string name="history_label">"Recientes"</string>
+    <string name="intro_share_message">"Me encanta esta canción:"</string>
+    <string name="choose_to_share_text">"Elige a quién enviar"</string>
+    <string name="liked_label">"Favoritas"</string>
+    <string name="empty_history">"No has escuchado nada hasta ahora"</string>
+    <string name="empty_liked">"No tienes canciones favoritas"</string>
+    <string name="history_alert">"¿Seguro que deseas eliminar tu historial?"</string>
+    <string name="loved_alert">"¿Seguro que quieres eliminar todas las canciones que te gustan?"</string>
+    <string name="yes_label">"Si"</string>
+    <string name="no_label">"No"</string>
+    <string name="erase_label">"Borrando datos personales"</string>
+
+    <string name="share_action">"Compartir"</string>
+    <string name="like_action">"Me gusta"</string>
+    <string name="dislike_action">"No me gusta"</string>
+    <string name="play_action">"Reproducir"</string>
+    <string name="remove_action">"Eliminar de Recientes"</string>
+    <string name="add_action">"Añadir a Recientes"</string>
+</resources>
