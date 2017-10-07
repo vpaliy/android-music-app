@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/pages"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pages"
-        app:srcCompat="@drawable/ic_dehaze" />
+        app:srcCompat="@drawable/ic_more" />
     <TextView
         android:id="@+id/end_time"
         tools:text="4.50"
