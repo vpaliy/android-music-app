@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Flash</string>
     <string name="empty_message_description">A message which indicates that there is no data</string>
+    <string name="of_label"> из </string>
     <string name="removed_message">Песня была удалена</string>
     <string name="cleared_message">Список удален</string>
     <string name="search_hint">Введите название песни..</string>

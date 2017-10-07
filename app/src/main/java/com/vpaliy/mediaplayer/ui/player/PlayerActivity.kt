@@ -193,7 +193,6 @@ class PlayerActivity:AppCompatActivity(){
     }
 
     private fun updatePlaybackState(stateCompat: PlaybackStateCompat?) {
-        Log.d("PlayerActivity","updatePlaybackState")
         stateCompat?.let {
             lastState = stateCompat
               updateMode(repeat,(stateCompat.actions.toInt()
@@ -272,7 +271,7 @@ class PlayerActivity:AppCompatActivity(){
     private fun updatePicture(metadataCompat: MediaMetadataCompat?) {
         metadataCompat?.let {
             val number=metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER)
-            val text = number.toString()+" of " + metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS).toString()
+            val text = number.toString()+getString(R.string.of_label)+metadataCompat.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS).toString()
             val imageUrl = metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ART_URI)
             track_name.text=metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_DISPLAY_TITLE)
             artist.text = metadataCompat.getText(MediaMetadataCompat.METADATA_KEY_ARTIST)
