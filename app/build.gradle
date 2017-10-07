@@ -7,7 +7,14 @@ def libs=rootProject.ext.dependencies
 def testLibs=rootProject.ext.testDependencies
 
 android {
-
+    signingConfigs {
+        flashConfig {
+            keyAlias 'flash'
+            keyPassword 'flash10'
+            storeFile file('/home/vpaliy/keystore/flashapp.jks')
+            storePassword 'flash10'
+        }
+    }
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
     defaultConfig {
@@ -25,7 +32,7 @@ android {
     }
     buildTypes {
         release {
-            debuggable true
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.flashConfig

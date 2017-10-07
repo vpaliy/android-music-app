@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Flash</string>
+    <string name="removed_message">Пісня була успішно видалена</string>
+    <string name="cleared_message">Список був успішно видалений</string>
+    <string name="search_hint">Введіть назвну пісні..</string>
+    <string name="history_label">Історія треків</string>
+    <string name="intro_share_message">Мені дуже подобається ця пісня:</string>
+    <string name="choose_to_share_text">Виберіть спосіб </string>
+    <string name="liked_label">Улюблені пісні</string>
+    <string name="empty_history">У вас немає історії піснь</string>
+    <string name="empty_liked">У вас немає улюблених пісень</string>
+    <string name="history_alert">Ви справді бажаєте видалити всі пісні?</string>
+    <string name="loved_alert">Ви справді бажаєте видалити ваші улюблені пісні?</string>
+    <string name="yes_label">Так</string>
+    <string name="no_label">Ні</string>
+    <string name="erase_label">Видалення персональних даних</string>
+    <string name="share_action">Поділитися з іншими людьми</string>
+    <string name="like_action">Подобається</string>
+    <string name="dislike_action">Не подобається</string>
+    <string name="play_action">Грати</string>
+    <string name="remove_action">Видалити з історії</string>
+    <string name="add_action">Додати в історію</string>
+</resources>
