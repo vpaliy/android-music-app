@@ -2,6 +2,7 @@ package com.vpaliy.mediaplayer.ui.home
 
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.domain.model.Track
@@ -22,6 +23,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
             refresher.setOnRefreshListener { presenter.start() }
             adapter=TrackAdapter(context,{navigator.navigate(activity,it)}, {navigator.actions(activity,it)})
             list.adapter=adapter
+            list.isNestedScrollingEnabled=false
         }
     }
 
@@ -60,6 +62,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
 
     override fun empty(){
         adapter.clear()
+        list.isNestedScrollingEnabled=false
         setMenuVisibility(false)
         empty.setText(emptyMessage())
         empty.visibility=View.VISIBLE
@@ -72,6 +75,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
     abstract fun alertMessage():String
 
     override fun show(list: List<Track>){
+        this.list.isNestedScrollingEnabled=list.size > 1
         empty.visibility=View.GONE
         adapter.set(list.toMutableList())
     }
