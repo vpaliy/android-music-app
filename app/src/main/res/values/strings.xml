@@ -26,7 +26,7 @@
 
     <string name="share_action">Share</string>
     <string name="like_action">Like</string>
-    <string name="dislike_action">Dislike</string>
+    <string name="dislike_action">Unlike</string>
     <string name="play_action">Play</string>
     <string name="remove_action">Remove from Recent</string>
     <string name="add_action">Add to Recent</string>
