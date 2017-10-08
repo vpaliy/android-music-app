@@ -1,10 +1,15 @@
 package com.vpaliy.mediaplayer.playback
 
+import android.content.Context
+import android.graphics.Bitmap
 import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.target.SimpleTarget
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.interactor.InsertInteractor
 import com.vpaliy.mediaplayer.domain.model.Track
@@ -13,12 +18,14 @@ import com.vpaliy.mediaplayer.domain.playback.QueueManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import com.vpaliy.mediaplayer.domain.playback.PlaybackScope
+import jp.wasabeef.blurry.Blurry
 
 @PlaybackScope
 class PlaybackManager @Inject
-constructor(private val playback: Playback,
-            private val saveInteractor: InsertInteractor<Track>,
-            private val mapper: Mapper<MediaMetadataCompat, Track>) : Playback.Callback {
+constructor(val playback: Playback,
+            val context: Context,
+            val saveInteractor: InsertInteractor<Track>,
+            val mapper: Mapper<MediaMetadataCompat, Track>) : Playback.Callback {
 
     private var isRepeat: Boolean = false
     private var isShuffle: Boolean = false
@@ -154,12 +161,23 @@ constructor(private val playback: Playback,
     private fun updateMetadata() {
         if (updateListener != null) {
             queueManager?.let {
-                val result = MediaMetadataCompat.Builder(mapper.map(it.current()))
+                val track=it.current()
+                val result = MediaMetadataCompat.Builder(mapper.map(track))
                         .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, it.size().toLong())
                         .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, it.index.toLong()+1L)
                         .putLong(MediaMetadataCompat.METADATA_KEY_DISC_NUMBER, playback.position())
-                        .build()
-                updateListener?.onMetadataChanged(result)
+                updateListener?.onMetadataChanged(result.build())
+                if(!track.artworkUrl.isNullOrEmpty()){
+                    Glide.with(context)
+                            .load(track.artworkUrl)
+                            .asBitmap()
+                            .into(object:SimpleTarget<Bitmap>(){
+                                override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>?) {
+                                    result.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART,resource)
+                                    updateListener?.onMetadataChanged(result.build())
+                                }
+                            })
+                }
             }
         }
     }

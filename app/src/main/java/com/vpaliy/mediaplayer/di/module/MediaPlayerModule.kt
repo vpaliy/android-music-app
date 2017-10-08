@@ -35,7 +35,7 @@ class MediaPlayerModule{
 
     @PlaybackScope
     @Provides
-    fun manager(playback:Playback,mapper:Mapper<MediaMetadataCompat,Track>,history:TrackHistory)
-            =PlaybackManager(playback,history,mapper)
+    fun manager(context:Context,playback:Playback,mapper:Mapper<MediaMetadataCompat,Track>,history:TrackHistory)
+            =PlaybackManager(playback,context,history,mapper)
 
 }

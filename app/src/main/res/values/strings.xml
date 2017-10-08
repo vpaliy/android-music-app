@@ -7,7 +7,7 @@
 
     <!-- Search -->
     <string name="search_hint">Search for tracks...</string>
-    <string name="of_label"> of </string>
+    <string name="of_label">" of "</string>
 
     <string name="history_label">Recent</string>
     <string name="intro_share_message">I am really into this:</string>

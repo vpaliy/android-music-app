@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vpaliy.mediaplayer">
@@ -14,7 +13,6 @@
         android:supportsRtl="true"
         android:name=".FlashApp"
         android:theme="@style/Flash">
-
         <activity android:name=".ui.home.HomeActivity"
             android:hardwareAccelerated="true">
             <intent-filter>
@@ -22,7 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.search.SearchActivity"
             android:launchMode="singleTop"
@@ -39,19 +36,20 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
         <activity
             android:name=".ui.details.ActionsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Flash.Actions">
         </activity>
-
         <activity
             android:name=".ui.player.PlayerActivity">
         </activity>
-
-        <service android:name=".playback.MusicPlaybackService"/>
-
+        <service
+            android:name=".playback.MusicPlaybackService">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService" />
+            </intent-filter>
+        </service>
         <receiver android:name="android.support.v4.media.session.MediaButtonReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
