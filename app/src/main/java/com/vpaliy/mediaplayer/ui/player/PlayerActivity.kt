@@ -41,6 +41,7 @@ import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.Navigator
 import javax.inject.Inject
 import butterknife.OnClick
+import com.vpaliy.mediaplayer.ui.utils.executeIf
 
 class PlayerActivity:AppCompatActivity(){
 

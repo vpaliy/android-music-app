@@ -5,6 +5,7 @@ import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.home.HomeContract.*
 import com.vpaliy.mediaplayer.domain.interactor.ClearInteractor
 import com.vpaliy.mediaplayer.di.scope.ViewScope
+import com.vpaliy.mediaplayer.ui.utils.executeIf
 
 @ViewScope
 abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void>,
@@ -19,12 +20,7 @@ abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void
 
     private fun onSuccess(result:List<Track>?){
         view.setLoading(false)
-        result?.let {
-            when(it.isEmpty()) {
-                true -> view.empty()
-                else -> view.show(result)
-            }
-        }
+        result?.executeIf(result.isEmpty(),view::empty,{view.show(result)})
     }
 
     protected fun onError(error:Throwable){

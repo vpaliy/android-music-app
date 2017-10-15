@@ -20,7 +20,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         view?.let {
-            refresher.setOnRefreshListener { presenter.start() }
+            refresher.setOnRefreshListener(presenter::start)
             adapter=TrackAdapter(context,{navigator.navigate(activity,it)}, {navigator.actions(activity,it)})
             list.adapter=adapter
             list.isNestedScrollingEnabled=false

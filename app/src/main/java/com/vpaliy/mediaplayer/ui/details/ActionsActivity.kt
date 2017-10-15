@@ -15,12 +15,10 @@ import com.vpaliy.mediaplayer.di.component.DaggerViewComponent
 import com.vpaliy.mediaplayer.di.module.PresenterModule
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
-import com.vpaliy.mediaplayer.ui.utils.BundleUtils
-import com.vpaliy.mediaplayer.ui.utils.Constants
 import kotlinx.android.synthetic.main.fragment_actions.*
 import javax.inject.Inject
 import android.content.Intent
-
+import com.vpaliy.mediaplayer.ui.utils.*
 
 
 class ActionsActivity:BaseActivity(),ActionsContract.View{
@@ -36,19 +34,15 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
             val track= BundleUtils.fetchHeavyObject<Track>(object: TypeToken<Track>() {}.type, it, Constants.EXTRA_TRACK)
             track?.let {
                 loadTrack(it)
-                like.text=if(!it.isLiked) getString(R.string.like_action)
-                    else getString(R.string.unlike_action)
-                history.text=if(!it.isSaved) getString(R.string.add_action)
-                    else getString(R.string.remove_action)
-                like.setOnClickListener {_->
-                    if(!it.isLiked) presenter.like(it)
-                        else presenter.dislike(it)
+                like.assignTextIf(!it.isLiked,R.string.like_action,R.string.unlike_action)
+                history.assignTextIf(!it.isSaved,R.string.add_action,R.string.remove_action)
+                like.click {
+                    it.executeIf(it.isLiked,{presenter.like(it)}, {presenter.dislike(it)})
                 }
-                history.setOnClickListener {_->
-                    if(!it.isSaved) presenter.add(it)
-                        else presenter.remove(it)
+                history.click {
+                    it.executeIf(!it.isSaved,{presenter.add(it)}, {presenter.remove(it)})
                 }
-                share.setOnClickListener {
+                share.click {
                     val intent = Intent(Intent.ACTION_SEND)
                     val message=getString(R.string.intro_share_message)+track.title+
                             getString(R.string.by_label)+track.artist

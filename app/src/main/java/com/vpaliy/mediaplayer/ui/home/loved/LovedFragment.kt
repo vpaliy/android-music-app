@@ -24,6 +24,5 @@ class LovedFragment : HomeFragment() {
     }
 
     override fun emptyMessage(): Int =R.string.empty_liked
-    override fun alertMessage():String =
-            getString(R.string.loved_alert)
+    override fun alertMessage():String = getString(R.string.loved_alert)
 }

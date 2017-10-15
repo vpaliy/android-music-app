@@ -6,7 +6,6 @@ import android.os.SystemClock
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
@@ -18,7 +17,6 @@ import com.vpaliy.mediaplayer.domain.playback.QueueManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import com.vpaliy.mediaplayer.domain.playback.PlaybackScope
-import jp.wasabeef.blurry.Blurry
 
 @PlaybackScope
 class PlaybackManager @Inject
