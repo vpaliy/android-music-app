@@ -8,23 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import java.util.ArrayList
 import android.view.ViewGroup
-import com.vpaliy.mediaplayer.ui.utils.Packer
+import com.vpaliy.mediaplayer.ui.utils.executeIf
 
 abstract class BaseAdapter<T>
-(context: Context, protected val click:(Bundle)->Unit) :
+constructor(context: Context, val click:(Bundle)->Unit) :
         RecyclerView.Adapter<BaseAdapter<T>.GenericViewHolder>() {
 
-    protected var data:MutableList<T> =ArrayList<T>()
-    protected val inflater: LayoutInflater= LayoutInflater.from(context)
-
+    val inflater: LayoutInflater= LayoutInflater.from(context)
+    var data:MutableList<T> =ArrayList()
+        set(value) {
+            field=value
+            notifyDataSetChanged()
+        }
     abstract inner class GenericViewHolder
     constructor(itemView: View) : RecyclerView.ViewHolder(itemView){
         abstract fun onBindData()
-    }
-
-    fun set(data:MutableList<T>){
-        this.data=data
-        notifyDataSetChanged()
     }
 
     fun appendData(data: List<T>) {
@@ -33,19 +31,7 @@ abstract class BaseAdapter<T>
         notifyItemRangeInserted(size, itemCount)
     }
 
-    fun addItem(item: T): BaseAdapter<T> {
-        val size = itemCount
-        data.add(item)
-        notifyItemRangeInserted(size, itemCount)
-        return this
-    }
-
-    fun clear(){
-        if(!data.isEmpty()) {
-            data.clear()
-            notifyDataSetChanged()
-        }
-    }
+    fun clear()=executeIf(!data.isEmpty(),this::notifyDataSetChanged)
 
     override fun getItemCount()=data.size
 

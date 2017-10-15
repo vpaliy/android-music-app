@@ -15,9 +15,7 @@ abstract class SingleInteractor<T, in Params> constructor(val scheduler: BaseSch
                 .subscribe(success,error))
     }
 
-    fun dispose(){
-        disposables.clear()
-    }
+    fun dispose()=disposables.clear()
 
     protected abstract fun buildObservable(params:Params?=null):Single<T>
 }

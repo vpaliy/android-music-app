@@ -12,7 +12,6 @@ import android.support.v4.util.Pair
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.details.ActionsActivity
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
-import com.vpaliy.mediaplayer.ui.utils.Packer
 
 
 @Singleton

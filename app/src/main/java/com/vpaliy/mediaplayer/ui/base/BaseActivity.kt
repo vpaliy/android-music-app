@@ -9,7 +9,7 @@ import javax.inject.Inject
 abstract class BaseActivity : AppCompatActivity() {
 
     @Inject
-    protected lateinit var navigator: Navigator
+    lateinit var navigator: Navigator
 
     abstract fun inject()
 

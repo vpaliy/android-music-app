@@ -20,7 +20,8 @@ constructor(val repository: Repository, scheduler: BaseScheduler):
         return Single.error(IllegalArgumentException("Query is null or empty!"))
     }
 
-    override fun query(success: (List<Track>) -> Unit, error: (Throwable) -> Unit, query: String?)= execute(success,error,query)
+    override fun query(success: (List<Track>) -> Unit, error: (Throwable) -> Unit, query: String?)
+                = execute(success,error,query)
 
     override fun nextPage(success:(List<Track>)->Unit,error:(Throwable)->Unit){
         repository.nextPage()

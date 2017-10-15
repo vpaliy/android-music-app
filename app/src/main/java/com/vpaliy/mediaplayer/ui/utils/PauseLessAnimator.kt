@@ -6,7 +6,9 @@ import android.util.ArrayMap
 import java.util.ArrayList
 import android.annotation.TargetApi
 
-class PauseLessAnimator(private val mAnimator: Animator) : Animator() {
+
+class PauseLessAnimator
+constructor(private val mAnimator: Animator) : Animator() {
     private val mListeners = ArrayMap<Animator.AnimatorListener, Animator.AnimatorListener>()
 
     override fun addListener(listener: Animator.AnimatorListener) {
@@ -107,8 +109,8 @@ class PauseLessAnimator(private val mAnimator: Animator) : Animator() {
     }
 
     private class AnimatorListenerWrapper
-        constructor(private val mAnimator: Animator, private val mListener: Animator.AnimatorListener) :
-                Animator.AnimatorListener {
+        constructor(private val mAnimator: Animator,
+                    private val mListener: Animator.AnimatorListener) : Animator.AnimatorListener {
 
         override fun onAnimationStart(animator: Animator) {
             mListener.onAnimationStart(mAnimator)

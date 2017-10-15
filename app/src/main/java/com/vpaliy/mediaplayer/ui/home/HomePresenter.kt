@@ -8,8 +8,9 @@ import com.vpaliy.mediaplayer.di.scope.ViewScope
 import com.vpaliy.mediaplayer.ui.utils.executeIf
 
 @ViewScope
-abstract class HomePresenter (val interactor: SingleInteractor<List<Track>, Void>,
-                              val clear:ClearInteractor<Track>) : Presenter {
+abstract class HomePresenter
+constructor(private val interactor: SingleInteractor<List<Track>, Void>,
+            private val clear:ClearInteractor<Track>) : Presenter {
 
     protected lateinit var view:View
 

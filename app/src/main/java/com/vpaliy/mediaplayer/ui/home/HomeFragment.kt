@@ -76,7 +76,7 @@ abstract class HomeFragment: BaseFragment(),HomeContract.View{
 
     override fun show(list: List<Track>){
         empty.visibility=View.GONE
-        adapter.set(list.toMutableList())
+        adapter.data=list.toMutableList()
         this.list.isNestedScrollingEnabled=list.size > 1
     }
 

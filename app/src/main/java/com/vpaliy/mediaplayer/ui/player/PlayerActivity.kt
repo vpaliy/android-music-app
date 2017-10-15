@@ -23,31 +23,26 @@ import com.vpaliy.mediaplayer.playback.PlaybackManager
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import com.vpaliy.mediaplayer.playback.MusicPlaybackService
-import com.vpaliy.mediaplayer.ui.utils.BundleUtils
-import com.vpaliy.mediaplayer.ui.utils.Constants
 import kotlinx.android.synthetic.main.activity_player.*
 import java.util.concurrent.TimeUnit
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
-import android.util.Log
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
-import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.Navigator
 import javax.inject.Inject
 import butterknife.OnClick
-import com.vpaliy.mediaplayer.ui.utils.executeIf
+import com.vpaliy.mediaplayer.ui.utils.*
 
 class PlayerActivity:AppCompatActivity(){
 
     private val executorService= Executors.newSingleThreadScheduledExecutor()
     private var scheduledFuture: ScheduledFuture<*>? = null
-
     private val handler= Handler()
     private val PROGRESS_UPDATE_INTERNAL: Long = 100
     private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 10
@@ -110,6 +105,7 @@ class PlayerActivity:AppCompatActivity(){
         repeat.tag=false
     }
 
+
     @OnClick(R.id.next)
     fun next()=controlls().skipToNext()
 
@@ -119,13 +115,13 @@ class PlayerActivity:AppCompatActivity(){
     @OnClick(R.id.repeat)
     fun repeat(){
         if(repeat.tag!=null)
-        controlls().setRepeatMode(0)
+            controlls().setRepeatMode(0)
     }
 
     @OnClick(R.id.shuffle)
     fun shuffle(){
         if(shuffle!=null)
-        controlls().setShuffleModeEnabled(true)
+            controlls().setShuffleModeEnabled(true)
     }
 
     @OnClick(R.id.play_pause)
@@ -142,14 +138,10 @@ class PlayerActivity:AppCompatActivity(){
         }
     }
 
-    @OnClick(R.id.back)
-    fun back()=finish()
-
     @OnClick(R.id.shuffled_list)
     fun additional(){
         queue?.let {
-            navigator.actions(this,BundleUtils.packHeavyObject(Bundle(),
-                    Constants.EXTRA_TRACK, it.current(), object:TypeToken<Track>(){}.type))
+            navigator.actions(this,Bundle().packHeavyObject(Constants.EXTRA_TRACK,it.current()))
         }
     }
 
@@ -306,8 +298,8 @@ class PlayerActivity:AppCompatActivity(){
             queue=manager.queueManager
             manager.requestUpdate()
         }else{
-            queue=BundleUtils.fetchHeavyObject<QueueManager>(object:TypeToken<QueueManager>()
-                {}.type, intent.extras,Constants.EXTRA_QUEUE)
+            queue=intent.extras.fetchHeavyObject<QueueManager>(Constants.EXTRA_QUEUE,
+                    object: TypeToken<QueueManager>(){}.type)
             queue?.let {
                 manager.queueManager=it
                 manager.handleResumeRequest()

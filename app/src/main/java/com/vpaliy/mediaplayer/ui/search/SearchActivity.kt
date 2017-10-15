@@ -25,6 +25,7 @@ import android.transition.TransitionManager
 import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
 import android.app.SharedElementCallback
 import android.support.annotation.TransitionRes
+import com.vpaliy.mediaplayer.ui.utils.executeIf
 import javax.inject.Inject
 
 class SearchActivity:BaseActivity(), SearchContract.View{
@@ -149,18 +150,16 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     override fun show(list: List<Track>){
-        adapter.set(list.toMutableList())
+        adapter.data=list.toMutableList()
         refreshPage(true)
     }
 
     override fun append(list: List<Track>)=adapter.appendData(list.toMutableList())
 
     override fun onBackPressed(){
-        if(result.visibility!=View.VISIBLE){
-            supportFinishAfterTransition()
-        }else {
-            refreshPage(false, true)
-        }
+        executeIf(result.visibility!=View.VISIBLE,
+                this::supportFinishAfterTransition,
+                {refreshPage(false,true)})
     }
 
     override fun onDestroy() {

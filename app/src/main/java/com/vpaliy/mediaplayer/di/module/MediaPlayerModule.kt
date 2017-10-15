@@ -22,7 +22,7 @@ class MediaPlayerModule{
     @PlaybackScope
     @Provides
     fun playback(context: Context): Playback {
-        val audioManager = AudioManager::class.java.cast(context.getSystemService(Context.AUDIO_SERVICE))
+        val audioManager = (context.getSystemService(Context.AUDIO_SERVICE)) as AudioManager
         val wifiManager = (context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager)
                 .createWifiLock(WifiManager.WIFI_MODE_FULL, "uAmp_lock")
         return if(Build.VERSION.SDK_INT>=21) MediaPlayback21(context, audioManager, wifiManager)

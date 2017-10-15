@@ -26,9 +26,9 @@ class HomeActivity : BaseActivity() {
         ButterKnife.bind(this)
         setSupportActionBar(toolbar)
         drawer.setDrawerListener(toggle)
-        navigation.setNavigationItemSelectedListener { item ->
-            item.isChecked=true
-            when(item.itemId){
+        navigation.setNavigationItemSelectedListener {
+            it.isChecked=true
+            when(it.itemId){
                 R.id.history->{
                     toolbar.title=getString(R.string.history_label)
                     load(HistoryFragment())

@@ -24,6 +24,5 @@ class HistoryFragment : HomeFragment(){
     }
 
     override fun emptyMessage(): Int =R.string.empty_history
-    override fun alertMessage():String =
-            getString(R.string.history_alert)
+    override fun alertMessage():String = getString(R.string.history_alert)
 }

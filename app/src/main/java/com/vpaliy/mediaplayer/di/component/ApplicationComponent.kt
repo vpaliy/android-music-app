@@ -14,7 +14,6 @@ import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.mediaplayer.ui.base.Navigator
-import com.vpaliy.mediaplayer.ui.base.RxBus
 import com.vpaliy.soundcloud.SoundCloudService
 import com.vpaliy.soundcloud.model.TrackEntity
 import javax.inject.Singleton
@@ -30,7 +29,6 @@ interface ApplicationComponent {
     fun context(): Context
     fun scheduler():BaseScheduler
     fun mapper(): Mapper<Track, TrackEntity>
-    fun bus(): RxBus
     fun navigator():Navigator
     fun repository():Repository
     fun lovedInteractor():LovedTracks
