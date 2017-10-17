@@ -24,6 +24,9 @@ abstract class BasePlayback(protected val context: Context,
         override fun onReceive(context: Context, intent: Intent) {
             if (AudioManager.ACTION_AUDIO_BECOMING_NOISY == intent.action) {
                 if (isPlaying()) {
+                    val playIntent=Intent()
+                    playIntent.action=MediaTasks.ACTION_PLAY
+                    context.startActivity(playIntent)
                 }
             }
         }

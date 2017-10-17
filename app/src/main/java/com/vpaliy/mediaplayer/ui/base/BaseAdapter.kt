@@ -31,11 +31,16 @@ constructor(context: Context, val click:(Bundle)->Unit) :
         notifyItemRangeInserted(size, itemCount)
     }
 
+    override fun onBindViewHolder(holder: GenericViewHolder, position: Int)
+            :Unit
+            =holder.onBindData()
+
     fun clear()=executeIf(!data.isEmpty(),this::notifyDataSetChanged)
 
     override fun getItemCount()=data.size
 
-    protected fun inflate(@LayoutRes id: Int, container: ViewGroup):View
+    protected fun inflate(@LayoutRes id: Int, container: ViewGroup)
+            :View
             =inflater.inflate(id, container, false)
 
     protected fun at(index: Int)=data[index]

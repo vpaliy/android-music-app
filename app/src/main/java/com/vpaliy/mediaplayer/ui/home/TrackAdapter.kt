@@ -53,9 +53,6 @@ constructor(context: Context, click:(Bundle)->Unit, val clickMore:(Bundle)->Unit
         }
     }
 
-    override fun onBindViewHolder(holder: BaseAdapter<Track>.GenericViewHolder, position: Int)
-            :Unit
-            =holder.onBindData()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
             :BaseAdapter<Track>.GenericViewHolder
             =TrackViewHolder(inflate(R.layout.adapter_track_item, parent))
