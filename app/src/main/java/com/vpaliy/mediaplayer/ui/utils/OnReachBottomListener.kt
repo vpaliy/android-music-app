@@ -10,7 +10,7 @@ constructor(private val layoutManager:RecyclerView.LayoutManager,
             private val dataLoading: SwipeRefreshLayout?=null) : RecyclerView.OnScrollListener() {
 
     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-        // bail out if scrolling upward or already loading data
+        // bail out if scrolling upward then already loading data
         val firstVisibleItem = fetchFirstVisibleItemPosition()
         if (dy < 0 || dataLoading != null && dataLoading.isRefreshing || firstVisibleItem == -1) return
 

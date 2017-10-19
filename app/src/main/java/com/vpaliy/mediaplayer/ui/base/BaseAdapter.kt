@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import java.util.ArrayList
 import android.view.ViewGroup
-import com.vpaliy.mediaplayer.ui.utils.executeIf
+import com.vpaliy.mediaplayer.then
 
 abstract class BaseAdapter<T>
 constructor(context: Context, val click:(Bundle)->Unit) :
@@ -35,7 +35,7 @@ constructor(context: Context, val click:(Bundle)->Unit) :
             :Unit
             =holder.onBindData()
 
-    fun clear()=executeIf(!data.isEmpty(),this::notifyDataSetChanged)
+    fun clear()=!data.isEmpty() then(this::notifyDataSetChanged)
 
     override fun getItemCount()=data.size
 

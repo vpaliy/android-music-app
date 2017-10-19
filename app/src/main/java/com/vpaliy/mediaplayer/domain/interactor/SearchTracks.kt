@@ -17,7 +17,7 @@ constructor(val repository: Repository, scheduler: BaseScheduler):
         if(!params.isNullOrBlank()){
             return repository.query(params)
         }
-        return Single.error(IllegalArgumentException("Query is null or empty!"))
+        return Single.error(IllegalArgumentException("Query is null then empty!"))
     }
 
     override fun query(success: (List<Track>) -> Unit, error: (Throwable) -> Unit, query: String?)

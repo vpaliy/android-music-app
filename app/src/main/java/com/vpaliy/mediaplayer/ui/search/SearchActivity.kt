@@ -25,7 +25,7 @@ import android.transition.TransitionManager
 import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
 import android.app.SharedElementCallback
 import android.support.annotation.TransitionRes
-import com.vpaliy.mediaplayer.ui.utils.executeIf
+import com.vpaliy.mediaplayer.then
 import javax.inject.Inject
 
 class SearchActivity:BaseActivity(), SearchContract.View{
@@ -107,15 +107,14 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     }
 
     private fun refreshPage(visible:Boolean, finish:Boolean=false){
-        val transition=getTransition(if(visible) R.transition.search_show
-                else R.transition.search_show)
+        val transition=getTransition(visible.then(R.transition.search_show, R.transition.search_show))
         if(finish){
             result.animate()
             finishAfterTransition()
             return
         }
         TransitionManager.beginDelayedTransition(root,transition)
-        result.visibility=if(visible) View.VISIBLE else View.GONE
+        result.visibility=visible.then(View.VISIBLE,View.GONE)
     }
 
     override fun inject(){
@@ -157,8 +156,7 @@ class SearchActivity:BaseActivity(), SearchContract.View{
     override fun append(list: List<Track>)=adapter.appendData(list.toMutableList())
 
     override fun onBackPressed(){
-        executeIf(result.visibility!=View.VISIBLE,
-                this::supportFinishAfterTransition,
+        (result.visibility!=View.VISIBLE).then(this::supportFinishAfterTransition,
                 {refreshPage(false,true)})
     }
 

@@ -71,7 +71,7 @@ constructor(private val mAnimator: Animator) : Animator() {
         }
     }
 
-    /* We don't want to override pause or resume methods
+    /* We don't want to override pause then resume methods
      * because we don't want them to affect mAnimator.
     public void pause();
     public void resume();

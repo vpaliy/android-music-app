@@ -1,7 +1,7 @@
 package com.vpaliy.mediaplayer.domain.model
 
 import android.text.format.DateUtils
-import com.vpaliy.mediaplayer.ui.utils.returnIfNotEmpty
+import com.vpaliy.mediaplayer.ifNotEmpty
 
 data class Track(var id: String? = null,
                  var streamUrl: String? = null,
@@ -13,5 +13,5 @@ data class Track(var id: String? = null,
                  var isLiked: Boolean = false,
                  var isSaved:Boolean=false){
     val formattedDuration: String?
-        get()=duration.returnIfNotEmpty(DateUtils.formatElapsedTime(duration!!.toLong()/1000))
+        get()=duration ifNotEmpty DateUtils.formatElapsedTime(duration!!.toLong()/1000)
 }

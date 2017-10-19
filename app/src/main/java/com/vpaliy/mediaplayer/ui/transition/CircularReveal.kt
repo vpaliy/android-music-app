@@ -33,14 +33,14 @@ class CircularReveal : Visibility {
     }
 
     /**
-     * The center point of the reveal or conceal, relative to the target `view`.
+     * The center point of the reveal then conceal, relative to the target `view`.
      */
     fun setCenter(center: Point) {
         this.center = center
     }
 
     /**
-     * Center the reveal or conceal on this view.
+     * Center the reveal then conceal on this view.
      */
     fun centerOn(source: View) {
         centerOn = source

@@ -17,6 +17,7 @@ import android.content.Intent
 import com.google.gson.reflect.TypeToken
 import com.vpaliy.mediaplayer.ui.utils.*
 import android.annotation.SuppressLint
+import com.vpaliy.mediaplayer.then
 import javax.inject.Inject
 
 class ActionsActivity:BaseActivity(),ActionsContract.View{
@@ -40,10 +41,10 @@ class ActionsActivity:BaseActivity(),ActionsContract.View{
         like.assignTextIf(!track.isLiked,R.string.like_action,R.string.unlike_action)
         history.assignTextIf(!track.isSaved,R.string.add_action,R.string.remove_action)
         like.click {
-            executeIf(track.isLiked,{presenter.like(track)}, {presenter.dislike(track)})
+            track.isLiked.then({presenter.dislike(track)}, {presenter.like(track)})
         }
         history.click {
-            executeIf(!track.isSaved,{presenter.add(track)}, {presenter.remove(track)})
+            track.isSaved.then({presenter.remove(track)}, {presenter.add(track)})
         }
         share.click {
             val intent = Intent(Intent.ACTION_SEND)

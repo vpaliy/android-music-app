@@ -1,33 +1,18 @@
 package com.vpaliy.mediaplayer.domain.playback
 
 import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.then
 import java.util.Collections
 
-class QueueManager(var tracks: MutableList<Track>, var index: Int) {
+class QueueManager(private var tracks: MutableList<Track>, var index: Int) {
 
-    operator fun next(): Track {
-        if (hasNext()) {
-            return tracks[++index]
-        }
-        return current()
-    }
+    fun next()=!hasNext() then(current())?:tracks[++index]
 
-    fun previous(): Track {
-        if (hasPrevious()) {
-            return tracks[--index]
-        }
-        return current()
-    }
-
-    private fun invalidateIndexIfNeeded() {
-        if (tracks.size <= index) {
-            index = 0
-        }
-    }
+    fun previous()=!hasPrevious() then(current())?:tracks[--index]
 
     fun shuffle()=Collections.shuffle(tracks)
 
-    operator fun hasNext()=tracks.size > index + 1
+    fun hasNext()=tracks.size > (index+1)
 
     fun hasPrevious()=index - 1 >= 0
 

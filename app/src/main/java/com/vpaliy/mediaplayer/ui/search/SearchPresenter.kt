@@ -5,7 +5,7 @@ import com.vpaliy.mediaplayer.ui.search.SearchContract.*
 import com.vpaliy.mediaplayer.domain.interactor.SearchInteractor
 import javax.inject.Inject
 import com.vpaliy.mediaplayer.di.scope.ViewScope
-import com.vpaliy.mediaplayer.ui.utils.ifNullOrEmpty
+import com.vpaliy.mediaplayer.then
 
 @ViewScope
 class SearchPresenter @Inject
@@ -29,7 +29,7 @@ constructor(private val search:SearchInteractor):Presenter {
 
     private fun onSuccess(list:List<Track>?){
         view.setLoading(false)
-        list.ifNullOrEmpty(view::empty,{view.show(list!!)})
+        list?.isEmpty()?.then(view::empty,{view.show(list)})
     }
 
     private fun append(list:List<Track>?){
