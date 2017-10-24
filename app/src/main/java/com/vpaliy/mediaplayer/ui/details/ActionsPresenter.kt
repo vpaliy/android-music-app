@@ -1,30 +1,39 @@
 package com.vpaliy.mediaplayer.ui.details
 
-import com.vpaliy.mediaplayer.domain.interactor.ClearInteractor
-import com.vpaliy.mediaplayer.domain.interactor.InsertInteractor
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.details.ActionsContract.View
 import com.vpaliy.mediaplayer.ui.details.ActionsContract.Presenter
+import com.vpaliy.mediaplayer.domain.interactor.ModifyInteractor
+import com.vpaliy.mediaplayer.domain.interactor.params.ModifyParam
+import com.vpaliy.mediaplayer.domain.model.TrackType
 import javax.inject.Inject
 import com.vpaliy.mediaplayer.di.scope.ViewScope
 
 @ViewScope
 class ActionsPresenter @Inject
-constructor(val liker:InsertInteractor<Track>,
-            val adder:InsertInteractor<Track>,
-            val disliker:ClearInteractor<Track>,
-            val remover:ClearInteractor<Track>): Presenter{
+constructor(val modifier:ModifyInteractor): Presenter{
 
     private lateinit var view:View
 
-    override fun add(track: Track)=
-            adder.insert(view::added,this::error,track)
-    override fun remove(track: Track)=
-            remover.remove(view::removed,this::error,track)
-    override fun dislike(track: Track) =
-            disliker.remove(view::disliked,this::error,track)
-    override fun like(track: Track) =
-            liker.insert(view::liked,this::error,track)
+    override fun add(track: Track){
+        val param=ModifyParam(track,TrackType.HISTORY)
+        modifier.insert(view::added,this::error,param)
+    }
+
+    override fun remove(track: Track){
+        val param=ModifyParam(track,TrackType.HISTORY)
+        modifier.remove(view::removed,this::error,param)
+    }
+
+    override fun dislike(track: Track){
+        val param=ModifyParam(track,TrackType.FAVORITE)
+        modifier.remove(view::disliked,this::error,param)
+    }
+
+    override fun like(track: Track){
+        val param=ModifyParam(track,TrackType.FAVORITE)
+        modifier.insert(view::liked,this::error,param)
+    }
 
     override fun stop(){}
 

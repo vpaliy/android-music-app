@@ -5,6 +5,6 @@ import com.vpaliy.mediaplayer.domain.interactor.params.ModifyParam
 import com.vpaliy.mediaplayer.domain.interactor.params.SimpleConsumer
 
 interface ClearInteractor{
-    fun clearAll(consumer: SimpleConsumer,type:TrackType)
-    fun remove(consumer: SimpleConsumer,param: ModifyParam)
+    fun clearAll(success:()->Unit,error:(Throwable)->Unit,type:TrackType)
+    fun remove(success:()->Unit,error:(Throwable)->Unit,param: ModifyParam)
 }

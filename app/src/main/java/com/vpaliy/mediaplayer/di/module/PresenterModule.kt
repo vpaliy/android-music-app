@@ -1,19 +1,16 @@
 package com.vpaliy.mediaplayer.di.module
 
-import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
-import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
 import com.vpaliy.mediaplayer.ui.home.HomeContract
 import com.vpaliy.mediaplayer.ui.home.history.HistoryPresenter
 import com.vpaliy.mediaplayer.ui.home.loved.LovedPresenter
-import com.vpaliy.mediaplayer.di.qualifier.History
-import com.vpaliy.mediaplayer.di.qualifier.Loved
-import com.vpaliy.mediaplayer.di.scope.ViewScope
-import com.vpaliy.mediaplayer.domain.interactor.SearchInteractor
-import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
+import com.vpaliy.mediaplayer.domain.interactor.*
 import com.vpaliy.mediaplayer.ui.details.ActionsContract
 import com.vpaliy.mediaplayer.ui.details.ActionsPresenter
 import com.vpaliy.mediaplayer.ui.search.SearchContract
 import com.vpaliy.mediaplayer.ui.search.SearchPresenter
+import com.vpaliy.mediaplayer.di.qualifier.History
+import com.vpaliy.mediaplayer.di.qualifier.Loved
+import com.vpaliy.mediaplayer.di.scope.ViewScope
 import dagger.Module
 import dagger.Provides
 
@@ -22,18 +19,26 @@ class PresenterModule{
     @ViewScope
     @History
     @Provides
-    fun history(interactor:TrackHistory):HomeContract.Presenter= HistoryPresenter(interactor)
+    fun history(tracks:GetTracks,modify: ModifyTracks)
+            :HomeContract.Presenter
+            =HistoryPresenter(tracks,modify)
 
     @ViewScope
     @Loved
     @Provides
-    fun loved(interactor:LovedTracks):HomeContract.Presenter= LovedPresenter(interactor)
+    fun loved(tracks:GetTracks,modify: ModifyTracks)
+            :HomeContract.Presenter
+            =LovedPresenter(tracks,modify)
 
     @ViewScope
     @Provides
-    fun search(interactor:SearchTracks):SearchContract.Presenter= SearchPresenter(interactor)
+    fun search(search:SearchTracks)
+            :SearchContract.Presenter
+            =SearchPresenter(search)
 
     @ViewScope
     @Provides
-    fun actions(lover:LovedTracks,history: TrackHistory):ActionsContract.Presenter=ActionsPresenter(lover,history,lover,history)
+    fun actions(modify: ModifyTracks)
+            :ActionsContract.Presenter
+            =ActionsPresenter(modify)
 }

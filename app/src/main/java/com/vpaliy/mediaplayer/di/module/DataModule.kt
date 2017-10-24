@@ -6,6 +6,7 @@ import com.vpaliy.mediaplayer.data.local.MusicDatabase
 import com.vpaliy.mediaplayer.data.local.TrackHandler
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.data.mapper.TrackMapper
+import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.soundcloud.model.TrackEntity
 import dagger.Module

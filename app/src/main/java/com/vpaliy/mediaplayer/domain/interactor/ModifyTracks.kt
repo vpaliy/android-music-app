@@ -12,24 +12,24 @@ import javax.inject.Singleton
 class ModifyTracks @Inject
 constructor(val repository: Repository, val scheduler: BaseScheduler):ModifyInteractor{
 
-    override fun insert(consumer: SimpleConsumer, param: ModifyParam) {
+    override fun insert(success:()->Unit,error:(Throwable)->Unit, param: ModifyParam) {
         repository.insert(param)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
-                .subscribe(consumer.onSuccess,consumer.onError)
+                .subscribe(success,error)
     }
 
-    override fun clearAll(consumer: SimpleConsumer, type: TrackType) {
+    override fun clearAll(success:()->Unit,error:(Throwable)->Unit, type: TrackType) {
         repository.clearAll(type)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
-                .subscribe(consumer.onSuccess,consumer.onError)
+                .subscribe(success,error)
     }
 
-    override fun remove(consumer: SimpleConsumer, param: ModifyParam) {
+    override fun remove(success:()->Unit,error:(Throwable)->Unit, param: ModifyParam) {
         repository.remove(param)
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
-                .subscribe(consumer.onSuccess,consumer.onError)
+                .subscribe(success,error)
     }
 }

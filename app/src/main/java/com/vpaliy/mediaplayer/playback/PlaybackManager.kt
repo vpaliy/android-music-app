@@ -11,7 +11,9 @@ import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.interactor.InsertInteractor
+import com.vpaliy.mediaplayer.domain.interactor.params.ModifyParam
 import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.domain.model.TrackType
 import com.vpaliy.mediaplayer.domain.playback.Playback
 import com.vpaliy.mediaplayer.domain.playback.QueueManager
 import java.util.concurrent.TimeUnit
@@ -23,7 +25,7 @@ import com.vpaliy.mediaplayer.then
 class PlaybackManager @Inject
 constructor(val playback: Playback,
             val context: Context,
-            val saveInteractor: InsertInteractor<Track>,
+            val saveInteractor: InsertInteractor,
             val mapper: Mapper<MediaMetadataCompat, Track>) : Playback.Callback {
 
     private var isRepeat: Boolean = false
@@ -40,7 +42,7 @@ constructor(val playback: Playback,
 
     fun handlePlayRequest(track: Track?) {
         track?.let {
-            saveInteractor.insert({},{},it)
+            saveInteractor.insert({},{}, ModifyParam(it,TrackType.HISTORY))
             playback.play(it.streamUrl)
             updateMetadata()
         }

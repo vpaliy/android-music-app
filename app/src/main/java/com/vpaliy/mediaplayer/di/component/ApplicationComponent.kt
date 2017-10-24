@@ -6,10 +6,9 @@ import com.vpaliy.mediaplayer.di.module.ApplicationModule
 import com.vpaliy.mediaplayer.di.module.DataModule
 import com.vpaliy.mediaplayer.di.module.InteractorModule
 import com.vpaliy.mediaplayer.di.module.NetworkModule
+import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
-import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
-import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
-import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
+import com.vpaliy.mediaplayer.domain.interactor.*
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.mediaplayer.ui.base.Navigator
@@ -30,8 +29,8 @@ interface ApplicationComponent {
     fun mapper(): Mapper<Track, TrackEntity>
     fun navigator():Navigator
     fun repository():Repository
-    fun lovedInteractor():LovedTracks
+    fun modifyInteractor():ModifyTracks
     fun searchInteractor():SearchTracks
-    fun historyInteractor():TrackHistory
+    fun singleInteractor():GetTracks
     fun service():SoundCloudService
 }
