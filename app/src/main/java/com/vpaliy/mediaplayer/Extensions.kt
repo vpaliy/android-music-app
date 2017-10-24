@@ -17,3 +17,6 @@ inline infix fun<T> Boolean.then(expression: () -> T)
 
 inline fun<T> Boolean.then(expression:()->T, default:()->T)
         =if(this) expression() else default()
+
+inline fun <T,Type> Type?.ifNotNull(source:(Type)->T, default:T)
+        =if(this!=null) source(this) else default

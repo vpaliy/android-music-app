@@ -55,7 +55,6 @@ dependencies {
     implementation 'com.sdsmdg.harjot:croller:1.0.2'
     implementation 'jp.wasabeef:blurry:2.1.1'
     implementation 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation libs.firebaseCore
     implementation libs.firebaseCrash
     implementation libs.soundcloud
@@ -78,6 +77,7 @@ dependencies {
     testImplementation testLibs.jUnit
     testImplementation testLibs.kotlinMockito
     testImplementation testLibs.robolectric
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()
