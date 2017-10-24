@@ -20,3 +20,4 @@ inline fun<T> Boolean.then(expression:()->T, default:()->T)
 
 inline fun <T,Type> Type?.ifNotNull(source:(Type)->T, default:T)
         =if(this!=null) source(this) else default
+

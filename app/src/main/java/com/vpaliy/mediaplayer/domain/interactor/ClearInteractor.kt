@@ -1,6 +1,10 @@
 package com.vpaliy.mediaplayer.domain.interactor
 
-interface ClearInteractor<in Params> {
-    fun clear(complete: () -> Unit, error: (Throwable) -> Unit)
-    fun remove(complete: () -> Unit, error: (Throwable) -> Unit, params: Params)
+import com.vpaliy.mediaplayer.domain.model.TrackType
+import com.vpaliy.mediaplayer.domain.interactor.params.ModifyParam
+import com.vpaliy.mediaplayer.domain.interactor.params.SimpleConsumer
+
+interface ClearInteractor{
+    fun clearAll(consumer: SimpleConsumer,type:TrackType)
+    fun remove(consumer: SimpleConsumer,param: ModifyParam)
 }

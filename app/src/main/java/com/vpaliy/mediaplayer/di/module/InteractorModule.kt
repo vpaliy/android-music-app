@@ -1,6 +1,5 @@
 package com.vpaliy.mediaplayer.di.module
 
-import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.interactor.*
 import dagger.Module

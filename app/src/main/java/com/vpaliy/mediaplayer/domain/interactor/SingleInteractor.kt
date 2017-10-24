@@ -1,21 +1,17 @@
 package com.vpaliy.mediaplayer.domain.interactor
 
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
+import com.vpaliy.mediaplayer.domain.Repository
+import com.vpaliy.mediaplayer.domain.interactor.params.Consumer
+import com.vpaliy.mediaplayer.domain.interactor.params.Response
+import io.reactivex.Single
 
-abstract class SingleInteractor<T, in Params> constructor(val scheduler: BaseScheduler){
-
-    private val disposables=CompositeDisposable()
-
-    open fun execute(success: (T)->Unit, error:(Throwable)->Unit,params: Params?=null){
-        disposables.add(buildObservable(params)
-                .subscribeOn(scheduler.io())
+abstract class SingleInteractor<Params> (val repository: Repository, val scheduler: BaseScheduler){
+    fun execute(consumer: Consumer<Params>, params:Params?=null){
+        buildCase(params).subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
-                .subscribe(success,error))
+                .subscribe(consumer.success,consumer.error)
     }
 
-    fun dispose()=disposables.clear()
-
-    protected abstract fun buildObservable(params:Params?=null):Single<T>
+    protected abstract fun buildCase(params:Params?=null): Single<Response<Params>>
 }

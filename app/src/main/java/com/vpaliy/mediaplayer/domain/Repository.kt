@@ -1,18 +1,16 @@
 package com.vpaliy.mediaplayer.domain
 
-import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.domain.model.SearchPage
+import com.vpaliy.mediaplayer.domain.model.TrackType
+import com.vpaliy.mediaplayer.domain.interactor.params.ModifyParam
+import com.vpaliy.mediaplayer.domain.interactor.params.Response
 import io.reactivex.Completable
 import io.reactivex.Single
 
 interface Repository {
-    fun fetchHistory():Single<List<Track>>
-    fun fetchLiked():Single<List<Track>>
-    fun query(query:String?):Single<List<Track>>
-    fun nextPage(): Single<List<Track>>
-    fun insertRecent(track:Track?):Completable
-    fun like(track:Track?):Completable
-    fun clearHistory():Completable
-    fun clearLoved():Completable
-    fun removeLoved(track:Track):Completable
-    fun removeRecent(track:Track):Completable
+    fun clearAll(type:TrackType):Completable
+    fun remove(param:ModifyParam):Completable
+    fun insert(param: ModifyParam):Completable
+    fun fetch(type:TrackType): Single<Response<TrackType>>
+    fun search(page: SearchPage):Single<Response<SearchPage>>
 }

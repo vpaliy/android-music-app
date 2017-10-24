@@ -6,7 +6,6 @@ import com.vpaliy.mediaplayer.di.module.ApplicationModule
 import com.vpaliy.mediaplayer.di.module.DataModule
 import com.vpaliy.mediaplayer.di.module.InteractorModule
 import com.vpaliy.mediaplayer.di.module.NetworkModule
-import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
 import com.vpaliy.mediaplayer.domain.interactor.SearchTracks

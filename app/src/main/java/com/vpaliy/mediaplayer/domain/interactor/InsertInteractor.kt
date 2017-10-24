@@ -1,5 +1,8 @@
 package com.vpaliy.mediaplayer.domain.interactor
 
-interface InsertInteractor<in Params>{
-    fun insert(success:()->Unit,error:(Throwable)->Unit,params: Params)
+import com.vpaliy.mediaplayer.domain.interactor.params.ModifyParam
+import com.vpaliy.mediaplayer.domain.interactor.params.SimpleConsumer
+
+interface InsertInteractor{
+    fun insert(consumer: SimpleConsumer,param: ModifyParam)
 }

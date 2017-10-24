@@ -5,10 +5,12 @@ import com.vpaliy.mediaplayer.data.local.TrackHandler
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
-import com.vpaliy.mediaplayer.domain.executor.SchedulerProvider
+import com.vpaliy.mediaplayer.domain.interactor.params.ModifyParam
+import com.vpaliy.mediaplayer.domain.interactor.params.Response
+import com.vpaliy.mediaplayer.domain.model.SearchPage
 import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.domain.model.TrackType
 import com.vpaliy.soundcloud.SoundCloudService
-import com.vpaliy.soundcloud.model.Page
 import com.vpaliy.soundcloud.model.TrackEntity
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -18,9 +20,8 @@ import javax.inject.Singleton
 @Singleton
 class MusicRepository @Inject
 constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService,
-            val handler: TrackHandler, val filter:Filter,scheduler: BaseScheduler):Repository{
+            val handler: TrackHandler, val filter:Filter,scheduler: BaseScheduler):Repository {
 
-    private var page:Page<TrackEntity>?=null
     private var likeSet=HashSet<String>()
     private var recentSet=HashSet<String>()
 
@@ -34,13 +35,71 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
                 .observeOn(scheduler.ui())
                 .subscribe({list->convertToSet(likeSet,list)})
     }
-    override fun fetchHistory():Single<List<Track>>
-            = Single.fromCallable({handler.queryHistory()})
 
-    override fun fetchLiked():Single<List<Track>>
-            = Single.fromCallable({handler.queryLoved()})
+    override fun search(page: SearchPage): Single<Response<SearchPage>> {
+        return service.searchTracksPage(TrackEntity.Filter
+                .start().byName(page.query)
+                .withPagination()
+                .limit(100)
+                .createOptions())
+                .map({result->
+                    result.collection
+                }).map(filter::filter)
+                .map(mapper::map)
+                .map(this::filter)
+                .map {Response(page,it) }
+    }
 
-    override fun query(query: String?): Single<List<Track>> {
+    override fun clearAll(type: TrackType): Completable {
+        return when(type){
+            TrackType.HISTORY-> {
+                recentSet.clear()
+                Completable.fromCallable(handler::deleteHistory)
+            }
+            TrackType.FAVORITE-> {
+                likeSet.clear()
+                Completable.fromCallable(handler::deleteLoved)
+            }
+        }
+    }
+
+    override fun fetch(type: TrackType): Single<Response<TrackType>> {
+        return Single.fromCallable({
+            when(type) {
+                TrackType.FAVORITE -> handler.queryLoved()
+                TrackType.HISTORY -> handler.queryHistory()
+            }
+        }).map{Response(type,it)}
+    }
+
+    override fun insert(param: ModifyParam): Completable {
+        when(param.type){
+            TrackType.FAVORITE->{
+                if(!likeSet.contains(param.track.id)){
+                    return Completable.fromCallable({handler.update(love(param.track,true))})
+                }
+            }
+            TrackType.HISTORY->{
+                if(!recentSet.contains(param.track.id)){
+                    return Completable.fromCallable({handler.update(save(param.track,true))})
+                }
+            }
+        }
+        return Completable.complete()
+    }
+
+    override fun remove(param: ModifyParam): Completable {
+        return when(param.type){
+            TrackType.FAVORITE->{
+                Completable.fromCallable({handler.update(love(param.track,false))})
+            }
+            TrackType.HISTORY->{
+                Completable.fromCallable({handler.update(save(param.track,false))})
+            }
+        }
+    }
+
+   /* override fun query(query: String?): Single<List<Track>> {
         return service.searchTracksPage(TrackEntity.Filter
                 .start().byName(query)
                 .withPagination()
@@ -70,35 +129,7 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
         }
         return Single.error(IllegalArgumentException("No more data"))
     }
-
-    override fun like(track: Track?):Completable=
-            Completable.fromCallable({handler.update(love(track,true))})
-
-    override fun clearHistory():Completable {
-        recentSet.clear()
-        return Completable.fromCallable({ handler.deleteHistory() })
-    }
-
-    override fun clearLoved():Completable{
-        likeSet.clear()
-        return Completable.fromCallable({handler.deleteLoved()})
-    }
-
-    override fun removeLoved(track: Track):Completable=
-            Completable.fromCallable({handler.update(love(track,false))})
-
-    override fun removeRecent(track: Track):Completable=
-            Completable.fromCallable({handler.update(save(track,false))})
-
-    override fun insertRecent(track: Track?):Completable {
-        if(track!=null){
-            if(!recentSet.contains(track.id)){
-               return Completable.fromCallable({handler.update(save(track,true))})
-            }
-        }
-        return Completable.complete()
-    }
-
+ */
     private fun convertToSet(set:HashSet<String>, list:List<Track>)=list.forEach{
         it.id?.let {set.add(it)}
     }
@@ -109,13 +140,13 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
             track.isLiked=likeSet.contains(track.id)
         }
         it
-    }
+    }?: emptyList()
 
-    private fun save(track:Track?,saved:Boolean)=track?.let {
+    private fun save(track:Track,saved:Boolean):Track {
         if(!saved) recentSet.remove(track.id)
         else track.id?.let{recentSet.add(it)}
-        it.isSaved=saved
-        it
+        track.isSaved=saved
+        return track
     }
 
     private fun love(track:Track?,liked:Boolean)=track?.let {
