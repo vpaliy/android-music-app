@@ -99,37 +99,6 @@ constructor(val mapper: Mapper<Track,TrackEntity>, val service:SoundCloudService
         }
     }
 
-   /* override fun query(query: String?): Single<List<Track>> {
-        return service.searchTracksPage(TrackEntity.Filter
-                .start().byName(query)
-                .withPagination()
-                .limit(100)
-                .createOptions())
-                .map({result->
-                    page=result
-                    result.collection
-                }).map(filter::filter)
-                .map(mapper::map)
-                .map(this::filter)
-    }
-
-    override fun nextPage(): Single<List<Track>> {
-        if(page!=null){
-            return service.searchTracksPage(TrackEntity.Filter
-                    .start().nextPage(page)
-                    .withPagination()
-                    .limit(100)
-                    .createOptions())
-                    .map({result->
-                        page=result
-                        result.collection
-                    }).map(filter::filter)
-                    .map(mapper::map)
-                    .map(this::filter)
-        }
-        return Single.error(IllegalArgumentException("No more data"))
-    }
- */
     private fun convertToSet(set:HashSet<String>, list:List<Track>)=list.forEach{
         it.id?.let {set.add(it)}
     }

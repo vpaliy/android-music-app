@@ -11,13 +11,13 @@ import javax.inject.Singleton
 class InteractorModule{
     @Singleton
     @Provides
-    fun modifyInteractor(repository: Repository, scheduler: BaseScheduler)=ModifyTracks(repository,scheduler)
+    internal fun modifyInteractor(repository: Repository, scheduler: BaseScheduler)=ModifyTracks(repository,scheduler)
 
     @Singleton
     @Provides
-    fun searchInteractor(repository:Repository, scheduler: BaseScheduler)= SearchTracks(repository,scheduler)
+    internal fun searchInteractor(repository:Repository, scheduler: BaseScheduler)= SearchTracks(repository,scheduler)
 
     @Singleton
     @Provides
-    fun tracksInteractor(repository:Repository, scheduler: BaseScheduler) =GetTracks(repository,scheduler)
+    internal fun tracksInteractor(repository:Repository, scheduler: BaseScheduler) =GetTracks(repository,scheduler)
 }

@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class NetworkModule constructor(val token:Token?){
     @Singleton
     @Provides
-    fun service(context:Context):SoundCloudService=
+    internal fun service(context:Context):SoundCloudService=
             SoundCloud.create(Config.CLIENT_ID)
             .appendToken(token)
             .createService(context)

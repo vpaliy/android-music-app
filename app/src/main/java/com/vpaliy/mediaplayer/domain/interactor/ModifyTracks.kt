@@ -4,7 +4,6 @@ import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.model.TrackType
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyParam
-import com.vpaliy.mediaplayer.domain.interactor.params.SimpleConsumer
 import javax.inject.Inject
 import javax.inject.Singleton
 

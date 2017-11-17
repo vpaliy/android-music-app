@@ -19,26 +19,26 @@ class PresenterModule{
     @ViewScope
     @History
     @Provides
-    fun history(tracks:GetTracks,modify: ModifyTracks)
+    internal fun history(tracks:GetTracks,modify: ModifyTracks)
             :HomeContract.Presenter
             =HistoryPresenter(tracks,modify)
 
     @ViewScope
     @Loved
     @Provides
-    fun loved(tracks:GetTracks,modify: ModifyTracks)
+    internal fun loved(tracks:GetTracks,modify: ModifyTracks)
             :HomeContract.Presenter
             =LovedPresenter(tracks,modify)
 
     @ViewScope
     @Provides
-    fun search(search:SearchTracks)
+    internal fun search(search:SearchTracks)
             :SearchContract.Presenter
             =SearchPresenter(search)
 
     @ViewScope
     @Provides
-    fun actions(modify: ModifyTracks)
+    internal fun actions(modify: ModifyTracks)
             :ActionsContract.Presenter
             =ActionsPresenter(modify)
 }
