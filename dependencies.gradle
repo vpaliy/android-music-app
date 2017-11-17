@@ -4,8 +4,8 @@ ext {
     configuration =
             [
                     package                  : "com.vpaliy.mediaplayer",
-                    buildToolVersion         : "25.02.2",
-                    buildToolsVersion        : "25.0.2",
+                    buildToolVersion         : "26.0.2",
+                    buildToolsVersion        : "26.0.2",
                     compileSdkVersion        : 25,
                     minSdkVersion            : 21,
                     targetSdkVersion         : 25,

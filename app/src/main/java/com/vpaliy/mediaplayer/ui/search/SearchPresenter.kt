@@ -1,13 +1,13 @@
 package com.vpaliy.mediaplayer.ui.search
 
 import com.vpaliy.mediaplayer.ui.search.SearchContract.*
-import javax.inject.Inject
-import com.vpaliy.mediaplayer.di.scope.ViewScope
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.interactor.params.Consumer
 import com.vpaliy.mediaplayer.domain.interactor.params.Response
 import com.vpaliy.mediaplayer.domain.model.SearchPage
 import com.vpaliy.mediaplayer.then
+import javax.inject.Inject
+import com.vpaliy.mediaplayer.di.scope.ViewScope
 
 @ViewScope
 class SearchPresenter @Inject
@@ -40,7 +40,7 @@ constructor(val search:SingleInteractor<SearchPage>):Presenter {
     private fun append(response: Response<SearchPage>){
         view.setLoading(false)
         val list=response.result
-        list?.let { view.append(it) }
+        view.append(list)
     }
 
     private fun onError(error:Throwable){

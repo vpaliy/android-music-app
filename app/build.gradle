@@ -38,6 +38,12 @@ android {
             signingConfig signingConfigs.flashConfig
         }
     }
+
+    lintOptions {
+        abortOnError false
+        disable 'RestrictedApi'
+    }
+
     kapt {
         generateStubs = true
     }
@@ -47,6 +53,7 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {

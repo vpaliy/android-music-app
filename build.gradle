@@ -8,10 +8,11 @@ buildscript {
         maven {
             url 'http://dl.bintray.com/amulyakhare/maven'
         }
+        google()
     }
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-        classpath 'com.android.tools.build:gradle:3.0.0-beta5'
+        classpath 'com.android.tools.build:gradle:3.1.0-alpha03'
         classpath 'com.google.gms:google-services:3.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -26,6 +27,7 @@ allprojects {
         maven {
             url "https://maven.google.com"
         }
+        google()
     }
 }
 
