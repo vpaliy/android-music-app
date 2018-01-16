@@ -5,75 +5,77 @@ import android.support.v4.util.Pair
 import android.view.Menu
 import android.view.MenuItem
 import butterknife.ButterKnife
-import com.vpaliy.mediaplayer.FlashApp
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
 import com.vpaliy.mediaplayer.ui.home.loved.LovedFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v7.app.ActionBarDrawerToggle
+import com.vpaliy.mediaplayer.App
 
 class HomeActivity : BaseActivity() {
 
-    private var fragment:HomeFragment?=null
-    private val toggle by lazy {
-        ActionBarDrawerToggle(this,drawer,toolbar,0,0)
-    }
+  private var fragment: HomeFragment? = null
+  private val toggle by lazy {
+    ActionBarDrawerToggle(this, drawer, toolbar, 0, 0)
+  }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-        ButterKnife.bind(this)
-        setSupportActionBar(toolbar)
-        drawer.setDrawerListener(toggle)
-        navigation.setNavigationItemSelectedListener {
-            it.isChecked=true
-            when(it.itemId){
-                R.id.history->{
-                    toolbar.title=getString(R.string.history_label)
-                    load(HistoryFragment())
-                }
-                R.id.loved->{
-                    toolbar.title=getString(R.string.liked_label)
-                    load(LovedFragment())
-                }
-                else ->false
-            }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_home)
+    ButterKnife.bind(this)
+    setSupportActionBar(toolbar)
+    drawer.setDrawerListener(toggle)
+    navigation.setNavigationItemSelectedListener {
+      it.isChecked = true
+      when (it.itemId) {
+        R.id.history -> {
+          toolbar.title = getString(R.string.history_label)
+          load(HistoryFragment())
         }
-        navigation.setCheckedItem(R.id.history)
-        load(HistoryFragment())
-    }
-
-    private fun load(fragment: HomeFragment):Boolean{
-        this.fragment=fragment
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.frame,fragment)
-                .commit()
-        drawer.closeDrawers()
-        return true
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main,menu)
-        return true
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?){
-        super.onPostCreate(savedInstanceState)
-        toggle.syncState()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when(item?.itemId){
-            R.id.search-> {
-                val search =toolbar.findViewById(R.id.search)
-                search.transitionName=getString(R.string.search_trans)
-                navigator.search(this, Pair(search, getString(R.string.search_trans)))
-                return true
-            }
+        R.id.loved -> {
+          toolbar.title = getString(R.string.liked_label)
+          load(LovedFragment())
         }
-        return toggle.onOptionsItemSelected(item)
+        else -> false
+      }
     }
+    navigation.setCheckedItem(R.id.history)
+    load(HistoryFragment())
+  }
 
-    override fun inject()= FlashApp.app().component().inject(this)
+  private fun load(fragment: HomeFragment): Boolean {
+    this.fragment = fragment
+    supportFragmentManager.beginTransaction()
+        .replace(R.id.frame, fragment)
+        .commit()
+    drawer.closeDrawers()
+    return true
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    menuInflater.inflate(R.menu.main, menu)
+    return true
+  }
+
+  override fun onPostCreate(savedInstanceState: Bundle?) {
+    super.onPostCreate(savedInstanceState)
+    toggle.syncState()
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    when (item?.itemId) {
+      R.id.search -> {
+        val search = toolbar.findViewById(R.id.search)
+        search.transitionName = getString(R.string.search_trans)
+        navigator.search(this, Pair(search, getString(R.string.search_trans)))
+        return true
+      }
+    }
+    return toggle.onOptionsItemSelected(item)
+  }
+
+  override fun inject() {
+    App.component?.inject(this)
+  }
 }

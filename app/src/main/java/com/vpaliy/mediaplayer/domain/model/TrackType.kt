@@ -1,5 +1,5 @@
 package com.vpaliy.mediaplayer.domain.model
 
-enum class TrackType{
-    HISTORY, FAVORITE
+enum class TrackType {
+  HISTORY, FAVORITE
 }

@@ -8,9 +8,9 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface Repository {
-    fun clearAll(type:TrackType):Completable
-    fun remove(param:ModifyParam):Completable
-    fun insert(param: ModifyParam):Completable
-    fun fetch(type:TrackType): Single<Response<TrackType>>
-    fun search(page: SearchPage):Single<Response<SearchPage>>
+  fun clearAll(type: TrackType): Completable
+  fun remove(param: ModifyParam): Completable
+  fun insert(param: ModifyParam): Completable
+  fun fetch(type: TrackType): Single<Response<TrackType>>
+  fun search(page: SearchPage): Single<Response<SearchPage>>
 }

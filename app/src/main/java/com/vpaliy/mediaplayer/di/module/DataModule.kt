@@ -15,19 +15,19 @@ import javax.inject.Singleton
 
 @Module
 class DataModule {
-    @Singleton
-    @Provides
-    internal fun repository(repository:MusicRepository):Repository=repository
+  @Singleton
+  @Provides
+  internal fun repository(repository: MusicRepository): Repository = repository
 
-    @Singleton
-    @Provides
-    internal fun mapper(mapper:TrackMapper): Mapper<Track, TrackEntity> =mapper
+  @Singleton
+  @Provides
+  internal fun mapper(mapper: TrackMapper): Mapper<Track, TrackEntity> = mapper
 
-    @Singleton
-    @Provides
-    internal fun filter()=Filter()
+  @Singleton
+  @Provides
+  internal fun filter() = Filter()
 
-    @Singleton
-    @Provides
-    internal fun handler(helper: MusicDatabase)=TrackHandler(helper)
+  @Singleton
+  @Provides
+  internal fun handler(helper: MusicDatabase) = TrackHandler(helper)
 }

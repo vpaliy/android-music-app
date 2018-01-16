@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".FlashApp"
+        android:name=".App"
         android:theme="@style/Flash">
         <activity android:name=".ui.home.HomeActivity"
             android:hardwareAccelerated="true">

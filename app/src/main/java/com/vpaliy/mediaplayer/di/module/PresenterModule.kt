@@ -15,30 +15,30 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class PresenterModule{
-    @ViewScope
-    @History
-    @Provides
-    internal fun history(tracks:GetTracks,modify: ModifyTracks)
-            :HomeContract.Presenter
-            =HistoryPresenter(tracks,modify)
+class PresenterModule {
+  @ViewScope
+  @History
+  @Provides
+  internal fun history(tracks: GetTracks, modify: ModifyTracks)
+      : HomeContract.Presenter
+      = HistoryPresenter(tracks, modify)
 
-    @ViewScope
-    @Loved
-    @Provides
-    internal fun loved(tracks:GetTracks,modify: ModifyTracks)
-            :HomeContract.Presenter
-            =LovedPresenter(tracks,modify)
+  @ViewScope
+  @Loved
+  @Provides
+  internal fun loved(tracks: GetTracks, modify: ModifyTracks)
+      : HomeContract.Presenter
+      = LovedPresenter(tracks, modify)
 
-    @ViewScope
-    @Provides
-    internal fun search(search:SearchTracks)
-            :SearchContract.Presenter
-            =SearchPresenter(search)
+  @ViewScope
+  @Provides
+  internal fun search(search: SearchTracks)
+      : SearchContract.Presenter
+      = SearchPresenter(search)
 
-    @ViewScope
-    @Provides
-    internal fun actions(modify: ModifyTracks)
-            :ActionsContract.Presenter
-            =ActionsPresenter(modify)
+  @ViewScope
+  @Provides
+  internal fun actions(modify: ModifyTracks)
+      : ActionsContract.Presenter
+      = ActionsPresenter(modify)
 }

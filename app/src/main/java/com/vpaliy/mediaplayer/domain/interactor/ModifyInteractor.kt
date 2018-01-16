@@ -1,3 +1,3 @@
 package com.vpaliy.mediaplayer.domain.interactor
 
-interface ModifyInteractor:ClearInteractor,InsertInteractor
+interface ModifyInteractor : ClearInteractor, InsertInteractor

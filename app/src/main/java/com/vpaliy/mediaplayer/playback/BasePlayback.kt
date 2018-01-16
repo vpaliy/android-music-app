@@ -11,125 +11,125 @@ import com.vpaliy.mediaplayer.domain.playback.Playback
 abstract class BasePlayback(protected val context: Context,
                             protected val audioManager: AudioManager,
                             protected val wifiLock: WifiManager.WifiLock) :
-        Playback, AudioManager.OnAudioFocusChangeListener {
+    Playback, AudioManager.OnAudioFocusChangeListener {
 
-    protected lateinit var callback:Playback.Callback
-    protected var focusState = AUDIO_NO_FOCUS_NO_DUCK
-    private var noisyReceiverRegistered=false
-    @Volatile protected var currentUrl: String? = null
+  protected lateinit var callback: Playback.Callback
+  protected var focusState = AUDIO_NO_FOCUS_NO_DUCK
+  private var noisyReceiverRegistered = false
+  @Volatile protected var currentUrl: String? = null
 
-    private val audioBecomingNoisyIntent = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
+  private val audioBecomingNoisyIntent = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
 
-    private val audioNoisyReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (AudioManager.ACTION_AUDIO_BECOMING_NOISY == intent.action) {
-                if (isPlaying()) {
-                    val playIntent=Intent()
-                    playIntent.action=MediaTasks.ACTION_PLAY
-                    context.startActivity(playIntent)
-                }
-            }
+  private val audioNoisyReceiver = object : BroadcastReceiver() {
+    override fun onReceive(context: Context, intent: Intent) {
+      if (AudioManager.ACTION_AUDIO_BECOMING_NOISY == intent.action) {
+        if (isPlaying()) {
+          val playIntent = Intent()
+          playIntent.action = MediaTasks.ACTION_PLAY
+          context.startActivity(playIntent)
         }
+      }
     }
+  }
 
-    override fun play(streamUrl: String?) {
-        if(!streamUrl.isNullOrEmpty()){
-            requestFocus()
-            registerNoiseReceiver()
-            acquireWifiLock()
-            if(streamUrl.equals(currentUrl)){
-                resumePlayer()
-                return
-            }
-            this.currentUrl = streamUrl
-            startPlayer()
-        }
+  override fun play(streamUrl: String?) {
+    if (!streamUrl.isNullOrEmpty()) {
+      requestFocus()
+      registerNoiseReceiver()
+      acquireWifiLock()
+      if (streamUrl.equals(currentUrl)) {
+        resumePlayer()
+        return
+      }
+      this.currentUrl = streamUrl
+      startPlayer()
     }
+  }
 
-    override fun assignCallback(callback: Playback.Callback) {
-        this.callback=callback
+  override fun assignCallback(callback: Playback.Callback) {
+    this.callback = callback
+  }
+
+  abstract fun startPlayer()
+  abstract fun stopPlayer()
+  abstract fun pausePlayer()
+  abstract fun resumePlayer()
+  abstract fun updatePlayer()
+
+  protected fun acquireWifiLock() = wifiLock.acquire()
+
+  protected fun requestFocus() {
+    val result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
+        AudioManager.AUDIOFOCUS_GAIN)
+    focusState = when (result) {
+      AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> AUDIO_FOCUSED
+      else -> AUDIO_NO_FOCUS_NO_DUCK
     }
+  }
 
-    abstract fun startPlayer()
-    abstract fun stopPlayer()
-    abstract fun pausePlayer()
-    abstract fun resumePlayer()
-    abstract fun updatePlayer()
+  override fun invalidateCurrent() {
+    currentUrl = null
+  }
 
-    protected fun acquireWifiLock()=wifiLock.acquire()
-
-    protected fun requestFocus() {
-        val result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
-                AudioManager.AUDIOFOCUS_GAIN)
-        focusState = when (result) {
-            AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> AUDIO_FOCUSED
-            else -> AUDIO_NO_FOCUS_NO_DUCK
-        }
+  override fun onAudioFocusChange(focusChange: Int) {
+    if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+      focusState = AUDIO_FOCUSED
+    } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS ||
+        focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+        focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+      val canDuck = focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
+      focusState = if (canDuck) AUDIO_NO_FOCUS_CAN_DUCK else AUDIO_NO_FOCUS_NO_DUCK
     }
+    updatePlayer()
+  }
 
-    override fun invalidateCurrent() {
-        currentUrl = null
+  private fun releaseFocus() {
+    audioManager.abandonAudioFocus(this)
+    focusState = AUDIO_NO_FOCUS_NO_DUCK
+  }
+
+  private fun releaseWifiLock() {
+    if (wifiLock.isHeld) {
+      wifiLock.release()
     }
+  }
 
-    override fun onAudioFocusChange(focusChange: Int) {
-        if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-            focusState = AUDIO_FOCUSED
-        } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS ||
-                focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
-                focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
-            val canDuck = focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
-            focusState = if (canDuck) AUDIO_NO_FOCUS_CAN_DUCK else AUDIO_NO_FOCUS_NO_DUCK
-        }
-        updatePlayer()
+  protected fun registerNoiseReceiver() {
+    if (!noisyReceiverRegistered) {
+      context.registerReceiver(audioNoisyReceiver, audioBecomingNoisyIntent)
+      noisyReceiverRegistered = true
     }
+  }
 
-    private fun releaseFocus() {
-        audioManager.abandonAudioFocus(this)
-        focusState = AUDIO_NO_FOCUS_NO_DUCK
+  protected fun unregisterNoiseReceiver() {
+    if (noisyReceiverRegistered) {
+      context.unregisterReceiver(audioNoisyReceiver)
+      noisyReceiverRegistered = false
     }
+  }
 
-    private fun releaseWifiLock() {
-        if (wifiLock.isHeld) {
-            wifiLock.release()
-        }
-    }
+  override fun pause() {
+    pausePlayer()
+    unregisterNoiseReceiver()
+    releaseWifiLock()
+  }
 
-    protected fun registerNoiseReceiver() {
-        if (!noisyReceiverRegistered) {
-            context.registerReceiver(audioNoisyReceiver, audioBecomingNoisyIntent)
-            noisyReceiverRegistered = true
-        }
-    }
+  override fun stop() {
+    currentUrl = null
+    releaseFocus()
+    releaseWifiLock()
+    unregisterNoiseReceiver()
+    stopPlayer()
+    callback.onStop()
+  }
 
-    protected fun unregisterNoiseReceiver() {
-        if (noisyReceiverRegistered) {
-            context.unregisterReceiver(audioNoisyReceiver)
-            noisyReceiverRegistered = false
-        }
-    }
+  companion object {
 
-    override fun pause() {
-        pausePlayer()
-        unregisterNoiseReceiver()
-        releaseWifiLock()
-    }
+    val VOLUME_DUCK = 0.2f
+    val VOLUME_NORMAL = 1.0f
 
-    override fun stop() {
-        currentUrl = null
-        releaseFocus()
-        releaseWifiLock()
-        unregisterNoiseReceiver()
-        stopPlayer()
-        callback.onStop()
-    }
-
-    companion object {
-
-        val VOLUME_DUCK = 0.2f
-        val VOLUME_NORMAL = 1.0f
-
-        val AUDIO_NO_FOCUS_NO_DUCK = 0
-        val AUDIO_NO_FOCUS_CAN_DUCK = 1
-        val AUDIO_FOCUSED = 2
-    }
+    val AUDIO_NO_FOCUS_NO_DUCK = 0
+    val AUDIO_NO_FOCUS_CAN_DUCK = 1
+    val AUDIO_FOCUSED = 2
+  }
 }

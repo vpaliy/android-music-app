@@ -11,7 +11,7 @@ data class Track(var id: String? = null,
                  var title: String? = null,
                  var artist: String? = null,
                  var isLiked: Boolean = false,
-                 var isSaved:Boolean=false){
-    val formattedDuration: String?
-        get()=duration ifNotEmpty DateUtils.formatElapsedTime(duration!!.toLong()/1000)
+                 var isSaved: Boolean = false) {
+  val formattedDuration: String?
+    get() = duration ifNotEmpty DateUtils.formatElapsedTime(duration!!.toLong() / 1000)
 }

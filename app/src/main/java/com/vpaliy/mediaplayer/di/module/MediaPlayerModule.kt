@@ -18,24 +18,24 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class MediaPlayerModule{
-    @PlaybackScope
-    @Provides
-    internal fun playback(context: Context): Playback {
-        val audioManager = (context.getSystemService(Context.AUDIO_SERVICE)) as AudioManager
-        val wifiManager = (context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager)
-                .createWifiLock(WifiManager.WIFI_MODE_FULL, "uAmp_lock")
-        return if(Build.VERSION.SDK_INT>=21) MediaPlayback21(context, audioManager, wifiManager)
-            else MediaPlayback(context, audioManager, wifiManager)
-    }
+class MediaPlayerModule {
+  @PlaybackScope
+  @Provides
+  internal fun playback(context: Context): Playback {
+    val audioManager = (context.getSystemService(Context.AUDIO_SERVICE)) as AudioManager
+    val wifiManager = (context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager)
+        .createWifiLock(WifiManager.WIFI_MODE_FULL, "uAmp_lock")
+    return if (Build.VERSION.SDK_INT >= 21) MediaPlayback21(context, audioManager, wifiManager)
+    else MediaPlayback(context, audioManager, wifiManager)
+  }
 
-    @PlaybackScope
-    @Provides
-    internal fun mapper(): Mapper<MediaMetadataCompat, Track> = MetadataMapper()
+  @PlaybackScope
+  @Provides
+  internal fun mapper(): Mapper<MediaMetadataCompat, Track> = MetadataMapper()
 
-    @PlaybackScope
-    @Provides
-    internal fun manager(context:Context,playback:Playback,mapper:Mapper<MediaMetadataCompat,Track>,history:ModifyTracks)
-            =PlaybackManager(playback,context,history,mapper)
+  @PlaybackScope
+  @Provides
+  internal fun manager(context: Context, playback: Playback, mapper: Mapper<MediaMetadataCompat, Track>, history: ModifyTracks)
+      = PlaybackManager(playback, context, history, mapper)
 
 }

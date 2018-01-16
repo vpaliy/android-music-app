@@ -11,38 +11,38 @@ import com.vpaliy.mediaplayer.di.scope.ViewScope
 
 @ViewScope
 class ActionsPresenter @Inject
-constructor(val modifier:ModifyInteractor): Presenter{
+constructor(private val modifier: ModifyInteractor) : Presenter {
 
-    private lateinit var view:View
+  private lateinit var view: View
 
-    override fun add(track: Track){
-        val param=ModifyParam(track,TrackType.HISTORY)
-        modifier.insert(view::added,this::error,param)
-    }
+  override fun add(track: Track) {
+    val param = ModifyParam(track, TrackType.HISTORY)
+    modifier.insert(view::added, this::error, param)
+  }
 
-    override fun remove(track: Track){
-        val param=ModifyParam(track,TrackType.HISTORY)
-        modifier.remove(view::removed,this::error,param)
-    }
+  override fun remove(track: Track) {
+    val param = ModifyParam(track, TrackType.HISTORY)
+    modifier.remove(view::removed, this::error, param)
+  }
 
-    override fun dislike(track: Track){
-        val param=ModifyParam(track,TrackType.FAVORITE)
-        modifier.remove(view::disliked,this::error,param)
-    }
+  override fun dislike(track: Track) {
+    val param = ModifyParam(track, TrackType.FAVORITE)
+    modifier.remove(view::disliked, this::error, param)
+  }
 
-    override fun like(track: Track){
-        val param=ModifyParam(track,TrackType.FAVORITE)
-        modifier.insert(view::liked,this::error,param)
-    }
+  override fun like(track: Track) {
+    val param = ModifyParam(track, TrackType.FAVORITE)
+    modifier.insert(view::liked, this::error, param)
+  }
 
-    override fun stop(){}
+  override fun stop() {}
 
-    private fun error(ex:Throwable){
-        view.error()
-        ex.printStackTrace()
-    }
+  private fun error(ex: Throwable) {
+    view.error()
+    ex.printStackTrace()
+  }
 
-    override fun attach(view: View) {
-        this.view=view
-    }
+  override fun attach(view: View) {
+    this.view = view
+  }
 }

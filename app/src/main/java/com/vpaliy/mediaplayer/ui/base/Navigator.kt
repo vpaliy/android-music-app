@@ -15,25 +15,25 @@ import com.vpaliy.mediaplayer.ui.player.PlayerActivity
 
 
 @Singleton
-class Navigator @Inject constructor(){
+class Navigator @Inject constructor() {
 
-    fun navigate(activity: Activity, bundle: Bundle){
-        val intent= Intent(activity,PlayerActivity::class.java)
-        intent.putExtras(bundle)
-        activity.startActivity(intent)
-        activity.overridePendingTransition(R.anim.slide_out_up,0)
-    }
+  fun navigate(activity: Activity, bundle: Bundle) {
+    val intent = Intent(activity, PlayerActivity::class.java)
+    intent.putExtras(bundle)
+    activity.startActivity(intent)
+    activity.overridePendingTransition(R.anim.slide_out_up, 0)
+  }
 
-    fun search(activity:Activity, pair:Pair<View,String>){
-        val intent= Intent(activity,SearchActivity::class.java)
-        val optionsCompat = makeSceneTransitionAnimation(activity, pair)
-        activity.startActivity(intent, optionsCompat.toBundle())
-    }
+  fun search(activity: Activity, pair: Pair<View, String>) {
+    val intent = Intent(activity, SearchActivity::class.java)
+    val optionsCompat = makeSceneTransitionAnimation(activity, pair)
+    activity.startActivity(intent, optionsCompat.toBundle())
+  }
 
-    fun actions(activity: Activity, bundle: Bundle){
-        val intent= Intent(activity,ActionsActivity::class.java)
-        intent.putExtras(bundle)
-        activity.startActivity(intent)
-        activity.overridePendingTransition(R.anim.slide_out_up,0)
-    }
+  fun actions(activity: Activity, bundle: Bundle) {
+    val intent = Intent(activity, ActionsActivity::class.java)
+    intent.putExtras(bundle)
+    activity.startActivity(intent)
+    activity.overridePendingTransition(R.anim.slide_out_up, 0)
+  }
 }

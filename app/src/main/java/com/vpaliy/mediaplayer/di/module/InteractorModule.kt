@@ -8,16 +8,16 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class InteractorModule{
-    @Singleton
-    @Provides
-    internal fun modifyInteractor(repository: Repository, scheduler: BaseScheduler)=ModifyTracks(repository,scheduler)
+class InteractorModule {
+  @Singleton
+  @Provides
+  internal fun modifyInteractor(repository: Repository, scheduler: BaseScheduler) = ModifyTracks(repository, scheduler)
 
-    @Singleton
-    @Provides
-    internal fun searchInteractor(repository:Repository, scheduler: BaseScheduler)= SearchTracks(repository,scheduler)
+  @Singleton
+  @Provides
+  internal fun searchInteractor(repository: Repository, scheduler: BaseScheduler) = SearchTracks(repository, scheduler)
 
-    @Singleton
-    @Provides
-    internal fun tracksInteractor(repository:Repository, scheduler: BaseScheduler) =GetTracks(repository,scheduler)
+  @Singleton
+  @Provides
+  internal fun tracksInteractor(repository: Repository, scheduler: BaseScheduler) = GetTracks(repository, scheduler)
 }

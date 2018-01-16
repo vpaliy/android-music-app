@@ -11,15 +11,15 @@ import dagger.Provides
 
 @Module
 class ApplicationModule(private val context: Context) {
-    @Singleton
-    @Provides
-    internal fun provideContext()=context
+  @Singleton
+  @Provides
+  internal fun provideContext() = context
 
-    @Singleton
-    @Provides
-    internal fun provideScheduler():BaseScheduler=SchedulerProvider()
+  @Singleton
+  @Provides
+  internal fun provideScheduler(): BaseScheduler = SchedulerProvider()
 
-    @Singleton
-    @Provides
-    internal fun provideNavigator()=Navigator()
+  @Singleton
+  @Provides
+  internal fun provideNavigator() = Navigator()
 }

@@ -12,40 +12,40 @@ import com.vpaliy.mediaplayer.domain.model.TrackType
 import com.vpaliy.mediaplayer.then
 
 @ViewScope
-abstract class HomePresenter
-constructor(val interactor: SingleInteractor<TrackType>, val clear:ClearInteractor) : Presenter {
+abstract class HomePresenter constructor(val interactor: SingleInteractor<TrackType>,
+                                         val clear: ClearInteractor) : Presenter {
 
-    protected lateinit var view:View
+  protected lateinit var view: View
 
-    override fun start() {
-        view.setLoading(true)
-        interactor.execute(Consumer(this::onSuccess,this::onError))
-    }
+  override fun start() {
+    view.setLoading(true)
+    interactor.execute(Consumer(this::onSuccess, this::onError))
+  }
 
-    private fun onSuccess(response: Response<TrackType>){
-        view.setLoading(false)
-        response.result.isEmpty().then(view::empty,{view.show(response.result)})
-    }
+  private fun onSuccess(response: Response<TrackType>) {
+    view.setLoading(false)
+    response.result.isEmpty().then(view::empty, { view.show(response.result) })
+  }
 
-    protected fun onError(error:Throwable){
-        error.printStackTrace()
-        view.setLoading(false)
-        view.error()
-    }
+  protected fun onError(error: Throwable) {
+    error.printStackTrace()
+    view.setLoading(false)
+    view.error()
+  }
 
-    override fun attach(view: View) {
-        this.view = view
-    }
+  override fun attach(view: View) {
+    this.view = view
+  }
 
-    override fun remove(track: Track){
-        clear.remove({view.removed(track)},this::onError, ModifyParam(track,type()))
-    }
+  override fun remove(track: Track) {
+    clear.remove({ view.removed(track) }, this::onError, ModifyParam(track, type()))
+  }
 
-    override fun clear() {
-        clear.clearAll(view::cleared,this::onError,type())
-    }
+  override fun clear() {
+    clear.clearAll(view::cleared, this::onError, type())
+  }
 
-    override fun stop(){} //interactor.dispose()
+  override fun stop() {} //interactor.dispose()
 
-    protected abstract fun type():TrackType
+  protected abstract fun type(): TrackType
 }

@@ -10,9 +10,9 @@ import javax.inject.Singleton
 
 @Singleton
 class GetTracks @Inject constructor(repository: Repository, scheduler: BaseScheduler)
-    :SingleInteractor<TrackType>(repository,scheduler){
+  : SingleInteractor<TrackType>(repository, scheduler) {
 
-    override fun buildCase(params: TrackType?)
-            =params notNullThen(repository::fetch)
-            ?:Single.error(IllegalArgumentException())
+  override fun buildCase(params: TrackType?)
+      = params notNullThen (repository::fetch)
+      ?: Single.error(IllegalArgumentException())
 }

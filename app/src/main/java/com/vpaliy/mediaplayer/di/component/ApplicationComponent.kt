@@ -19,18 +19,18 @@ import dagger.Component
 
 @Singleton
 @Component(modules = arrayOf(ApplicationModule::class,
-        InteractorModule::class,
-        DataModule::class,
-        NetworkModule::class))
+    InteractorModule::class,
+    DataModule::class,
+    NetworkModule::class))
 interface ApplicationComponent {
-    fun inject(activity:BaseActivity)
-    fun context(): Context
-    fun scheduler():BaseScheduler
-    fun mapper(): Mapper<Track, TrackEntity>
-    fun navigator():Navigator
-    fun repository():Repository
-    fun modifyInteractor():ModifyTracks
-    fun searchInteractor():SearchTracks
-    fun singleInteractor():GetTracks
-    fun service():SoundCloudService
+  fun inject(activity: BaseActivity)
+  fun context(): Context
+  fun scheduler(): BaseScheduler
+  fun mapper(): Mapper<Track, TrackEntity>
+  fun navigator(): Navigator
+  fun repository(): Repository
+  fun modifyInteractor(): ModifyTracks
+  fun searchInteractor(): SearchTracks
+  fun singleInteractor(): GetTracks
+  fun service(): SoundCloudService
 }

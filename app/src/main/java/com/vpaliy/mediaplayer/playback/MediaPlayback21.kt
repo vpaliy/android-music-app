@@ -23,109 +23,108 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MediaPlayback21 @Inject
-constructor(context: Context,
+class MediaPlayback21 @Inject constructor(context: Context,
             audioManager: AudioManager,
             wifiLock: WifiManager.WifiLock) :
-        BasePlayback(context, audioManager, wifiLock), ExoPlayer.EventListener {
+    BasePlayback(context, audioManager, wifiLock), ExoPlayer.EventListener {
 
-    private var exoPlayer: SimpleExoPlayer? = null
-    private var isPause = false
-    private var wasFocusLost=false
+  private var exoPlayer: SimpleExoPlayer? = null
+  private var isPause = false
+  private var wasFocusLost = false
 
-    override fun pausePlayer() {
-        exoPlayer?.let {
-            isPause=true
-            it.playWhenReady=false
-        }
+  override fun pausePlayer() {
+    exoPlayer?.let {
+      isPause = true
+      it.playWhenReady = false
     }
+  }
 
-    override fun resumePlayer() {
-        exoPlayer?.let {
-            if(it.playWhenReady){
-                callback.onPlay()
-            }
-            configPlayer()
-        }
+  override fun resumePlayer() {
+    exoPlayer?.let {
+      if (it.playWhenReady) {
+        callback.onPlay()
+      }
+      configPlayer()
     }
+  }
 
-    override fun updatePlayer(){
-        if(wasFocusLost || !isPause)
-            configPlayer()
+  override fun updatePlayer() {
+    if (wasFocusLost || !isPause)
+      configPlayer()
+  }
+
+  override fun startPlayer() {
+    if (exoPlayer == null) {
+      exoPlayer = ExoPlayerFactory.newSimpleInstance(
+          context, DefaultTrackSelector(), DefaultLoadControl())
+      exoPlayer?.addListener(this)
     }
+    exoPlayer?.audioStreamType = AudioManager.STREAM_MUSIC
+    val dataSourceFactory = DefaultDataSourceFactory(
+        context, Util.getUserAgent(context, "uamp"), null)
+    val extractorsFactory = DefaultExtractorsFactory()
+    val mediaSource = ExtractorMediaSource(
+        Uri.parse(currentUrl), dataSourceFactory, extractorsFactory, null, null)
+    exoPlayer?.prepare(mediaSource)
+    configPlayer()
+  }
 
-    override fun startPlayer() {
-        if (exoPlayer == null) {
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(
-                    context, DefaultTrackSelector(), DefaultLoadControl())
-            exoPlayer?.addListener(this)
-        }
-        exoPlayer?.audioStreamType = AudioManager.STREAM_MUSIC
-        val dataSourceFactory = DefaultDataSourceFactory(
-                context, Util.getUserAgent(context, "uamp"), null)
-        val extractorsFactory = DefaultExtractorsFactory()
-        val mediaSource = ExtractorMediaSource(
-                Uri.parse(currentUrl), dataSourceFactory, extractorsFactory, null, null)
-        exoPlayer?.prepare(mediaSource)
-        configPlayer()
+  private fun configPlayer() {
+    wasFocusLost = false
+    when (focusState) {
+      BasePlayback.AUDIO_NO_FOCUS_NO_DUCK -> {
+        wasFocusLost = true
+        pause()
+        return
+      }
+      BasePlayback.AUDIO_NO_FOCUS_CAN_DUCK -> exoPlayer?.volume = BasePlayback.VOLUME_DUCK
+      BasePlayback.AUDIO_FOCUSED -> exoPlayer?.volume = BasePlayback.VOLUME_NORMAL
     }
+    registerNoiseReceiver()
+    isPause = false
+    exoPlayer?.playWhenReady = true
+  }
 
-    private fun configPlayer() {
-        wasFocusLost=false
-        when (focusState) {
-            BasePlayback.AUDIO_NO_FOCUS_NO_DUCK -> {
-                wasFocusLost=true
-                pause()
-                return
-            }
-            BasePlayback.AUDIO_NO_FOCUS_CAN_DUCK -> exoPlayer?.volume = BasePlayback.VOLUME_DUCK
-            BasePlayback.AUDIO_FOCUSED -> exoPlayer?.volume = BasePlayback.VOLUME_NORMAL
-        }
-        registerNoiseReceiver()
-        isPause = false
-        exoPlayer?.playWhenReady = true
+  override fun stopPlayer() {
+    exoPlayer?.let {
+      it.release()
+      it.removeListener(this)
+      exoPlayer = null
     }
+  }
 
-    override fun stopPlayer() {
-        exoPlayer?.let {
-            it.release()
-            it.removeListener(this)
-            exoPlayer=null
-        }
+  override fun seekTo(position: Int) {
+    exoPlayer?.let {
+      registerNoiseReceiver()
+      it.seekTo(position.toLong())
     }
+  }
 
-    override fun seekTo(position: Int) {
-        exoPlayer?.let {
-            registerNoiseReceiver()
-            it.seekTo(position.toLong())
-        }
+  override fun isPlaying() = exoPlayer?.playWhenReady ?: false
+
+  override fun onTimelineChanged(timeline: Timeline?, manifest: Any?) {
+  }
+
+  override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+    when (playbackState) {
+      ExoPlayer.STATE_READY -> if (isPause) callback.onPause() else callback.onPlay()
+      ExoPlayer.STATE_ENDED -> callback.onCompletetion()
     }
+  }
 
-    override fun isPlaying()=exoPlayer?.playWhenReady?:false
+  override fun onPlayerError(error: ExoPlaybackException) = callback.onError()
 
-    override fun onTimelineChanged(timeline: Timeline?, manifest: Any?) {
-    }
+  override fun position() = exoPlayer?.currentPosition ?: 0
 
-    override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-        when (playbackState) {
-            ExoPlayer.STATE_READY ->   if (isPause) callback.onPause() else callback.onPlay()
-            ExoPlayer.STATE_ENDED -> callback.onCompletetion()
-        }
-    }
+  override fun onTracksChanged(trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
+  }
 
-    override fun onPlayerError(error: ExoPlaybackException)=callback.onError()
+  override fun onPositionDiscontinuity() {
+  }
 
-    override fun position()=exoPlayer?.currentPosition?:0
+  override fun onLoadingChanged(isLoading: Boolean) {
+  }
 
-    override fun onTracksChanged(trackGroups: TrackGroupArray, trackSelections: TrackSelectionArray) {
-    }
-
-    override fun onPositionDiscontinuity() {
-    }
-
-    override fun onLoadingChanged(isLoading: Boolean) {
-    }
-
-    override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
-    }
+  override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
+  }
 }

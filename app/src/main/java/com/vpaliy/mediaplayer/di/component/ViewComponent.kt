@@ -10,10 +10,10 @@ import com.vpaliy.mediaplayer.ui.details.ActionsActivity
 
 @ViewScope
 @Component(dependencies = arrayOf(ApplicationComponent::class),
-        modules = arrayOf(PresenterModule::class))
-interface ViewComponent{
-    fun inject(fragment:LovedFragment)
-    fun inject(fragment:HistoryFragment)
-    fun inject(activity: SearchActivity)
-    fun inject(activity:ActionsActivity)
+    modules = arrayOf(PresenterModule::class))
+interface ViewComponent {
+  fun inject(fragment: LovedFragment)
+  fun inject(fragment: HistoryFragment)
+  fun inject(activity: SearchActivity)
+  fun inject(activity: ActionsActivity)
 }

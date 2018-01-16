@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.InputType
 import android.view.View
-import com.vpaliy.mediaplayer.FlashApp
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.di.component.DaggerViewComponent
 import com.vpaliy.mediaplayer.di.module.PresenterModule
@@ -25,143 +24,145 @@ import android.transition.TransitionManager
 import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
 import android.app.SharedElementCallback
 import android.support.annotation.TransitionRes
+import com.vpaliy.mediaplayer.App
 import com.vpaliy.mediaplayer.then
 import javax.inject.Inject
 
-class SearchActivity:BaseActivity(), SearchContract.View{
+class SearchActivity : BaseActivity(), SearchContract.View {
 
-    private lateinit var presenter:Presenter
-    private lateinit var adapter:BaseAdapter<Track>
-    private var checked=false
+  private lateinit var presenter: Presenter
+  private lateinit var adapter: BaseAdapter<Track>
+  private var checked = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-        setupTransition()
-        setupResult()
-        setupSearch()
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_search)
+    setupTransition()
+    setupResult()
+    setupSearch()
+  }
+
+  private fun setupTransition() {
+    setEnterSharedElementCallback(object : SharedElementCallback() {
+      override fun onSharedElementStart(sharedElementNames: MutableList<String>?,
+                                        sharedElements: MutableList<View>?,
+                                        sharedElementSnapshots: MutableList<View>?) {
+        checked = !checked
+        back.setImageState(intArrayOf(android.R.attr.state_checked * (if (checked) 1 else -1)), true)
+        super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
+      }
+    })
+  }
+
+  private fun setupResult() {
+    adapter = TrackAdapter(this, { navigator.navigate(this, it) }, { navigator.actions(this, it) })
+    result.adapter = adapter
+    result.addOnScrollListener(object : OnReachBottomListener(result.layoutManager) {
+      override fun onLoadMore() {
+        presenter.more()
+      }
+    })
+  }
+
+  private fun setupSearch() {
+    val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+    back.setOnClickListener { onBackPressed() }
+    searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+    searchView.queryHint = getString(R.string.search_hint)
+    searchView.inputType = InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+    searchView.imeOptions = searchView.imeOptions or EditorInfo.IME_ACTION_SEARCH or
+        EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
+    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+      override fun onQueryTextChange(newText: String?): Boolean {
+        if (newText.isNullOrEmpty()) refreshPage(false)
+        return true
+      }
+
+      override fun onQueryTextSubmit(query: String?): Boolean {
+        presenter.query(query)
+        searchView.clearFocus()
+        hideKeyboard()
+        return true
+      }
+    })
+  }
+
+  override fun onNewIntent(intent: Intent) {
+    if (intent.hasExtra(SearchManager.QUERY)) {
+      val query = intent.getStringExtra(SearchManager.QUERY)
+      if (!query.isNullOrEmpty()) {
+        searchView.setQuery(query, false)
+        searchView.clearFocus()
+        hideKeyboard()
+        presenter.query(query)
+      }
     }
+  }
 
-    private fun setupTransition(){
-        setEnterSharedElementCallback(object : SharedElementCallback(){
-            override fun onSharedElementStart(sharedElementNames: MutableList<String>?,
-                                              sharedElements: MutableList<View>?,
-                                              sharedElementSnapshots: MutableList<View>?) {
-                checked=!checked
-                back.setImageState(intArrayOf(android.R.attr.state_checked * (if(checked) 1 else -1)),true)
-                super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
-            }
-        })
+  private fun hideKeyboard() {
+    val view = this.currentFocus
+    view?.let {
+      val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+      imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
+  }
 
-    private fun setupResult(){
-        adapter=TrackAdapter(this,{navigator.navigate(this,it)}, {navigator.actions(this,it)})
-        result.adapter=adapter
-        result.addOnScrollListener(object: OnReachBottomListener(result.layoutManager){
-            override fun onLoadMore() {
-                presenter.more()
-            }
-        })
+  private fun refreshPage(visible: Boolean, finish: Boolean = false) {
+    val transition = getTransition(visible.then(R.transition.search_show, R.transition.search_show))
+    if (finish) {
+      result.animate()
+      finishAfterTransition()
+      return
     }
+    TransitionManager.beginDelayedTransition(root, transition)
+    result.visibility = visible.then(View.VISIBLE, View.GONE)
+  }
 
-    private fun setupSearch(){
-        val searchManager=getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        back.setOnClickListener{onBackPressed()}
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        searchView.queryHint=getString(R.string.search_hint)
-        searchView.inputType=InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
-        searchView.imeOptions = searchView.imeOptions or EditorInfo.IME_ACTION_SEARCH or
-                EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
-        searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.isNullOrEmpty()) refreshPage(false)
-                return true
-            }
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                presenter.query(query)
-                searchView.clearFocus()
-                hideKeyboard()
-                return true
-            }
-        })
-    }
+  override fun inject() {
+    DaggerViewComponent.builder()
+        .presenterModule(PresenterModule())
+        .applicationComponent(App.component)
+        .build().inject(this)
+  }
 
-    override fun onNewIntent(intent: Intent) {
-        if (intent.hasExtra(SearchManager.QUERY)) {
-            val query = intent.getStringExtra(SearchManager.QUERY)
-            if (!query.isNullOrEmpty()) {
-                searchView.setQuery(query, false)
-                searchView.clearFocus()
-                hideKeyboard()
-                presenter.query(query)
-            }
-        }
-    }
+  private fun getTransition(@TransitionRes transitionId: Int): Transition {
+    val inflater = TransitionInflater.from(this)
+    return inflater.inflateTransition(transitionId)
+  }
 
-    private fun hideKeyboard() {
-        val view = this.currentFocus
-        view?.let{
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
+  override fun error() {
+    message.visibility = View.VISIBLE
+  }
 
-    private fun refreshPage(visible:Boolean, finish:Boolean=false){
-        val transition=getTransition(visible.then(R.transition.search_show, R.transition.search_show))
-        if(finish){
-            result.animate()
-            finishAfterTransition()
-            return
-        }
-        TransitionManager.beginDelayedTransition(root,transition)
-        result.visibility=visible.then(View.VISIBLE,View.GONE)
-    }
+  override fun empty() {
+    message.visibility = View.VISIBLE
+  }
 
-    override fun inject(){
-        DaggerViewComponent.builder()
-                .presenterModule(PresenterModule())
-                .applicationComponent(FlashApp.app().component())
-                .build().inject(this)
-    }
+  override fun setLoading(isLoading: Boolean) {
+    progress.visibility = if (isLoading)
+      View.VISIBLE else View.GONE
+  }
 
-    private fun getTransition(@TransitionRes transitionId: Int): Transition {
-        val inflater = TransitionInflater.from(this)
-        return inflater.inflateTransition(transitionId)
-    }
+  @Inject
+  override fun attach(presenter: Presenter) {
+    this.presenter = presenter
+    presenter.attachView(this)
+  }
 
-    override fun error() {
-        message.visibility=View.VISIBLE
-    }
+  override fun show(list: List<Track>) {
+    adapter.data = list.toMutableList()
+    refreshPage(true)
+  }
 
-    override fun empty() {
-        message.visibility=View.VISIBLE
-    }
+  override fun append(list: List<Track>) = adapter.appendData(list.toMutableList())
 
-    override fun setLoading(isLoading: Boolean) {
-        progress.visibility=if(isLoading)
-            View.VISIBLE else View.GONE
-    }
+  override fun onBackPressed() {
+    (result.visibility != View.VISIBLE).then(this::supportFinishAfterTransition,
+        { refreshPage(false, true) })
+  }
 
-    @Inject
-    override fun attach(presenter: Presenter) {
-        this.presenter=presenter
-        presenter.attachView(this)
-    }
-
-    override fun show(list: List<Track>){
-        adapter.data=list.toMutableList()
-        refreshPage(true)
-    }
-
-    override fun append(list: List<Track>)=adapter.appendData(list.toMutableList())
-
-    override fun onBackPressed(){
-        (result.visibility!=View.VISIBLE).then(this::supportFinishAfterTransition,
-                {refreshPage(false,true)})
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.stop()
-    }
+  override fun onDestroy() {
+    super.onDestroy()
+    presenter.stop()
+  }
 }
