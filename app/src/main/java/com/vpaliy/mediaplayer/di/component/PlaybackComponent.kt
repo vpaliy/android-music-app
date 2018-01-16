@@ -7,7 +7,7 @@ import com.vpaliy.mediaplayer.domain.playback.PlaybackScope
 import dagger.Component
 
 @PlaybackScope
-@Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(MediaPlayerModule::class))
+@Component(dependencies = [(ApplicationComponent::class)], modules = [(MediaPlayerModule::class)])
 interface PlaybackComponent {
   fun inject(service: MusicPlaybackService)
   fun inject(activity: PlayerActivity)

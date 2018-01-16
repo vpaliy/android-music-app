@@ -1,68 +1,50 @@
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
-    android:transitionGroup="false"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:transitionGroup="false">
+
     <View
         android:id="@+id/background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/scrim"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-    <ImageView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/searchToolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/result"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#000"
         android:visibility="gone"
-        app:layoutManager="LinearLayoutManager"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/searchToolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
-    <ProgressBar
-        android:id="@+id/progress"
-        tools:visibility="visible"
-        android:visibility="invisible"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias="0.2"
-        app:layout_constraintTop_toTopOf="@+id/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchToolbar" />
+
     <FrameLayout
         android:id="@+id/searchToolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:outlineProvider="bounds"
         android:elevation="@dimen/z_app_bar"
-        android:transitionGroup="false"
+        android:outlineProvider="bounds"
         android:theme="@style/SearchTheme"
-        app:layout_constraintTop_toTopOf="parent"
+        android:transitionGroup="false"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
+
         <View
             android:id="@+id/searchBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/dark_800"/>
+            android:background="@color/dark_800" />
+
         <SearchView
             android:id="@+id/searchView"
             android:layout_width="match_parent"
@@ -71,26 +53,29 @@
             android:layout_marginRight="@dimen/item_padding"
             android:iconifiedByDefault="false"
             android:transitionGroup="true" />
+
         <FrameLayout
             android:id="@+id/backWrapper"
-            android:background="@android:color/transparent"
             android:layout_width="96dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
             android:paddingStart="@dimen/spacing_medium"
-            android:transitionGroup="false"
-            android:layout_height="match_parent">
+            android:transitionGroup="false">
+
             <ImageView
                 android:id="@+id/back"
-                android:transitionName="@string/search_trans"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/asl_trimclip_searchback"
+                android:transitionName="@string/search_trans"
                 tools:ignore="ContentDescription" />
         </FrameLayout>
+
         <View
             android:id="@+id/end"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="@dimen/spacing_huge"
             android:layout_width="0dp"
-            android:layout_height="0dp"/>
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="@dimen/spacing_huge" />
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>

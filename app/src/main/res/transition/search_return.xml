@@ -1,7 +1,6 @@
-<transitionSet
-    android:startDelay="200"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:startDelay="200">
     <transitionSet android:duration="400">
         <targets>
             <target android:targetId="@id/background" />
@@ -9,8 +8,8 @@
         </targets>
         <transition
             class="com.vpaliy.mediaplayer.ui.transition.CircularReveal"
-            app:centerOn="@id/end"
-            android:interpolator="@android:interpolator/linear_out_slow_in" />
+            android:interpolator="@android:interpolator/linear_out_slow_in"
+            app:centerOn="@id/end" />
     </transitionSet>
     <fade
         android:duration="120"
@@ -23,14 +22,14 @@
         android:duration="400"
         android:interpolator="@android:interpolator/fast_out_linear_in">
         <targets>
-            <target android:targetId="@id/background"/>
+            <target android:targetId="@id/background" />
         </targets>
     </fade>
     <fade
         android:duration="400"
         android:interpolator="@android:interpolator/fast_out_slow_in">
         <targets>
-            <target android:targetId="@android:id/navigationBarBackground"/>
+            <target android:targetId="@android:id/navigationBarBackground" />
         </targets>
     </fade>
 </transitionSet>

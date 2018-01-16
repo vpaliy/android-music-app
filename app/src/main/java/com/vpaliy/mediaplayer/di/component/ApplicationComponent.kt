@@ -18,10 +18,8 @@ import javax.inject.Singleton
 import dagger.Component
 
 @Singleton
-@Component(modules = arrayOf(ApplicationModule::class,
-    InteractorModule::class,
-    DataModule::class,
-    NetworkModule::class))
+@Component(modules = [(ApplicationModule::class),
+  (InteractorModule::class), (DataModule::class), (NetworkModule::class)])
 interface ApplicationComponent {
   fun inject(activity: BaseActivity)
   fun context(): Context

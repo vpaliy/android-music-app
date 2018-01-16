@@ -1,5 +1,4 @@
-<transitionSet
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
     <transition
         class="com.vpaliy.mediaplayer.ui.transition.CircularReveal"
         android:duration="250"

@@ -1,5 +1,9 @@
 package com.vpaliy.mediaplayer
 
+import android.support.v7.widget.RecyclerView
+import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
+import io.reactivex.Single
+
 infix fun <T> String?.ifNotEmpty(value: T)
     = if (isNullOrEmpty()) value else null
 
@@ -24,3 +28,12 @@ inline fun <T, Type> Type?.ifNotNull(source: (Type) -> T, default: T)
 
 infix inline fun <T, Type> Type?.notNullThen(source: (Type) -> T) = if (this != null) source(this) else null
 
+fun <T> wrongArgument() = Single.error<T>(IllegalArgumentException())
+
+inline fun RecyclerView.addReachBottomListener(crossinline callback: () -> Unit) {
+  addOnScrollListener(object : OnReachBottomListener(layoutManager) {
+    override fun onLoadMore() {
+      callback()
+    }
+  })
+}

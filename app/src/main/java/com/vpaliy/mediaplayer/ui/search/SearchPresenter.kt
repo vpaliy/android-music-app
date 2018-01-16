@@ -1,52 +1,46 @@
 package com.vpaliy.mediaplayer.ui.search
 
 import com.vpaliy.mediaplayer.ui.search.SearchContract.*
-import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
-import com.vpaliy.mediaplayer.domain.interactor.params.Consumer
-import com.vpaliy.mediaplayer.domain.interactor.params.Response
 import com.vpaliy.mediaplayer.domain.model.SearchPage
-import com.vpaliy.mediaplayer.then
+import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
+import com.vpaliy.mediaplayer.domain.model.Track
 import javax.inject.Inject
 import com.vpaliy.mediaplayer.di.scope.ViewScope
 
 @ViewScope
-class SearchPresenter @Inject constructor(val search: SingleInteractor<SearchPage>) : Presenter {
+class SearchPresenter @Inject constructor(val search: SingleInteractor<SearchPage, List<Track>>) : Presenter<Track> {
 
-  private lateinit var view: View
+  private lateinit var view: View<Track>
   private var page = SearchPage(1)
 
   override fun query(query: String?) {
-    view.setLoading(true)
+    view.showLoading()
     page.query = query
-    search.execute(Consumer(this::onSuccess, this::onError), page)
+    search.execute(this::onSuccess, this::onError, page)
   }
 
   override fun more() {
-    view.setLoading(true)
+    view.showLoading()
     page.current++
-    search.execute(Consumer(this::append, this::onError), page)
+    search.execute(this::append, this::onError, page)
   }
 
-  override fun attachView(view: View) {
+  override fun attachView(view: View<Track>) {
     this.view = view
   }
 
-  private fun onSuccess(response: Response<SearchPage>) {
-    view.setLoading(false)
-    response.result.isEmpty().then(view::empty, { view.show(response.result) })
+  private fun onSuccess(result:List<Track>) {
+    view.hideLoading()
   }
 
-  private fun append(response: Response<SearchPage>) {
-    view.setLoading(false)
-    val list = response.result
-    view.append(list)
+  private fun append(result: List<Track>) {
+    view.hideLoading()
+    view.append(result)
   }
 
   private fun onError(error: Throwable) {
     error.printStackTrace()
-    view.setLoading(false)
+    view.hideLoading()
     view.error()
   }
-
-  override fun stop() {}
 }
