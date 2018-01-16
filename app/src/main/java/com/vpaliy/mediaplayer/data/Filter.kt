@@ -1,5 +1,6 @@
 package com.vpaliy.mediaplayer.data
 
+import com.vpaliy.mediaplayer.CLIENT_ID
 import com.vpaliy.soundcloud.model.TrackEntity
 import java.util.LinkedList
 import javax.inject.Inject
@@ -22,7 +23,7 @@ open class Filter @Inject constructor() {
     return trackEntity?.let {
       if (trackEntity.artwork_url != null && trackEntity.is_streamable) {
         trackEntity.artwork_url = trackEntity.artwork_url.replace("large", "t500x500")
-        trackEntity.stream_url += "?client_id="//+ Config.CLIENT_ID
+        trackEntity.stream_url += "?client_id="+ CLIENT_ID
         return trackEntity
       }
       return null
