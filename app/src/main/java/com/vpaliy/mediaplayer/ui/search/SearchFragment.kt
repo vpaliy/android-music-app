@@ -20,6 +20,7 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   override fun showResult(list: List<T>) {
     empty.hide(isGone = true)
+    result.show()
     adapter.data = list.toMutableList()
   }
 
@@ -35,6 +36,9 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     inject()
+    refresher.setOnRefreshListener {
+      presenter?.refresh()
+    }
     result.adapter = adapter
     result.addReachBottomListener({
       presenter?.more()
@@ -51,9 +55,11 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   override fun showLoading() {
     progress.show()
+    result.hide(isGone = true)
   }
 
   override fun hideLoading() {
+    refresher.isRefreshing = false
     progress.hide(isGone = true)
   }
 

@@ -16,7 +16,16 @@ class TrackPresenter @Inject constructor(val interactor: SingleInteractor<Search
 
   override fun query(query: String?) {
     page.query = query
-    view.showLoading()
+    executeQuery()
+  }
+
+  override fun refresh() {
+    page.invalidate()
+    executeQuery(loading = false)
+  }
+
+  private fun executeQuery(loading:Boolean = true) {
+    if(loading) view.showLoading()
     interactor.execute(this::onSuccess, this::onError, page)
   }
 
@@ -35,8 +44,7 @@ class TrackPresenter @Inject constructor(val interactor: SingleInteractor<Search
 
   override fun more() {
     page.next()
-    view.showLoading()
-    interactor.execute(this::onSuccess, this::onError, page)
+    executeQuery()
   }
 
   override fun attachView(view: SearchContract.View<Track>) {
