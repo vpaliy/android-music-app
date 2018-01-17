@@ -9,8 +9,8 @@ import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
 import com.vpaliy.mediaplayer.domain.model.TrackType
 
 @ViewScope
-abstract class HomePresenter
-constructor(val interactor: SingleInteractor<TrackType, List<Track>>, val clear: ClearInteractor) : Presenter {
+abstract class HomePresenter constructor(val interactor: SingleInteractor<TrackType, List<Track>>,
+                                         val clear: ClearInteractor) : Presenter {
 
   protected lateinit var view: View
 
@@ -40,8 +40,6 @@ constructor(val interactor: SingleInteractor<TrackType, List<Track>>, val clear:
   override fun clear() {
     clear.clearAll(view::cleared, this::onError, type())
   }
-
-  override fun stop() {} //interactor.dispose()
 
   protected abstract fun type(): TrackType
 }

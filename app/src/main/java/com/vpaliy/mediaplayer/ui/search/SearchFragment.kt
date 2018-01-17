@@ -18,12 +18,12 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   abstract fun inject()
 
-  override fun show(list: List<T>) {
+  override fun showResult(list: List<T>) {
     empty.hide(isGone = true)
     adapter.data = list.toMutableList()
   }
 
-  override fun append(list: List<T>) {
+  override fun appendResult(list: List<T>) {
     empty.hide(isGone = true)
     adapter.appendData(list)
   }

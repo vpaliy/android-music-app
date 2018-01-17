@@ -19,7 +19,6 @@ import android.transition.TransitionInflater
 import android.app.SharedElementCallback
 import android.support.annotation.TransitionRes
 import com.vpaliy.mediaplayer.App
-import com.vpaliy.mediaplayer.then
 
 class SearchActivity : BaseActivity() {
 
@@ -29,20 +28,16 @@ class SearchActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_search)
-    (savedInstanceState == null) then {
-      supportFragmentManager.beginTransaction()
-          .replace(R.id.frame, TrackFragment())
-          .commit()
-    }
+    supportFragmentManager.beginTransaction()
+        .replace(R.id.frame, callback)
+        .commit()
     setupTransition()
     setupSearch()
   }
 
   private fun setupTransition() {
     setEnterSharedElementCallback(object : SharedElementCallback() {
-      override fun onSharedElementStart(sharedElementNames: MutableList<String>?,
-                                        sharedElements: MutableList<View>?,
-                                        sharedElementSnapshots: MutableList<View>?) {
+      override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
         checked = !checked
         back.setImageState(intArrayOf(android.R.attr.state_checked * (if (checked) 1 else -1)), true)
         super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
@@ -60,8 +55,8 @@ class SearchActivity : BaseActivity() {
         EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
     searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
       override fun onQueryTextChange(newText: String?): Boolean {
-        //  if (newText.isNullOrEmpty()) refreshPage(false)
-        callback.inputCleared()
+        if(newText.isNullOrEmpty())
+          callback.inputCleared()
         return true
       }
 

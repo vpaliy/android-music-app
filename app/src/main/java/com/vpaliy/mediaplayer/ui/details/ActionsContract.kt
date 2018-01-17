@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.ui.details
 
 import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.ui.base.BasePresenter
 import com.vpaliy.mediaplayer.ui.base.BaseView
 
 interface ActionsContract {
@@ -12,7 +13,7 @@ interface ActionsContract {
     fun error()
   }
 
-  interface Presenter {
+  interface Presenter : BasePresenter {
     fun like(track: Track)
     fun dislike(track: Track)
     fun remove(track: Track)

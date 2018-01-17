@@ -9,7 +9,7 @@ import com.vpaliy.mediaplayer.ui.base.Navigator
 import com.vpaliy.mediaplayer.ui.home.TrackAdapter
 import javax.inject.Inject
 
-class TrackFragment : SearchFragment<Track>(){
+class TrackFragment : SearchFragment<Track>() {
   @Inject lateinit var navigator: Navigator
 
   override val adapter: BaseAdapter<Track> by lazy(LazyThreadSafetyMode.NONE) {

@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.ui.home
 
 import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.ui.base.BasePresenter
 import com.vpaliy.mediaplayer.ui.base.BaseView
 
 interface HomeContract {
@@ -13,7 +14,7 @@ interface HomeContract {
     fun setLoading(isLoading: Boolean)
   }
 
-  interface Presenter {
+  interface Presenter : BasePresenter {
     fun start()
     fun remove(track: Track)
     fun clear()

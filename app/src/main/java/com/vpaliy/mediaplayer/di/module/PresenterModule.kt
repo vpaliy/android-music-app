@@ -7,10 +7,11 @@ import com.vpaliy.mediaplayer.domain.interactor.*
 import com.vpaliy.mediaplayer.ui.details.ActionsContract
 import com.vpaliy.mediaplayer.ui.details.ActionsPresenter
 import com.vpaliy.mediaplayer.ui.search.SearchContract
-import com.vpaliy.mediaplayer.ui.search.SearchPresenter
 import com.vpaliy.mediaplayer.di.qualifier.History
 import com.vpaliy.mediaplayer.di.qualifier.Loved
 import com.vpaliy.mediaplayer.di.scope.ViewScope
+import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.ui.search.TrackPresenter
 import dagger.Module
 import dagger.Provides
 
@@ -32,9 +33,9 @@ class PresenterModule {
 
   @ViewScope
   @Provides
-  internal fun search(search: SearchTracks)
-      : SearchContract.Presenter
-      = SearchPresenter(search)
+  internal fun search(interactor: SearchTracks)
+      : SearchContract.Presenter<Track>
+      = TrackPresenter(interactor)
 
   @ViewScope
   @Provides
