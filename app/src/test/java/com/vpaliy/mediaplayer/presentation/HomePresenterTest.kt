@@ -2,9 +2,9 @@ package com.vpaliy.mediaplayer.presentation
 
 import com.nhaarman.mockito_kotlin.*
 import com.vpaliy.mediaplayer.FakeDataProvider
-import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
-import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
+import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.domain.model.TrackType
 import com.vpaliy.mediaplayer.ui.home.HomeContract
 import com.vpaliy.mediaplayer.ui.home.history.HistoryPresenter
 import com.vpaliy.mediaplayer.ui.home.favorite.LovedPresenter
@@ -19,10 +19,9 @@ import org.junit.Before
 class HomePresenterTest{
 
     @Mock lateinit var view:HomeContract.View
-    @Mock lateinit var lovedInteractor: LovedTracks
-    @Mock lateinit var historyInteractor: TrackHistory
-    @InjectMocks lateinit var lovedPresenter:LovedPresenter
-    @InjectMocks lateinit var historyPresenter:HistoryPresenter
+    @Mock lateinit var historyInteractor: SingleInteractor<TrackType, List<Track>>
+    @InjectMocks private lateinit var lovedPresenter:LovedPresenter
+    @InjectMocks private lateinit var historyPresenter:HistoryPresenter
 
     private val success= argumentCaptor<(List<Track>?)->Unit>()
     private val error= argumentCaptor<(Throwable)->Unit>()
@@ -38,7 +37,6 @@ class HomePresenterTest{
         lovedPresenter.start()
         historyPresenter.start()
         verify(view, times(2)).setLoading(true)
-        verify(lovedInteractor).execute(success.capture(),error.capture(), eq(null))
         success.firstValue.invoke(FakeDataProvider.buildList(1,{Track()}))
         verify(historyInteractor).execute(success.capture(),error.capture(),eq(null))
         success.firstValue.invoke(FakeDataProvider.buildList(1,{Track()}))
@@ -51,7 +49,6 @@ class HomePresenterTest{
         lovedPresenter.start()
         historyPresenter.start()
         verify(view, times(2)).setLoading(true)
-        verify(lovedInteractor).execute(success.capture(),error.capture(), eq(null))
         success.firstValue.invoke(arrayListOf())
         verify(historyInteractor).execute(success.capture(),error.capture(),eq(null))
         success.firstValue.invoke(arrayListOf())
@@ -64,7 +61,6 @@ class HomePresenterTest{
         lovedPresenter.start()
         historyPresenter.start()
         verify(view, times(2)).setLoading(true)
-        verify(lovedInteractor).execute(success.capture(),error.capture(), eq(null))
         success.firstValue.invoke(null)
         verify(historyInteractor).execute(success.capture(),error.capture(),eq(null))
         success.firstValue.invoke(null)
@@ -76,7 +72,6 @@ class HomePresenterTest{
         lovedPresenter.start()
         historyPresenter.start()
         verify(view, times(2)).setLoading(true)
-        verify(lovedInteractor).execute(success.capture(),error.capture(), eq(null))
         error.firstValue.invoke(Exception())
         verify(historyInteractor).execute(success.capture(),error.capture(),eq(null))
         error.firstValue.invoke(Exception())
@@ -90,9 +85,8 @@ class HomePresenterTest{
         val completed= argumentCaptor<()->Unit>()
         lovedPresenter.remove(track)
         historyPresenter.remove(track)
-        verify(lovedInteractor).remove(completed.capture(),error.capture(),eq(track))
         completed.firstValue.invoke()
-        verify(historyInteractor).remove(completed.capture(),error.capture(),eq(track))
+        //verify(historyInteractor).remove(completed.capture(),error.capture(),eq(track))
         completed.firstValue.invoke()
         verify(view,times(2)).removed(eq(track))
     }
@@ -102,9 +96,8 @@ class HomePresenterTest{
         val track=Track()
         lovedPresenter.remove(track)
         historyPresenter.remove(track)
-        verify(lovedInteractor).remove(any<()->Unit>(),error.capture(),eq(track))
         error.firstValue.invoke(Exception())
-        verify(historyInteractor).remove(any<()->Unit>(),error.capture(),eq(track))
+       // verify(historyInteractor).remove(any<()->Unit>(),error.capture(),eq(track))
         error.firstValue.invoke(Exception())
         verify(view,times(2)).error()
     }
@@ -114,9 +107,9 @@ class HomePresenterTest{
         val completed= argumentCaptor<()->Unit>()
         lovedPresenter.clear()
         historyPresenter.clear()
-        verify(lovedInteractor).clear(completed.capture(),error.capture())
+        //verify(lovedInteractor).clear(completed.capture(),error.capture())
         completed.firstValue.invoke()
-        verify(historyInteractor).clear(completed.capture(),error.capture())
+        //verify(historyInteractor).clear(completed.capture(),error.capture())
         completed.firstValue.invoke()
         verify(view,times(2)).cleared()
     }
@@ -125,9 +118,9 @@ class HomePresenterTest{
     fun clearsTracksShowsError(){
         lovedPresenter.clear()
         historyPresenter.clear()
-        verify(lovedInteractor).clear(any<()->Unit>(),error.capture())
+        //verify(lovedInteractor).clear(any<()->Unit>(),error.capture())
         error.firstValue.invoke(Exception())
-        verify(historyInteractor).clear(any<()->Unit>(),error.capture())
+        //
         error.firstValue.invoke(Exception())
         verify(view,times(2)).error()
     }
