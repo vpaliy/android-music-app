@@ -53,6 +53,7 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   override fun inputCleared() {
     adapter.clear()
+    refreshPage(false )
   }
 
   override fun queryTyped(query: String?) {
@@ -88,13 +89,8 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
     root.showMessage(id)
   }
 
-  private fun refreshPage(visible: Boolean, finish: Boolean = false) {
+  private fun refreshPage(visible: Boolean) {
     val transition = getTransition(visible then R.transition.search_show ?: R.transition.search_show)
-    if (finish) {
-      result.animate()
-      activity.finishAfterTransition()
-      return
-    }
     TransitionManager.beginDelayedTransition(root, transition)
     result.visibility = visible then View.VISIBLE ?: View.GONE
   }

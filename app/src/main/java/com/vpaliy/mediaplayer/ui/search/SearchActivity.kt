@@ -44,7 +44,10 @@ class SearchActivity : BaseActivity() {
 
   private fun setupSearch() {
     val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-    back.setOnClickListener { onBackPressed() }
+    back.setOnClickListener {
+      onBackPressed()
+      callback.inputCleared()
+    }
     searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
     searchView.queryHint = getString(R.string.search_hint)
     searchView.inputType = InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
@@ -52,7 +55,7 @@ class SearchActivity : BaseActivity() {
         EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
     searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
       override fun onQueryTextChange(newText: String?): Boolean {
-        if(newText.isNullOrEmpty())
+        if (newText.isNullOrEmpty())
           callback.inputCleared()
         return true
       }
