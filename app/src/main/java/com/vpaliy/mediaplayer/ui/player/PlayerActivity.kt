@@ -109,21 +109,21 @@ class PlayerActivity : AppCompatActivity() {
 
 
   @OnClick(R.id.next)
-  fun next() = controlls().skipToNext()
+  fun next() = controls().skipToNext()
 
   @OnClick(R.id.prev)
-  fun prev() = controlls().skipToPrevious()
+  fun prev() = controls().skipToPrevious()
 
   @OnClick(R.id.repeat)
   fun repeat() {
     if (repeat.tag != null)
-      controlls().setRepeatMode(0)
+      controls().setRepeatMode(0)
   }
 
   @OnClick(R.id.shuffle)
   fun shuffle() {
     if (shuffle != null)
-      controlls().setShuffleModeEnabled(true)
+      controls().setShuffleModeEnabled(true)
   }
 
   @OnClick(R.id.play_pause)
@@ -159,7 +159,7 @@ class PlayerActivity : AppCompatActivity() {
         .unregisterCallback(controllerCallback)
   }
 
-  private fun controlls() = MediaControllerCompat.getMediaController(this@PlayerActivity).transportControls
+  private fun controls() = MediaControllerCompat.getMediaController(this).transportControls
 
   private fun stopSeekBarUpdate() {
     lastState = null

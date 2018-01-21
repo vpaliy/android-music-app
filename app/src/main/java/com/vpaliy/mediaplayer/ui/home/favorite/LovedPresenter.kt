@@ -1,4 +1,4 @@
-package com.vpaliy.mediaplayer.ui.home.loved
+package com.vpaliy.mediaplayer.ui.home.favorite
 
 import com.vpaliy.mediaplayer.ui.home.HomePresenter
 import javax.inject.Inject

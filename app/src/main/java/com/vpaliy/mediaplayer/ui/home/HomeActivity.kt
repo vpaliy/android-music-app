@@ -8,7 +8,7 @@ import butterknife.ButterKnife
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
-import com.vpaliy.mediaplayer.ui.home.loved.LovedFragment
+import com.vpaliy.mediaplayer.ui.home.favorite.LovedFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v7.app.ActionBarDrawerToggle
 import com.vpaliy.mediaplayer.App
@@ -20,6 +20,7 @@ class HomeActivity : BaseActivity() {
     ActionBarDrawerToggle(this, drawer, toolbar, 0, 0)
   }
 
+  @Suppress("DEPRECATION")
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_home)

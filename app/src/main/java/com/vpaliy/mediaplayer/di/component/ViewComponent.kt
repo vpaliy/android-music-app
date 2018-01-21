@@ -2,7 +2,7 @@ package com.vpaliy.mediaplayer.di.component
 
 import com.vpaliy.mediaplayer.di.module.PresenterModule
 import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
-import com.vpaliy.mediaplayer.ui.home.loved.LovedFragment
+import com.vpaliy.mediaplayer.ui.home.favorite.LovedFragment
 import com.vpaliy.mediaplayer.ui.search.SearchActivity
 import com.vpaliy.mediaplayer.ui.details.ActionsActivity
 import com.vpaliy.mediaplayer.ui.search.TrackFragment

@@ -7,7 +7,7 @@ import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.home.HomeContract
 import com.vpaliy.mediaplayer.ui.home.history.HistoryPresenter
-import com.vpaliy.mediaplayer.ui.home.loved.LovedPresenter
+import com.vpaliy.mediaplayer.ui.home.favorite.LovedPresenter
 import org.mockito.junit.MockitoJUnitRunner
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks

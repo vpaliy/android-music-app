@@ -2,7 +2,7 @@ package com.vpaliy.mediaplayer.di.module
 
 import com.vpaliy.mediaplayer.ui.home.HomeContract
 import com.vpaliy.mediaplayer.ui.home.history.HistoryPresenter
-import com.vpaliy.mediaplayer.ui.home.loved.LovedPresenter
+import com.vpaliy.mediaplayer.ui.home.favorite.LovedPresenter
 import com.vpaliy.mediaplayer.domain.interactor.*
 import com.vpaliy.mediaplayer.ui.details.ActionsContract
 import com.vpaliy.mediaplayer.ui.details.ActionsPresenter
