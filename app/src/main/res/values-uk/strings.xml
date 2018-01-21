@@ -23,4 +23,5 @@
     <string name="play_action">Грати</string>
     <string name="remove_action">Видалити з історії</string>
     <string name="add_action">Додати в історію</string>
+    <string name="error">An error has occurred</string>
 </resources>

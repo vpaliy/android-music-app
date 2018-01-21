@@ -14,10 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.content.Intent
-import android.transition.Transition
-import android.transition.TransitionInflater
 import android.app.SharedElementCallback
-import android.support.annotation.TransitionRes
 import com.vpaliy.mediaplayer.App
 
 class SearchActivity : BaseActivity() {
@@ -89,26 +86,10 @@ class SearchActivity : BaseActivity() {
     }
   }
 
-  /* private fun refreshPage(visible: Boolean, finish: Boolean = false) {
-    val transition = getTransition(visible.then(R.transition.search_show, R.transition.search_show))
-    if (finish) {
-      // result.animate()
-      finishAfterTransition()
-      return
-    }
-    TransitionManager.beginDelayedTransition(root, transition)
-    //result.visibility = visible.then(View.VISIBLE, View.GONE)
-  }  */
-
   override fun inject() {
     DaggerViewComponent.builder()
         .presenterModule(PresenterModule())
         .applicationComponent(App.component)
         .build().inject(this)
-  }
-
-  private fun getTransition(@TransitionRes transitionId: Int): Transition {
-    val inflater = TransitionInflater.from(this)
-    return inflater.inflateTransition(transitionId)
   }
 }

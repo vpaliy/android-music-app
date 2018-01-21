@@ -1,6 +1,4 @@
-<resources
-    tools:ignore="ExtraTranslation"
-    xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
     <string name="app_name">"Flash"</string>
 
     <string name="empty_message_description">"Un mensaje que indica que no hay datos"</string>
@@ -29,4 +27,6 @@
     <string name="play_action">"Reproducir"</string>
     <string name="remove_action">"Eliminar de Recientes"</string>
     <string name="add_action">"Añadir a Recientes"</string>
+
+    <string name="error">An error has occurred</string>
 </resources>

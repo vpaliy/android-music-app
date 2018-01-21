@@ -6,6 +6,8 @@ interface SearchContract {
   interface View<in T> {
     fun showLoading()
     fun hideLoading()
+    fun showRefreshing()
+    fun hideRefreshing()
     fun showResult(list: List<T>)
     fun appendResult(list: List<T>)
     fun showMessage(@StringRes id: Int)

@@ -30,4 +30,6 @@
     <string name="play_action">Play</string>
     <string name="remove_action">Remove from Recent</string>
     <string name="add_action">Add to Recent</string>
+
+    <string name="error">An error has occurred</string>
 </resources>

@@ -21,16 +21,17 @@ class TrackPresenter @Inject constructor(val interactor: SingleInteractor<Search
 
   override fun refresh() {
     page.invalidate()
-    executeQuery(loading = false)
+    interactor.execute(this::onSuccess, this::onError, page)
   }
 
-  private fun executeQuery(loading:Boolean = true) {
-    if(loading) view.showLoading()
+  private fun executeQuery() {
+    view.showLoading()
     interactor.execute(this::onSuccess, this::onError, page)
   }
 
   private fun onSuccess(page: SearchPage, result: List<Track>) {
     view.hideLoading()
+    view.hideRefreshing()
     if (page.isFirst)
       view.showResult(result)
     else
