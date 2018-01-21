@@ -1,15 +1,21 @@
 package com.vpaliy.mediaplayer.ui.search
 
 import android.os.Bundle
+import android.support.annotation.TransitionRes
 import android.support.v4.app.Fragment
+import android.transition.Transition
+import android.transition.TransitionInflater
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.vpaliy.kotlin_extensions.hide
 import com.vpaliy.kotlin_extensions.show
+import com.vpaliy.kotlin_extensions.then
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.addReachBottomListener
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
+import com.vpaliy.mediaplayer.ui.utils.showMessage
 import kotlinx.android.synthetic.main.fragment_search.*
 
 abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCallback {
@@ -18,12 +24,13 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   abstract fun inject()
 
-  override fun show(list: List<T>) {
+  override fun showResult(list: List<T>) {
     empty.hide(isGone = true)
+    result.show()
     adapter.data = list.toMutableList()
   }
 
-  override fun append(list: List<T>) {
+  override fun appendResult(list: List<T>) {
     empty.hide(isGone = true)
     adapter.appendData(list)
   }
@@ -35,6 +42,9 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     inject()
+    refresher.setOnRefreshListener {
+      presenter?.refresh()
+    }
     result.adapter = adapter
     result.addReachBottomListener({
       presenter?.more()
@@ -43,6 +53,7 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   override fun inputCleared() {
     adapter.clear()
+    refreshPage(false )
   }
 
   override fun queryTyped(query: String?) {
@@ -51,10 +62,19 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   override fun showLoading() {
     progress.show()
+    result.hide(isGone = true)
   }
 
   override fun hideLoading() {
     progress.hide(isGone = true)
+  }
+
+  override fun showRefreshing() {
+    refresher.isRefreshing = true
+  }
+
+  override fun hideRefreshing() {
+    refresher.isRefreshing = false
   }
 
   override fun empty() {
@@ -62,10 +82,21 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
   }
 
   override fun error() {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    root.showMessage(R.string.error)
   }
 
   override fun showMessage(id: Int) {
-    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    root.showMessage(id)
+  }
+
+  private fun refreshPage(visible: Boolean) {
+    val transition = getTransition(visible then R.transition.search_show ?: R.transition.search_show)
+    TransitionManager.beginDelayedTransition(root, transition)
+    result.visibility = visible then View.VISIBLE ?: View.GONE
+  }
+
+  private fun getTransition(@TransitionRes transitionId: Int): Transition {
+    val inflater = TransitionInflater.from(context)
+    return inflater.inflateTransition(transitionId)
   }
 }

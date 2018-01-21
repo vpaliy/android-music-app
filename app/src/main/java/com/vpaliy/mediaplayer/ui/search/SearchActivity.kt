@@ -14,12 +14,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.content.Intent
-import android.transition.Transition
-import android.transition.TransitionInflater
 import android.app.SharedElementCallback
-import android.support.annotation.TransitionRes
 import com.vpaliy.mediaplayer.App
-import com.vpaliy.mediaplayer.then
 
 class SearchActivity : BaseActivity() {
 
@@ -29,20 +25,16 @@ class SearchActivity : BaseActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_search)
-    (savedInstanceState == null) then {
-      supportFragmentManager.beginTransaction()
-          .replace(R.id.frame, TrackFragment())
-          .commit()
-    }
+    supportFragmentManager.beginTransaction()
+        .replace(R.id.frame, callback)
+        .commit()
     setupTransition()
     setupSearch()
   }
 
   private fun setupTransition() {
     setEnterSharedElementCallback(object : SharedElementCallback() {
-      override fun onSharedElementStart(sharedElementNames: MutableList<String>?,
-                                        sharedElements: MutableList<View>?,
-                                        sharedElementSnapshots: MutableList<View>?) {
+      override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
         checked = !checked
         back.setImageState(intArrayOf(android.R.attr.state_checked * (if (checked) 1 else -1)), true)
         super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
@@ -52,7 +44,10 @@ class SearchActivity : BaseActivity() {
 
   private fun setupSearch() {
     val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-    back.setOnClickListener { onBackPressed() }
+    back.setOnClickListener {
+      onBackPressed()
+      callback.inputCleared()
+    }
     searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
     searchView.queryHint = getString(R.string.search_hint)
     searchView.inputType = InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
@@ -60,8 +55,8 @@ class SearchActivity : BaseActivity() {
         EditorInfo.IME_FLAG_NO_EXTRACT_UI or EditorInfo.IME_FLAG_NO_FULLSCREEN
     searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
       override fun onQueryTextChange(newText: String?): Boolean {
-        //  if (newText.isNullOrEmpty()) refreshPage(false)
-        callback.inputCleared()
+        if (newText.isNullOrEmpty())
+          callback.inputCleared()
         return true
       }
 
@@ -94,26 +89,10 @@ class SearchActivity : BaseActivity() {
     }
   }
 
-  /* private fun refreshPage(visible: Boolean, finish: Boolean = false) {
-    val transition = getTransition(visible.then(R.transition.search_show, R.transition.search_show))
-    if (finish) {
-      // result.animate()
-      finishAfterTransition()
-      return
-    }
-    TransitionManager.beginDelayedTransition(root, transition)
-    //result.visibility = visible.then(View.VISIBLE, View.GONE)
-  }  */
-
   override fun inject() {
     DaggerViewComponent.builder()
         .presenterModule(PresenterModule())
         .applicationComponent(App.component)
         .build().inject(this)
-  }
-
-  private fun getTransition(@TransitionRes transitionId: Int): Transition {
-    val inflater = TransitionInflater.from(this)
-    return inflater.inflateTransition(transitionId)
   }
 }

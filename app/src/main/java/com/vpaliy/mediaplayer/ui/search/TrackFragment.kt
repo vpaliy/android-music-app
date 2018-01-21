@@ -9,18 +9,18 @@ import com.vpaliy.mediaplayer.ui.base.Navigator
 import com.vpaliy.mediaplayer.ui.home.TrackAdapter
 import javax.inject.Inject
 
-class TrackFragment : SearchFragment<Track>(){
-  @Inject lateinit var navigator: Navigator
-
-  override val adapter: BaseAdapter<Track> by lazy(LazyThreadSafetyMode.NONE) {
-    TrackAdapter(context, { navigator.navigate(activity, it) }, { navigator.actions(activity, it) })
-  }
-
+class TrackFragment : SearchFragment<Track>() {
   override var presenter: SearchContract.Presenter<Track>? = null
     @Inject set(value) {
       field = value
       field?.attachView(this)
     }
+
+  @Inject lateinit var navigator: Navigator
+
+  override val adapter: BaseAdapter<Track> by lazy(LazyThreadSafetyMode.NONE) {
+    TrackAdapter(context, { navigator.navigate(activity, it) }, { navigator.actions(activity, it) })
+  }
 
   override fun inject() {
     DaggerViewComponent.builder()

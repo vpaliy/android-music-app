@@ -49,11 +49,6 @@ abstract class HomeFragment : BaseFragment(), HomeContract.View {
     presenter.start()
   }
 
-  override fun onStop() {
-    super.onStop()
-    presenter.stop()
-  }
-
   override fun error() {
     setMenuVisibility(false)
     empty.visibility = View.VISIBLE

@@ -34,7 +34,10 @@ abstract class BaseAdapter<T> constructor(context: Context, val click: (Bundle) 
   override fun onBindViewHolder(holder: GenericViewHolder, position: Int)
       = holder.onBindData()
 
-  fun clear() = !data.isEmpty() then (this::notifyDataSetChanged)
+  fun clear() {
+    data.clear()
+    notifyDataSetChanged()
+  }
 
   override fun getItemCount() = data.size
 
