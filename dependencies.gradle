@@ -74,7 +74,7 @@ ext {
             butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
             recyclerView       : "com.android.support:recyclerview-v7:${supportVersion}",
             RxJava             : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            soundcloud         : 'com.github.vpaliyX:SoundCloud-API:-SNAPSHOT',
+            soundcloud         : 'com.github.vpaliyX:SoundCloud-API:b0f558a150',
             RxAndroid          : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             javaxAnnotation    : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             ottoEventBus       : "com.squareup:otto:${ottoEventBusVersion}",

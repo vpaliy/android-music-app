@@ -44,10 +44,10 @@ class TrackPresenter @Inject constructor(val interactor: SingleInteractor<Search
   }
 
   override fun more() {
+    view.showLoading()
     page.next()
     executeQuery()
   }
-
   override fun attachView(view: SearchContract.View<Track>) {
     this.view = view
   }

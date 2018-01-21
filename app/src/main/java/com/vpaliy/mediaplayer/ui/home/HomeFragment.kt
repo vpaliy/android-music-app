@@ -11,15 +11,14 @@ import com.vpaliy.mediaplayer.ui.home.HomeContract.Presenter
 import kotlinx.android.synthetic.main.fragment_home.*
 
 abstract class HomeFragment : BaseFragment(), HomeContract.View {
-
-  protected lateinit var presenter: Presenter
   private lateinit var adapter: BaseAdapter<Track>
+  abstract var presenter: Presenter?
 
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     setHasOptionsMenu(true)
     view?.let {
-      refresher.setOnRefreshListener(presenter::start)
+      refresher.setOnRefreshListener({ presenter?.start() })
       adapter = TrackAdapter(context, { navigator.navigate(activity, it) }, { navigator.actions(activity, it) })
       list.adapter = adapter
       list.isNestedScrollingEnabled = false
@@ -36,7 +35,7 @@ abstract class HomeFragment : BaseFragment(), HomeContract.View {
       AlertDialog.Builder(context)
           .setTitle(R.string.erase_label)
           .setMessage(alertMessage())
-          .setPositiveButton(getString(R.string.yes_label), { _, _ -> presenter.clear() })
+          .setPositiveButton(getString(R.string.yes_label), { _, _ -> presenter?.clear() })
           .setNegativeButton(getString(R.string.no_label), { dialog, _ -> dialog.dismiss() })
           .show()
       return true
@@ -46,7 +45,7 @@ abstract class HomeFragment : BaseFragment(), HomeContract.View {
 
   override fun onStart() {
     super.onStart()
-    presenter.start()
+    presenter?.start()
   }
 
   override fun error() {
