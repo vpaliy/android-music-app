@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import java.util.ArrayList
 import android.view.ViewGroup
+import com.vpaliy.kotlin_extensions.info
 import com.vpaliy.mediaplayer.then
 
 abstract class BaseAdapter<T> constructor(context: Context, val click: (Bundle) -> Unit) :

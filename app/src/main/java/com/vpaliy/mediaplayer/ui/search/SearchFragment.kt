@@ -46,7 +46,7 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
       presenter?.refresh()
     }
     result.adapter = adapter
-    result.addReachBottomListener({
+    result.addReachBottomListener(refresher,{
       presenter?.more()
     })
   }
@@ -62,7 +62,6 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   override fun showLoading() {
     progress.show()
-    result.hide(isGone = true)
   }
 
   override fun hideLoading() {
