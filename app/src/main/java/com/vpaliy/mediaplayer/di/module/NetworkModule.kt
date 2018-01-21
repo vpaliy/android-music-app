@@ -12,7 +12,6 @@ import javax.inject.Singleton
 import com.vpaliy.kotlin_extensions.info
 import com.vpaliy.kotlin_extensions.then
 import okhttp3.Headers
-import okhttp3.Protocol
 import okhttp3.Response
 import java.io.IOException
 import java.nio.charset.Charset
@@ -20,22 +19,20 @@ import java.nio.charset.UnsupportedCharsetException
 import java.util.concurrent.TimeUnit
 
 @Module
-class NetworkModule constructor(val token: Token?) {
+class NetworkModule constructor(private val token: Token?) {
   @Singleton
   @Provides
   internal fun service(context: Context): SoundCloudService =
-      SoundCloud.create(CLIENT_ID)
-          .appendToken(token)
-          .createService(context)
+      SoundCloud.Builder(context, CLIENT_ID)
+          .setInterceptor(NetworkLoggingInterceptor())
+          .setToken(token).build().soundCloudService
 
   private class NetworkLoggingInterceptor : Interceptor {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
       val request = chain.request()
       val requestBody = request.body()
-      val connection = chain.connection()
-      val protocol = (connection != null) then connection.protocol() ?: Protocol.HTTP_1_1
-      val requestStartMessage = "--> " + request.method() + ' ' + request.url() + ' ' + protocol
+      val requestStartMessage = "--> " + request.method() + ' ' + request.url()
       info(requestStartMessage)
       request.body()?.let {
         if (it.contentType() != null) {
@@ -111,7 +108,7 @@ class NetworkModule constructor(val token: Token?) {
     private val UTF8 = Charset.forName("UTF-8")
 
     private fun hasBody(response: Response) = when {
-        response.request().method() == "HEAD" -> false
+      response.request().method() == "HEAD" -> false
       else -> {
         val responseCode = response.code()
         (responseCode < 100 || responseCode >= 200) && responseCode != 204 && responseCode != 304 || contentLength(response) != -1L || "chunked"

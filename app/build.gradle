@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.sdsmdg.harjot:croller:1.0.2'
     implementation 'jp.wasabeef:blurry:2.1.1'
     implementation 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
+
     implementation 'com.github.vpaliyX:android-extensions:b3c79325bb'
     implementation libs.firebaseCore
     implementation libs.firebaseCrash
