@@ -29,9 +29,13 @@ class HomeActivity : BaseActivity() {
           toolbar.title = getString(R.string.history_label)
           load(HistoryFragment())
         }
-        R.id.loved -> {
+        R.id.favorite -> {
           toolbar.title = getString(R.string.favorite_label)
           load(LovedFragment())
+        }
+        R.id.settings -> {
+          toolbar.title = getString(R.string.settings_label)
+          //TODO add settings fragment
         }
       }
     }
