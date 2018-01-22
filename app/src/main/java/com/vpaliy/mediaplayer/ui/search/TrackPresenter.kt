@@ -1,7 +1,6 @@
 package com.vpaliy.mediaplayer.ui.search
 
 import com.vpaliy.kotlin_extensions.error
-import com.vpaliy.kotlin_extensions.info
 import com.vpaliy.mediaplayer.di.scope.ViewScope
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.model.SearchPage
@@ -28,7 +27,6 @@ class TrackPresenter @Inject constructor(val interactor: SingleInteractor<Search
 
   private fun executeQuery() {
     view.showLoading()
-    info(page.current)
     interactor.execute(this::onSuccess, this::onError, page)
   }
 

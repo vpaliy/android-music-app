@@ -43,8 +43,8 @@ abstract class HomeFragment : BaseFragment(), HomeContract.View {
     return super.onOptionsItemSelected(item)
   }
 
-  override fun onStart() {
-    super.onStart()
+  override fun onResume() {
+    super.onResume()
     presenter?.start()
   }
 

@@ -4,8 +4,6 @@ import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.verify
-import com.vpaliy.mediaplayer.domain.interactor.LovedTracks
-import com.vpaliy.mediaplayer.domain.interactor.TrackHistory
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.details.ActionsContract
 import com.vpaliy.mediaplayer.ui.details.ActionsPresenter

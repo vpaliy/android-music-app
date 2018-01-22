@@ -19,5 +19,6 @@ interface HomeContract {
     fun remove(track: Track)
     fun clear()
     fun attach(view: View)
+    fun refresh()
   }
 }

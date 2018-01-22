@@ -30,8 +30,7 @@ class ActionsActivity : BaseActivity(), ActionsContract.View {
     setContentView(R.layout.fragment_actions)
     container.setOnClickListener { supportFinishAfterTransition() }
     val bundle = savedInstanceState ?: intent.extras
-    val track = bundle.fetchHeavyObject<Track>(Constants.EXTRA_TRACK,
-        object : TypeToken<Track>() {}.type)
+    val track = bundle.fetchHeavyObject<Track>(Constants.EXTRA_TRACK, object : TypeToken<Track>() {}.type)
     track?.let {
       loadTrack(it)
       setUp(it)
@@ -84,17 +83,16 @@ class ActionsActivity : BaseActivity(), ActionsContract.View {
     overridePendingTransition(0, R.anim.slide_out_down)
   }
 
-
   override fun showRemoved(type: TrackType) {
     when(type){
-      TrackType.Favorite -> animateText(like, getString(R.string.remove_action))
-      TrackType.History -> animateText(history, getString(R.string.remove_action))
+      TrackType.Favorite -> animateText(like, getString(R.string.like_action))
+      TrackType.History -> animateText(history, getString(R.string.add_action))
     }
   }
   override fun showAdded(type: TrackType) {
     when(type){
-      TrackType.Favorite -> animateText(like, getString(R.string.add_action))
-      TrackType.History -> animateText(history, getString(R.string.add_action))
+      TrackType.Favorite -> animateText(like, getString(R.string.unlike_action))
+      TrackType.History -> animateText(history, getString(R.string.remove_action))
     }
   }
 

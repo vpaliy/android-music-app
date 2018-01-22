@@ -7,8 +7,8 @@ import com.vpaliy.mediaplayer.ui.base.BaseView
 
 interface ActionsContract {
   interface View : BaseView<Presenter> {
-    fun showAdded(type:TrackType)
-    fun showRemoved(type:TrackType)
+    fun showAdded(type: TrackType)
+    fun showRemoved(type: TrackType)
     fun error()
   }
 

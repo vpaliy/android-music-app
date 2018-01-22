@@ -13,14 +13,23 @@ import com.vpaliy.kotlin_extensions.hide
 import com.vpaliy.kotlin_extensions.show
 import com.vpaliy.kotlin_extensions.then
 import com.vpaliy.mediaplayer.R
-import com.vpaliy.mediaplayer.addReachBottomListener
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
+import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
 import com.vpaliy.mediaplayer.ui.utils.showMessage
 import kotlinx.android.synthetic.main.fragment_search.*
 
 abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCallback {
   abstract val adapter: BaseAdapter<T>
   abstract var presenter: SearchContract.Presenter<T>?
+
+  private val onReachBottomListener:OnReachBottomListener by lazy(LazyThreadSafetyMode.NONE){
+    object:OnReachBottomListener(result.layoutManager){
+      override fun onLoadMore() {
+        isLoading = true
+        presenter?.more()
+      }
+    }
+  }
 
   abstract fun inject()
 
@@ -46,9 +55,7 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
       presenter?.refresh()
     }
     result.adapter = adapter
-    result.addReachBottomListener(refresher,{
-      presenter?.more()
-    })
+    result.addOnScrollListener(onReachBottomListener)
   }
 
   override fun inputCleared() {
@@ -66,6 +73,7 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   override fun hideLoading() {
     progress.hide(isGone = true)
+    onReachBottomListener.isLoading = false
   }
 
   override fun showRefreshing() {

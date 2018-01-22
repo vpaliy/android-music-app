@@ -1,7 +1,6 @@
 package com.vpaliy.mediaplayer.ui.details
 
 import com.vpaliy.mediaplayer.domain.model.Track
-import com.vpaliy.mediaplayer.ui.details.ActionsContract.View
 import com.vpaliy.mediaplayer.ui.details.ActionsContract.Presenter
 import com.vpaliy.mediaplayer.domain.interactor.ModifyInteractor
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
@@ -12,7 +11,7 @@ import com.vpaliy.mediaplayer.di.scope.ViewScope
 @ViewScope
 class ActionsPresenter @Inject constructor(private val modifier: ModifyInteractor) : Presenter {
 
-  private lateinit var view: View
+  private lateinit var view: ActionsContract.View
 
   override fun add(track: Track) {
     val param = ModifyRequest(TrackType.History, track)
@@ -39,7 +38,7 @@ class ActionsPresenter @Inject constructor(private val modifier: ModifyInteracto
     ex.printStackTrace()
   }
 
-  override fun attach(view: View) {
+  override fun attach(view: ActionsContract.View) {
     this.view = view
   }
 }

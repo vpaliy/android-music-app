@@ -16,10 +16,15 @@ abstract class HomePresenter constructor(val interactor: SingleInteractor<TrackT
 
   override fun start() {
     view.setLoading(true)
-    interactor.execute(this::onSuccess, this::onError)
+    interactor.execute(this::onSuccess, this::onError, type())
+  }
+
+  override fun refresh() {
+    start()
   }
 
   private fun onSuccess(response: List<Track>) {
+    view.show(response)
     view.setLoading(false)
   }
 
