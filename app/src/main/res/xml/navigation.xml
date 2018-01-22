@@ -1,0 +1,20 @@
+<tabs>
+    <tab
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="@color/colorPrimaryDark"
+        icon="@drawable/ic_history"
+        id="@+id/history"
+        title="@string/history_label" />
+    <tab
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="@color/colorPrimaryDark"
+        icon="@drawable/ic_heart"
+        id="@+id/favorite"
+        title="@string/favorite_label" />
+    <tab
+        badgeHidesWhenActive="true"
+        barColorWhenSelected="@color/colorPrimaryDark"
+        icon="@drawable/ic_settings"
+        id="@+id/settings"
+        title="@string/settings_label" />
+</tabs>

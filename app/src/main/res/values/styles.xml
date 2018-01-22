@@ -1,5 +1,6 @@
 <resources>
-    <style name="Flash" parent="Theme.AppCompat.Light.NoActionBar">
+
+    <style name="Flash" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
@@ -14,14 +15,17 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:statusBarColor">@color/background_super_dark</item>
     </style>
+
     <style name="Flash.Search">
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
         <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:windowSharedElementEnterTransition">@transition/shared_search_enter</item>
-        <item name="android:windowSharedElementReturnTransition">@transition/shared_search_return</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/shared_search_enter
+        </item>
+        <item name="android:windowSharedElementReturnTransition">@transition/shared_search_return
+        </item>
         <item name="android:windowEnterTransition">@transition/search_enter</item>
         <item name="android:windowReturnTransition">@transition/search_return</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -34,6 +38,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowSharedElementsUseOverlay">true</item>
     </style>
+
     <style name="Flash.Actions" parent="Flash">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
@@ -49,6 +54,7 @@
         <item name="android:windowSharedElementsUseOverlay">true</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
+
     <style name="Flash.Track" parent="Flash">
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
@@ -65,26 +71,31 @@
         <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
+
     <style name="Widget.SearchView" parent="android:style/Widget.Material.SearchView">
         <item name="android:searchIcon">@android:color/transparent</item>
         <item name="android:queryBackground">@android:color/transparent</item>
         <item name="android:submitBackground">@android:color/transparent</item>
     </style>
+
     <style name="SearchTheme" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
         <item name="colorControlActivated">?android:colorAccent</item>
         <item name="android:searchViewStyle">@style/Widget.SearchView</item>
     </style>
+
     <style name="Widget">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/white_50</item>
     </style>
+
     <style name="Widget.NumberText" parent="@android:style/TextAppearance.Material.Caption">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">14sp</item>
         <item name="android:fontFeatureSettings">smcp, onum</item>
         <item name="android:letterSpacing">0.02</item>
     </style>
+
     <style name="Widget.BigTitle" parent="Widget">
         <item name="android:textSize">22sp</item>
         <item name="android:layout_width">wrap_content</item>
@@ -93,6 +104,7 @@
         <item name="android:fontFeatureSettings">smcp</item>
         <item name="android:letterSpacing">0.2</item>
     </style>
+
     <style name="Widget.Title" parent="Widget">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -100,6 +112,7 @@
         <item name="android:fontFeatureSettings">smcp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
+
     <style name="Widget.ToolbarText" parent="Widget">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFeatureSettings">smcp</item>
@@ -107,5 +120,11 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="BottomNavigation">
+        <item name="itemBackground">@drawable/bottom_item_bg</item>
+        <item name="itemIconTint">@drawable/bottom_bar_bg</item>
+        <item name="itemTextColor">@color/white</item>
     </style>
 </resources>

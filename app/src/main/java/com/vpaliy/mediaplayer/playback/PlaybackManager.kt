@@ -207,8 +207,8 @@ constructor(val playback: Playback,
       handleRepeatMode()
     }
 
-    override fun onSetShuffleModeEnabled(enabled: Boolean) {
-      super.onSetShuffleModeEnabled(enabled)
+    override fun onSetShuffleMode(shuffleMode: Int) {
+      super.onSetShuffleMode(shuffleMode)
       handleShuffleMode()
     }
 

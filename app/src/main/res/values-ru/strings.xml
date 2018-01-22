@@ -9,7 +9,7 @@
     <string name="history_label">Недавние треки</string>
     <string name="intro_share_message">Мне очень нравиться эта песня:</string>
     <string name="choose_to_share_text">Выберите способ отправки</string>
-    <string name="liked_label">Любимые песни</string>
+    <string name="favorite_label">Любимые песни</string>
     <string name="empty_history">У вас нет истории треков</string>
     <string name="empty_liked">У вас нет любимых песен</string>
     <string name="history_alert">Вы действительно хотите удалить все песни?</string>

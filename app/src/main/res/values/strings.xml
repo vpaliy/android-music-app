@@ -12,7 +12,7 @@
     <string name="history_label">Recent</string>
     <string name="intro_share_message">I am really into this:</string>
     <string name="choose_to_share_text">Choose to whom to send</string>
-    <string name="liked_label">Loved</string>
+    <string name="favorite_label">Loved</string>
     <string name="empty_history">You have not listened to anything so far</string>
     <string name="empty_liked">You do not have favorite songs</string>
     <string name="history_alert">Are you sure you want to delete your listening history?</string>
@@ -24,6 +24,7 @@
     <string name="background_trans" translatable="false">back_trans</string>
     <string name="search_trans" translatable="false">search_trans</string>
 
+    <string name="settings_label">Settings</string>
     <string name="share_action">Share</string>
     <string name="like_action">Like</string>
     <string name="unlike_action">Unlike</string>

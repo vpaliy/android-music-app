@@ -9,7 +9,7 @@
     <string name="history_label">Історія треків</string>
     <string name="intro_share_message">Мені дуже подобається ця пісня:</string>
     <string name="choose_to_share_text">Виберіть спосіб </string>
-    <string name="liked_label">Улюблені пісні</string>
+    <string name="favorite_label">Улюблені пісні</string>
     <string name="empty_history">У вас немає історії піснь</string>
     <string name="empty_liked">У вас немає улюблених пісень</string>
     <string name="history_alert">Ви справді бажаєте видалити всі пісні?</string>

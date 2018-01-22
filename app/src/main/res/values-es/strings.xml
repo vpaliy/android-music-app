@@ -12,7 +12,7 @@
     <string name="history_label">"Recientes"</string>
     <string name="intro_share_message">"Me encanta esta canción:"</string>
     <string name="choose_to_share_text">"Elige a quién enviar"</string>
-    <string name="liked_label">"Favoritas"</string>
+    <string name="favorite_label">"Favoritas"</string>
     <string name="empty_history">"No has escuchado nada hasta ahora"</string>
     <string name="empty_liked">"No tienes canciones favoritas"</string>
     <string name="history_alert">"¿Seguro que deseas eliminar tu historial?"</string>

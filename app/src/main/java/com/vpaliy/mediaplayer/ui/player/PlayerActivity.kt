@@ -66,7 +66,7 @@ class PlayerActivity : AppCompatActivity() {
     override fun onConnected() {
       super.onConnected()
       try {
-        val mediaController = MediaControllerCompat(this@PlayerActivity, browser?.sessionToken)
+        val mediaController = MediaControllerCompat(this@PlayerActivity, browser?.sessionToken!!)
         mediaController.registerCallback(controllerCallback)
         MediaControllerCompat.setMediaController(this@PlayerActivity, mediaController)
         inject()

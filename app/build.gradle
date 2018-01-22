@@ -64,6 +64,7 @@ dependencies {
     implementation 'com.github.ohoussein.playpauseview:playpauseview:1.0.1'
     implementation 'com.github.vpaliyX:android-extensions:b3c79325bb'
     implementation 'com.github.simonpercic:oklog3:2.3.0'
+    implementation 'com.roughike:bottom-bar:2.3.1'
     implementation libs.firebaseCore
     implementation libs.firebaseCrash
     implementation libs.soundcloud

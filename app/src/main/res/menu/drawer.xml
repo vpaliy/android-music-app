@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:checkableBehavior="single">
     <item
         android:id="@+id/history"
         android:icon="@drawable/ic_history"
@@ -9,6 +7,9 @@
     <item
         android:id="@+id/loved"
         android:icon="@drawable/ic_heart"
-        android:title="@string/liked_label"/>
-    </group>
+        android:title="@string/favorite_label"/>
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings_label"/>
 </menu>
