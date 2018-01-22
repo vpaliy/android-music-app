@@ -11,5 +11,5 @@ import com.vpaliy.mediaplayer.domain.model.TrackType
 @ViewScope
 class LovedPresenter @Inject constructor(interactor: SingleInteractor<TrackType, List<Track>>, clear: ClearInteractor)
   : HomePresenter(interactor, clear) {
-  override fun type() = TrackType.FAVORITE
+  override fun type() = TrackType.Favorite
 }

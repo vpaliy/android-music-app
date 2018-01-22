@@ -48,11 +48,11 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track, TrackEntity>
 
   override fun clearAll(type: TrackType): Completable {
     return when (type) {
-      TrackType.HISTORY -> {
+      TrackType.History -> {
         recentSet.clear()
         Completable.fromCallable(handler::deleteHistory)
       }
-      TrackType.FAVORITE -> {
+      TrackType.Favorite -> {
         likeSet.clear()
         Completable.fromCallable(handler::deleteLoved)
       }
@@ -62,20 +62,20 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track, TrackEntity>
   override fun fetch(type: TrackType): Single<List<Track>> {
     return Single.fromCallable({
       when (type) {
-        TrackType.FAVORITE -> handler.queryLoved()
-        TrackType.HISTORY -> handler.queryHistory()
+        TrackType.Favorite -> handler.queryLoved()
+        TrackType.History -> handler.queryHistory()
       }
     })
   }
 
   override fun insert(request: ModifyRequest): Completable {
     when (request.type) {
-      TrackType.FAVORITE -> {
+      TrackType.Favorite -> {
         if (!likeSet.contains(request.track.id)) {
           return Completable.fromCallable({ handler.update(love(request.track, true)) })
         }
       }
-      TrackType.HISTORY -> {
+      TrackType.History -> {
         if (!recentSet.contains(request.track.id)) {
           return Completable.fromCallable({ handler.update(save(request.track, true)) })
         }
@@ -86,10 +86,10 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track, TrackEntity>
 
   override fun remove(request: ModifyRequest): Completable {
     return when (request.type) {
-      TrackType.FAVORITE -> {
+      TrackType.Favorite -> {
         Completable.fromCallable({ handler.update(love(request.track, false)) })
       }
-      TrackType.HISTORY -> {
+      TrackType.History -> {
         Completable.fromCallable({ handler.update(save(request.track, false)) })
       }
     }

@@ -20,4 +20,5 @@ class NetworkModule constructor(private val token: Token?) {
               .setBaseUrl("http://oklog.responseecho.com")
               .build())
           .setToken(token).build().soundCloudService
+
 }

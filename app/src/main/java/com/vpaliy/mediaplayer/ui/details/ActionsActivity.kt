@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken
 import com.vpaliy.mediaplayer.ui.utils.*
 import android.annotation.SuppressLint
 import com.vpaliy.mediaplayer.App
+import com.vpaliy.mediaplayer.domain.model.TrackType
 import com.vpaliy.mediaplayer.then
 import javax.inject.Inject
 
@@ -83,13 +84,19 @@ class ActionsActivity : BaseActivity(), ActionsContract.View {
     overridePendingTransition(0, R.anim.slide_out_down)
   }
 
-  override fun added() = animateText(history, getString(R.string.remove_action))
 
-  override fun removed() = animateText(history, getString(R.string.add_action))
-
-  override fun liked() = animateText(like, getString(R.string.unlike_action))
-
-  override fun disliked() = animateText(like, getString(R.string.like_action))
+  override fun showRemoved(type: TrackType) {
+    when(type){
+      TrackType.Favorite -> animateText(like, getString(R.string.remove_action))
+      TrackType.History -> animateText(history, getString(R.string.remove_action))
+    }
+  }
+  override fun showAdded(type: TrackType) {
+    when(type){
+      TrackType.Favorite -> animateText(like, getString(R.string.add_action))
+      TrackType.History -> animateText(history, getString(R.string.add_action))
+    }
+  }
 
   override fun error() = container.showMessage(R.string.cleared_message)
 

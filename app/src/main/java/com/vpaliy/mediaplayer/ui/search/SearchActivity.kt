@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.content.Intent
 import android.app.SharedElementCallback
+import com.vpaliy.kotlin_extensions.then
 import com.vpaliy.mediaplayer.App
 
 class SearchActivity : BaseActivity() {
@@ -36,7 +37,7 @@ class SearchActivity : BaseActivity() {
     setEnterSharedElementCallback(object : SharedElementCallback() {
       override fun onSharedElementStart(sharedElementNames: MutableList<String>?, sharedElements: MutableList<View>?, sharedElementSnapshots: MutableList<View>?) {
         checked = !checked
-        back.setImageState(intArrayOf(android.R.attr.state_checked * (if (checked) 1 else -1)), true)
+        back.setImageState(intArrayOf(android.R.attr.state_checked * (checked then 1 ?: -1 )), true)
         super.onSharedElementStart(sharedElementNames, sharedElements, sharedElementSnapshots)
       }
     })
@@ -76,7 +77,6 @@ class SearchActivity : BaseActivity() {
         searchView.setQuery(query, false)
         searchView.clearFocus()
         hideKeyboard()
-
       }
     }
   }

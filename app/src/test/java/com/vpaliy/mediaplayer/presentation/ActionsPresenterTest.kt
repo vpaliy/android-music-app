@@ -38,7 +38,7 @@ class ActionsPresenterTest{
         presenter.like(track)
         verify(loveInteractor).insert(success.capture(),error.capture(), any<Track>())
         success.firstValue.invoke()
-        verify(view).liked()
+        verify(view).showLiked()
     }
 
     @Test
@@ -54,7 +54,7 @@ class ActionsPresenterTest{
         presenter.dislike(track)
         verify(loveInteractor).remove(success.capture(),error.capture(), any<Track>())
         success.firstValue.invoke()
-        verify(view).disliked()
+        verify(view).showUnliked()
     }
 
     @Test
@@ -70,7 +70,7 @@ class ActionsPresenterTest{
         presenter.add(track)
         verify(historyInteractor).insert(success.capture(),error.capture(), any<Track>())
         success.firstValue.invoke()
-        verify(view).added()
+        verify(view).showAdded()
     }
 
     @Test
@@ -86,7 +86,7 @@ class ActionsPresenterTest{
         presenter.remove(track)
         verify(historyInteractor).remove(success.capture(),error.capture(), any<Track>())
         success.firstValue.invoke()
-        verify(view).removed()
+        verify(view).showRemoved()
     }
 
     @Test

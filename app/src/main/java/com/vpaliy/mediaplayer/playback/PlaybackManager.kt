@@ -42,7 +42,7 @@ constructor(val playback: Playback,
 
   fun handlePlayRequest(track: Track?) {
     track?.let {
-      saveInteractor.insert({}, {}, ModifyRequest(TrackType.HISTORY, it))
+      saveInteractor.insert({}, {}, ModifyRequest(TrackType.History, it))
       playback.play(it.streamUrl)
       updateMetadata()
     }

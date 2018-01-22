@@ -15,23 +15,23 @@ class ActionsPresenter @Inject constructor(private val modifier: ModifyInteracto
   private lateinit var view: View
 
   override fun add(track: Track) {
-    val param = ModifyRequest(TrackType.HISTORY, track)
-    modifier.insert(view::added, this::error, param)
+    val param = ModifyRequest(TrackType.History, track)
+    modifier.insert({ view.showAdded(TrackType.History) }, this::error, param)
   }
 
   override fun remove(track: Track) {
-    val param = ModifyRequest(TrackType.HISTORY, track)
-    modifier.remove(view::removed, this::error, param)
+    val param = ModifyRequest(TrackType.History, track)
+    modifier.remove({ view.showRemoved(TrackType.History) }, this::error, param)
   }
 
   override fun dislike(track: Track) {
-    val param = ModifyRequest(TrackType.FAVORITE, track)
-    modifier.remove(view::disliked, this::error, param)
+    val param = ModifyRequest(TrackType.Favorite, track)
+    modifier.remove({ view.showRemoved(TrackType.Favorite) }, this::error, param)
   }
 
   override fun like(track: Track) {
-    val param = ModifyRequest(TrackType.FAVORITE, track)
-    modifier.insert(view::liked, this::error, param)
+    val param = ModifyRequest(TrackType.Favorite, track)
+    modifier.insert({ view.showAdded(TrackType.Favorite) }, this::error, param)
   }
 
   private fun error(ex: Throwable) {
