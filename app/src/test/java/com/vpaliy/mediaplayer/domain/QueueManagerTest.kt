@@ -15,7 +15,7 @@ import org.junit.runners.JUnit4
 class QueueManagerTest{
 
     private val list=mock< MutableList<Track>>{
-        on(it[any<Int>()]).thenReturn(Track())
+        on(it[any()]).thenReturn(Track())
     }
     private val queueManager= QueueManager(list,0)
 
@@ -25,7 +25,7 @@ class QueueManagerTest{
         val track=queueManager.next()
         assertNotNull(track)
         verify(list).size
-        verify(list)[any<Int>()]
+        verify(list)[any()]
     }
 
     @Test
@@ -33,18 +33,18 @@ class QueueManagerTest{
         whenever(list.size).thenReturn(2)
         val track=queueManager.previous()
         assertNotNull(track)
-        verify(list)[any<Int>()]
+        verify(list)[any()]
     }
 
     @Test
     fun addTrack(){
         queueManager.addTrack(Track())
-        verify(list).add(any<Track>())
+        verify(list).add(any())
     }
 
     @Test
     fun returnsCurrent(){
         queueManager.current()
-        verify(list)[any<Int>()]
+        verify(list)[any()]
     }
 }

@@ -91,7 +91,7 @@ constructor(val playback: Playback,
     updateListener?.onMetadataRetrieveError()
   }
 
-  override fun onCompletetion() {
+  override fun onCompleted() {
     queueManager?.let {
       val track = if (isRepeat) it.current() else it.next()
       if (isRepeat) {

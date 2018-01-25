@@ -84,13 +84,14 @@ class ActionsActivity : BaseActivity(), ActionsContract.View {
   }
 
   override fun showRemoved(type: TrackType) {
-    when(type){
+    when (type) {
       TrackType.Favorite -> animateText(like, getString(R.string.like_action))
       TrackType.History -> animateText(history, getString(R.string.add_action))
     }
   }
+
   override fun showAdded(type: TrackType) {
-    when(type){
+    when (type) {
       TrackType.Favorite -> animateText(like, getString(R.string.unlike_action))
       TrackType.History -> animateText(history, getString(R.string.remove_action))
     }

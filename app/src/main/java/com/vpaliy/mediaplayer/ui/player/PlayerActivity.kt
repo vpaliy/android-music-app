@@ -83,15 +83,14 @@ class PlayerActivity : AppCompatActivity() {
     setContentView(R.layout.activity_player)
     ButterKnife.bind(this)
     browser = MediaBrowserCompat(this,
-        ComponentName(this, MusicPlaybackService::class.java),
-        connectionCallback, null)
+        ComponentName(this, MusicPlaybackService::class.java), connectionCallback, null)
     progressView.progressDrawable?.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
     progressView.thumb?.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP)
     progressView.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
       override fun onStopTrackingTouch(seekBar: SeekBar?) {
         seekBar?.let {
-          MediaControllerCompat.getMediaController(this@PlayerActivity).transportControls
-              .seekTo(it.progress.toLong())
+          MediaControllerCompat.getMediaController(this@PlayerActivity).
+              transportControls.seekTo(it.progress.toLong())
           startSeekBarUpdate()
         }
       }

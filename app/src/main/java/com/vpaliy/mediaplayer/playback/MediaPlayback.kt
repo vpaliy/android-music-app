@@ -103,7 +103,7 @@ class MediaPlayback @Inject constructor(context: Context,
   }
 
   override fun onCompletion(mp: MediaPlayer) {
-    callback.onCompletetion()
+    callback.onCompleted()
   }
 
   override fun resumePlayer() {

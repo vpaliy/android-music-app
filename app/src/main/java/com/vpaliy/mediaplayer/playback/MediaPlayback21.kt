@@ -4,7 +4,6 @@ import android.content.Context
 import android.media.AudioManager
 import android.net.Uri
 import android.net.wifi.WifiManager
-import android.util.Log
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
@@ -108,7 +107,7 @@ class MediaPlayback21 @Inject constructor(context: Context,
   override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
     when (playbackState) {
       ExoPlayer.STATE_READY -> if (isPause) callback.onPause() else callback.onPlay()
-      ExoPlayer.STATE_ENDED -> callback.onCompletetion()
+      ExoPlayer.STATE_ENDED -> callback.onCompleted()
     }
   }
 

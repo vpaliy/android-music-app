@@ -4,14 +4,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 
-
-abstract class OnReachBottomListener
-constructor(private val layoutManager: RecyclerView.LayoutManager) : RecyclerView.OnScrollListener() {
+abstract class OnReachBottomListener constructor(private val layoutManager: RecyclerView.LayoutManager)
+  : RecyclerView.OnScrollListener() {
 
   var isLoading = false
 
   override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-    // bail out if scrolling upward then already loading data
     val firstVisibleItem = fetchFirstVisibleItemPosition()
     if (dy < 0 || isLoading || firstVisibleItem == -1) return
 
