@@ -18,7 +18,7 @@ class NetworkModule constructor(private val token: Token?) {
       SoundCloud.Builder(context, CLIENT_ID)
           .setInterceptor(OkLogInterceptor.builder()
               .setBaseUrl("http://oklog.responseecho.com")
+              .ignoreTimber(false)
               .build())
           .setToken(token).build().soundCloudService
-
 }

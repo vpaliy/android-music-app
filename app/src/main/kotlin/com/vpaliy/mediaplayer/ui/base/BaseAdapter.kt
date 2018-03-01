@@ -15,6 +15,7 @@ abstract class BaseAdapter<T> constructor(context: Context, val click: (Bundle) 
     RecyclerView.Adapter<BaseAdapter<T>.GenericViewHolder>() {
 
   private val inflater = LayoutInflater.from(context)
+
   var data: MutableList<T> = ArrayList()
     set(value) {
       field = value

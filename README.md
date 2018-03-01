@@ -11,7 +11,7 @@ This app doesn't require authentication. You just get in, search for music, and 
 
 # What can I do with it? #
 - stream music
-- like/dislike a song
+- like/unlike a song
 - search 
 - invite friends (thanks to `Firebase Invites`)
 - browse your listening history

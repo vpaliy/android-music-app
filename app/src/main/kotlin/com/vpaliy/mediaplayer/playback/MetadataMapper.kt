@@ -7,8 +7,7 @@ import com.vpaliy.mediaplayer.domain.playback.PlaybackScope
 import javax.inject.Inject
 
 @PlaybackScope
-class MetadataMapper @Inject
-constructor() : Mapper<MediaMetadataCompat, Track>() {
+class MetadataMapper @Inject constructor() : Mapper<MediaMetadataCompat, Track>() {
   override fun map(fake: Track?): MediaMetadataCompat? {
     return fake?.let {
       MediaMetadataCompat.Builder()

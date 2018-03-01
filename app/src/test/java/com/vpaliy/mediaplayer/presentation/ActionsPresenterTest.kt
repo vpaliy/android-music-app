@@ -49,7 +49,7 @@ class ActionsPresenterTest{
 
     @Test
     fun successfullyDislikes(){
-        presenter.dislike(track)
+        presenter.unlike(track)
         verify(loveInteractor).remove(success.capture(),error.capture(), any<Track>())
         success.firstValue.invoke()
         verify(view).showUnliked()
@@ -57,7 +57,7 @@ class ActionsPresenterTest{
 
     @Test
     fun failsToDislike(){
-        presenter.dislike(track)
+        presenter.unlike(track)
         verify(loveInteractor).remove(success.capture(),error.capture(), eq(track))
         error.firstValue.invoke(Exception())
         verify(view).error()

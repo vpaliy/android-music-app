@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "696193869204",
+    "firebase_url": "https://flash-8aa6a.firebaseio.com",
+    "project_id": "flash-8aa6a",
+    "storage_bucket": "flash-8aa6a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696193869204:android:1fd54cf86c9df044",
+        "android_client_info": {
+          "package_name": "com.vpaliy.mediaplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "696193869204-gahfqkag70d78t3v0h5drcjig1k9em36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASsZjkA9h7gXZXHmcAwSp3-O4-PcKvt-k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

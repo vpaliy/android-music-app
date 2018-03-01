@@ -23,7 +23,7 @@ class ActionsPresenter @Inject constructor(private val modifier: ModifyInteracto
     modifier.remove({ view.showRemoved(TrackType.History) }, this::error, param)
   }
 
-  override fun dislike(track: Track) {
+  override fun unlike(track: Track) {
     val param = ModifyRequest(TrackType.Favorite, track)
     modifier.remove({ view.showRemoved(TrackType.Favorite) }, this::error, param)
   }

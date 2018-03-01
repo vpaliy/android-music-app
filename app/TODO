@@ -1,0 +1,14 @@
+1. If I want to create a bottom dialog that contains controllers, should I use Fragments everywhere?
+Like, one BaseActivity that contains the dialog, and that activity will host every other screen of the app.
+In this case, every screen should be a Fragment.
+
+- I think yes, because how would you persist the state of the bottom dialog. On the other hand, it will be hard to
+control the back stack with Fragments.
+
+Basically, you will have 2 choices here:
+
+ - Pass the state of the dialog from one screen to another.
+ - Host all Fragments in one Activity, but struggle with managing the back stack.
+
+Or there might be a third option where you can share the same piece of UI across different Activities.
+

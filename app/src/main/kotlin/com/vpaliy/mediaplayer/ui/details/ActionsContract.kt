@@ -14,7 +14,7 @@ interface ActionsContract {
 
   interface Presenter : BasePresenter {
     fun like(track: Track)
-    fun dislike(track: Track)
+    fun unlike(track: Track)
     fun remove(track: Track)
     fun add(track: Track)
     fun attach(view: View)

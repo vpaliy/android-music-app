@@ -41,7 +41,7 @@ class ActionsActivity : BaseActivity(), ActionsContract.View {
     like.assignTextIf(!track.isLiked, R.string.like_action, R.string.unlike_action)
     history.assignTextIf(!track.isSaved, R.string.add_action, R.string.remove_action)
     like.click {
-      track.isLiked.then({ presenter.dislike(track) }, { presenter.like(track) })
+      track.isLiked.then({ presenter.unlike(track) }, { presenter.like(track) })
     }
     history.click {
       track.isSaved.then({ presenter.remove(track) }, { presenter.add(track) })

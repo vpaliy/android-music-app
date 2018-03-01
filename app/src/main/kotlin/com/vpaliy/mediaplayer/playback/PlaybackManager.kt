@@ -9,6 +9,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.bumptech.glide.request.target.SimpleTarget
+import com.vpaliy.kotlin_extensions.info
 import com.vpaliy.mediaplayer.data.mapper.Mapper
 import com.vpaliy.mediaplayer.domain.interactor.InsertInteractor
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
@@ -22,8 +23,7 @@ import com.vpaliy.mediaplayer.domain.playback.PlaybackScope
 import com.vpaliy.mediaplayer.then
 
 @PlaybackScope
-class PlaybackManager @Inject
-constructor(val playback: Playback,
+class PlaybackManager @Inject constructor(val playback: Playback,
             val context: Context,
             val saveInteractor: InsertInteractor,
             val mapper: Mapper<MediaMetadataCompat, Track>) : Playback.Callback {
@@ -33,7 +33,6 @@ constructor(val playback: Playback,
   private var lastState: Int = 0
   var queueManager: QueueManager? = null
   val mediaSessionCallback = MediaSessionCallback()
-  var updateListener: MetadataUpdateListener? = null
   var serviceCallback: PlaybackServiceCallback? = null
 
   init {
@@ -41,6 +40,7 @@ constructor(val playback: Playback,
   }
 
   fun handlePlayRequest(track: Track?) {
+    info("handlePlayRequest")
     track?.let {
       saveInteractor.insert({}, {}, ModifyRequest(TrackType.History, it))
       playback.play(it.streamUrl)
@@ -55,10 +55,10 @@ constructor(val playback: Playback,
           PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH or
           PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS or
           PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-      if (playback.isPlaying()) {
-        actions = actions or PlaybackStateCompat.ACTION_PAUSE
+      actions = if (playback.isPlaying()) {
+        actions or PlaybackStateCompat.ACTION_PAUSE
       } else {
-        actions = actions or PlaybackStateCompat.ACTION_PLAY
+        actions or PlaybackStateCompat.ACTION_PLAY
       }
       if (isRepeat) {
         actions = actions or PlaybackStateCompat.ACTION_SET_REPEAT_MODE
@@ -69,29 +69,36 @@ constructor(val playback: Playback,
       return actions
     }
 
-  fun handlePauseRequest() = playback.pause()
+  fun handlePauseRequest() {
+    info("handlePauseRequest")
+    playback.pause()
+  }
 
   fun handleStopRequest() {
+    info("handleStopRequest")
     if (!playback.isPlaying()) {
       playback.stop()
     }
   }
 
   override fun onPlay() {
+    info("onPlay")
     updatePlaybackState(PlaybackStateCompat.STATE_PLAYING)
     serviceCallback?.onPlaybackStart()
   }
 
   override fun onStop() {
+    info("onStop")
     updatePlaybackState(PlaybackStateCompat.STATE_STOPPED)
     serviceCallback?.onPlaybackStop()
   }
 
   override fun onError() {
-    updateListener?.onMetadataRetrieveError()
+    error("onError")
   }
 
   override fun onCompleted() {
+    info("onCompleted")
     queueManager?.let {
       val track = if (isRepeat) it.current() else it.next()
       if (isRepeat) {
@@ -107,10 +114,12 @@ constructor(val playback: Playback,
   }
 
   fun handleResumeRequest() {
+    info("handleResumeRequest")
     queueManager?.let { handlePlayRequest(it.current()) }
   }
 
   fun handleNextRequest() {
+    info("handleNextRequest")
     queueManager?.let {
       playback.invalidateCurrent()
       handlePlayRequest(it.next())
@@ -118,6 +127,7 @@ constructor(val playback: Playback,
   }
 
   fun handlePrevRequest() {
+    info("handlePrevRequest")
     queueManager?.let {
       val position = TimeUnit.MILLISECONDS.toSeconds(playback.position())
       playback.invalidateCurrent()
@@ -126,27 +136,32 @@ constructor(val playback: Playback,
   }
 
   private fun handleRepeatMode() {
+    info("handleRepeatMode")
     isRepeat = !isRepeat
     updatePlaybackState(lastState)
   }
 
   private fun handleShuffleMode() {
+    info("handleShuffleMode")
     isShuffle = !isShuffle
     queueManager?.shuffle()
     updatePlaybackState(lastState)
   }
 
   override fun onPause() {
+    info("onPause")
     updatePlaybackState(PlaybackStateCompat.STATE_PAUSED)
     serviceCallback?.onPlaybackStop()
   }
 
   fun requestUpdate() {
+    info("requestUpdate")
     updatePlaybackState(lastState)
     updateMetadata()
   }
 
   fun updatePlaybackState(state: Int) {
+    info("updatePlaybackState")
     val position = playback.position()
     this.lastState = state
     if (state == PlaybackStateCompat.STATE_PLAYING || state == PlaybackStateCompat.STATE_PAUSED) {
@@ -159,42 +174,37 @@ constructor(val playback: Playback,
   }
 
   private fun updateMetadata() {
-    if (updateListener != null) {
-      queueManager?.let {
-        val track = it.current()
-        val result = MediaMetadataCompat.Builder(mapper.map(track))
-            .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, it.size().toLong())
-            .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, it.index.toLong() + 1L)
-            .putLong(MediaMetadataCompat.METADATA_KEY_DISC_NUMBER, playback.position())
-        updateListener?.onMetadataChanged(result.build())
-        if (!track.artworkUrl.isNullOrEmpty()) {
-          Glide.with(context)
-              .load(track.artworkUrl)
-              .asBitmap()
-              .into(object : SimpleTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>?) {
-                  result.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, resource)
-                  updateListener?.onMetadataChanged(result.build())
-                }
-              })
-        }
+    queueManager?.let {
+      val track = it.current()
+      val result = MediaMetadataCompat.Builder(mapper.map(track))
+          .putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, it.size().toLong())
+          .putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, it.index.toLong() + 1L)
+          .putLong(MediaMetadataCompat.METADATA_KEY_DISC_NUMBER, playback.position())
+      serviceCallback?.onMetadataChanged(result.build())
+      if (!track.artworkUrl.isNullOrEmpty()) {
+        Glide.with(context)
+            .load(track.artworkUrl)
+            .asBitmap()
+            .into(object : SimpleTarget<Bitmap>() {
+              override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>?) {
+                result.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, resource)
+                serviceCallback?.onMetadataChanged(result.build())
+              }
+            })
       }
     }
   }
 
   inner class MediaSessionCallback : MediaSessionCompat.Callback() {
     override fun onPlay() {
-      super.onPlay()
       handlePlayRequest(queueManager?.current())
     }
 
     override fun onSkipToNext() {
-      super.onSkipToNext()
       handleNextRequest()
     }
 
     override fun onSkipToPrevious() {
-      super.onSkipToPrevious()
       handlePrevRequest()
     }
 
@@ -208,30 +218,23 @@ constructor(val playback: Playback,
     }
 
     override fun onSetShuffleMode(shuffleMode: Int) {
-      super.onSetShuffleMode(shuffleMode)
       handleShuffleMode()
     }
 
     override fun onStop() {
-      super.onStop()
       handleStopRequest()
     }
 
     override fun onSeekTo(pos: Long) {
-      super.onSeekTo(pos)
       playback.seekTo(pos.toInt())
     }
-  }
-
-  interface MetadataUpdateListener {
-    fun onMetadataChanged(metadata: MediaMetadataCompat)
-    fun onMetadataRetrieveError()
   }
 
   interface PlaybackServiceCallback {
     fun onPlaybackStart()
     fun onPlaybackStop()
     fun onNotificationRequired()
+    fun onMetadataChanged(metadata: MediaMetadataCompat)
     fun onPlaybackStateUpdated(newState: PlaybackStateCompat)
   }
 }

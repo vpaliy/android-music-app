@@ -23,8 +23,8 @@ import javax.inject.Singleton
 
 @Singleton
 class MediaPlayback21 @Inject constructor(context: Context,
-            audioManager: AudioManager,
-            wifiLock: WifiManager.WifiLock) :
+                                          audioManager: AudioManager,
+                                          wifiLock: WifiManager.WifiLock) :
     BasePlayback(context, audioManager, wifiLock), ExoPlayer.EventListener {
 
   private var exoPlayer: SimpleExoPlayer? = null

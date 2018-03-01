@@ -14,44 +14,39 @@ import com.vpaliy.mediaplayer.App
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
 import javax.inject.Inject
 
-class MusicPlaybackService : MediaBrowserServiceCompat(),
-    PlaybackManager.PlaybackServiceCallback, PlaybackManager.MetadataUpdateListener {
+class MusicPlaybackService : MediaBrowserServiceCompat(), PlaybackManager.PlaybackServiceCallback {
 
   private lateinit var mediaSession: MediaSessionCompat
   private lateinit var notification: TrackNotification
   @Inject lateinit var playbackManager: PlaybackManager
 
-  init { App.playbackComponent?.inject(this) }
+  init {
+    App.playbackComponent?.inject(service = this)
+  }
 
   override fun onCreate() {
     super.onCreate()
     mediaSession = MediaSessionCompat(applicationContext, TAG)
-    notification = TrackNotification(this)
+    notification = TrackNotification(service = this)
     playbackManager.serviceCallback = this
-    playbackManager.updateListener = this
     mediaSession.setCallback(playbackManager.mediaSessionCallback)
     mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
     sessionToken = mediaSession.sessionToken
     val context = applicationContext
     val intent = Intent(context, PlayerActivity::class.java)
-    val pi = PendingIntent.getActivity(context, 99,
-        intent, PendingIntent.FLAG_UPDATE_CURRENT)
-    mediaSession.setSessionActivity(pi)
+    mediaSession.setSessionActivity(PendingIntent.getActivity(context, 99, intent, PendingIntent.FLAG_UPDATE_CURRENT))
     playbackManager.updatePlaybackState(PlaybackStateCompat.STATE_NONE)
   }
 
   override fun onStartCommand(startIntent: Intent?, flags: Int, startId: Int): Int {
-    if (startIntent != null) {
-      val action = startIntent.action
-      action?.let {
-        when (action) {
-          MediaTasks.ACTION_NEXT -> playbackManager.handleNextRequest()
-          MediaTasks.ACTION_PREV -> playbackManager.handlePrevRequest()
-          MediaTasks.ACTION_PAUSE -> playbackManager.handlePauseRequest()
-          MediaTasks.ACTION_PLAY -> playbackManager.handleResumeRequest()
-          MediaTasks.ACTION_STOP -> stopSelf()
-          else -> MediaButtonReceiver.handleIntent(mediaSession, startIntent)
-        }
+    startIntent?.action?.let {
+      when (it) {
+        MediaTasks.ACTION_NEXT -> playbackManager.handleNextRequest()
+        MediaTasks.ACTION_PREV -> playbackManager.handlePrevRequest()
+        MediaTasks.ACTION_PAUSE -> playbackManager.handlePauseRequest()
+        MediaTasks.ACTION_PLAY -> playbackManager.handleResumeRequest()
+        MediaTasks.ACTION_STOP -> stopSelf()
+        else -> MediaButtonReceiver.handleIntent(mediaSession, startIntent)
       }
     }
     return Service.START_NOT_STICKY
@@ -60,9 +55,6 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
   override fun onMetadataChanged(metadata: MediaMetadataCompat) {
     mediaSession.setMetadata(metadata)
     notification.updateMetadata(metadata)
-  }
-
-  override fun onMetadataRetrieveError() {
   }
 
   override fun onPlaybackStart() {
@@ -85,7 +77,7 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
 
   override fun onDestroy() {
     mediaSession.release()
-    stopForeground(true)
+    stopForeground( true)
     super.onDestroy()
   }
 

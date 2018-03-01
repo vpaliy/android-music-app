@@ -3,7 +3,7 @@ package com.vpaliy.mediaplayer
 import io.reactivex.Single
 
 infix fun <T> String?.ifNotEmpty(value: T)
-    = if (isNullOrEmpty()) value else null
+    = if (!isNullOrEmpty()) value else null
 
 infix fun <T> Boolean.then(param: T): T?
     = if (this) param else null
