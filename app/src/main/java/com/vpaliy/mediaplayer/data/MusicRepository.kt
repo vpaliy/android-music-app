@@ -12,12 +12,14 @@ import com.vpaliy.soundcloud.SoundCloudService
 import com.vpaliy.soundcloud.model.TrackEntity
 import io.reactivex.Completable
 import io.reactivex.Single
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class MusicRepository @Inject constructor(val mapper: Mapper<Track, TrackEntity>, private val service: SoundCloudService,
-            private val handler: TrackHandler, private val filter: Filter, scheduler: BaseScheduler) : Repository {
+class MusicRepository constructor(
+    private val mapper: Mapper<Track, TrackEntity>,
+    private val service: SoundCloudService,
+    private val handler: TrackHandler,
+    private val filter: Filter,
+    scheduler: BaseScheduler
+) : Repository {
 
   private var likeSet = HashSet<String>()
   private var recentSet = HashSet<String>()
@@ -104,7 +106,8 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track, TrackEntity>
       track.isSaved = likeSet.contains(track.id)
       track.isLiked = likeSet.contains(track.id)
     }
-    it } ?: emptyList()
+    it
+  } ?: emptyList()
 
   private fun save(track: Track, saved: Boolean): Track {
     if (!saved) recentSet.remove(track.id)
@@ -114,8 +117,10 @@ class MusicRepository @Inject constructor(val mapper: Mapper<Track, TrackEntity>
   }
 
   private fun love(track: Track?, liked: Boolean) = track?.let {
-    if (!liked) likeSet.remove(track.id)
-    else track.id?.let { likeSet.add(it) }
+    if (!liked)
+      likeSet.remove(track.id)
+    else
+      track.id?.let { likeSet.add(it) }
     it.isLiked = liked
     it
   }

@@ -4,12 +4,10 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteOpenHelper
 import com.vpaliy.mediaplayer.domain.model.Track
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-open class TrackHandler @Inject
-constructor(private val database: SQLiteOpenHelper) {
+open class TrackHandler constructor(
+    private val database: SQLiteOpenHelper
+) {
 
   fun queryHistory(): List<Track> {
     val cursor = database.readableDatabase?.rawQuery("SELECT * FROM ${MusicDatabase.Tracks.TABLE} " +

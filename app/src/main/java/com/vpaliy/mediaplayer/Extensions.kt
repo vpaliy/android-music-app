@@ -21,4 +21,4 @@ inline infix fun <T> Boolean.then(expression: () -> T)
 inline fun <T> Boolean.then(expression: () -> T, default: () -> T)
     = if (this) expression() else default()
 
-fun <T> wrongArgument(): Single<T> = Single.error<T>(IllegalArgumentException())
+fun <T> wrongArgument(): Single<T> = Single.error(IllegalArgumentException())

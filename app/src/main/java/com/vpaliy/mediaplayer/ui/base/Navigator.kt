@@ -5,17 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.vpaliy.mediaplayer.ui.search.SearchActivity
-import javax.inject.Inject
-import javax.inject.Singleton
 import android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAnimation
 import android.support.v4.util.Pair
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.details.ActionsActivity
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
 
-
-@Singleton
-class Navigator @Inject constructor() {
+class Navigator {
 
   fun navigate(activity: Activity, bundle: Bundle) {
     val intent = Intent(activity, PlayerActivity::class.java)

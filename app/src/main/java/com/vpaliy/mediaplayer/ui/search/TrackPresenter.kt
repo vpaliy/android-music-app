@@ -1,14 +1,12 @@
 package com.vpaliy.mediaplayer.ui.search
 
 import com.vpaliy.kotlin_extensions.error
-import com.vpaliy.mediaplayer.di.scope.ViewScope
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.model.SearchPage
 import com.vpaliy.mediaplayer.domain.model.Track
-import javax.inject.Inject
 
-@ViewScope
-class TrackPresenter @Inject constructor(val interactor: SingleInteractor<SearchPage, List<Track>>)
+class TrackPresenter (
+    val interactor: SingleInteractor<SearchPage, List<Track>>)
   : SearchContract.Presenter<Track> {
 
   private val page = SearchPage(0)

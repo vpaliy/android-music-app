@@ -3,14 +3,13 @@ package com.vpaliy.mediaplayer.ui.home
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.home.HomeContract.*
 import com.vpaliy.mediaplayer.domain.interactor.ClearInteractor
-import com.vpaliy.mediaplayer.di.scope.ViewScope
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
 import com.vpaliy.mediaplayer.domain.model.TrackType
 
-@ViewScope
-abstract class HomePresenter constructor(val interactor: SingleInteractor<TrackType, List<Track>>,
-                                         val clear: ClearInteractor) : Presenter {
+abstract class HomePresenter (
+    val interactor: SingleInteractor<TrackType, List<Track>>,
+    val clear: ClearInteractor) : Presenter {
 
   protected lateinit var view: View
 

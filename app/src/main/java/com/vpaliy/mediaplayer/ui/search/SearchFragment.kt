@@ -31,8 +31,6 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
     }
   }
 
-  abstract fun inject()
-
   override fun showResult(list: List<T>) {
     empty.hide(isGone = true)
     result.show()
@@ -50,7 +48,6 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
 
   override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    inject()
     refresher.setOnRefreshListener {
       presenter?.refresh()
     }

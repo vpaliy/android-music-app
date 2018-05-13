@@ -46,7 +46,7 @@ ext {
     constraintLayoutVersion="1.0.2"
     exoPlayerVersion="2.4.1"
     playPauseVersion="1.0.1"
-
+    koinVersion = '0.9.2'
 
 
     /* Testing versions */
@@ -106,7 +106,8 @@ ext {
             bottomBar          : 'com.roughike:bottom-bar:2.3.1',
             firebaseInvites    : 'com.google.firebase:firebase-invites:11.2.0',
             firebaseCore       : 'com.google.firebase:firebase-core:11.2.0',
-            firebaseCrash      : 'com.google.firebase:firebase-crash:11.2.0'
+            firebaseCrash      : 'com.google.firebase:firebase-crash:11.2.0',
+            koin               : "org.koin:koin-android:$koinVersion"
     ]
 
     testDependencies = [

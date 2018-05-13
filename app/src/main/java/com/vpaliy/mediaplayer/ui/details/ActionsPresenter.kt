@@ -5,11 +5,9 @@ import com.vpaliy.mediaplayer.ui.details.ActionsContract.Presenter
 import com.vpaliy.mediaplayer.domain.interactor.ModifyInteractor
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
 import com.vpaliy.mediaplayer.domain.model.TrackType
-import javax.inject.Inject
-import com.vpaliy.mediaplayer.di.scope.ViewScope
 
-@ViewScope
-class ActionsPresenter @Inject constructor(private val modifier: ModifyInteractor) : Presenter {
+class ActionsPresenter (
+    private val modifier: ModifyInteractor) : Presenter {
 
   private lateinit var view: ActionsContract.View
 

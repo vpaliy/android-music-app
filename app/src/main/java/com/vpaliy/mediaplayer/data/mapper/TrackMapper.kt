@@ -2,11 +2,8 @@ package com.vpaliy.mediaplayer.data.mapper
 
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.soundcloud.model.TrackEntity
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class TrackMapper @Inject constructor() : Mapper<Track, TrackEntity>() {
+class TrackMapper constructor() : Mapper<Track, TrackEntity>() {
   override fun map(fake: TrackEntity?): Track? {
     return fake?.let {
       val real = Track()

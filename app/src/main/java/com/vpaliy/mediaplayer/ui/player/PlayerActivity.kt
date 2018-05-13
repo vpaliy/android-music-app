@@ -34,22 +34,24 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.vpaliy.mediaplayer.ui.base.Navigator
-import javax.inject.Inject
 import butterknife.OnClick
-import com.vpaliy.mediaplayer.App
 import com.vpaliy.mediaplayer.ui.utils.*
+import org.koin.android.ext.android.inject
 
 class PlayerActivity : AppCompatActivity() {
 
   private val executorService = Executors.newSingleThreadScheduledExecutor()
   private var scheduledFuture: ScheduledFuture<*>? = null
   private val handler = Handler()
-  private val PROGRESS_UPDATE_INTERNAL: Long = 100
-  private val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 10
   private var lastState: PlaybackStateCompat? = null
   private var queue: QueueManager? = null
 
-  @Inject lateinit var navigator: Navigator
+  companion object {
+    const val PROGRESS_UPDATE_INTERNAL: Long = 100
+    const val PROGRESS_UPDATE_INITIAL_INTERVAL: Long = 10
+  }
+
+  private val navigator: Navigator by inject()
 
   private val controllerCallback = object : MediaControllerCompat.Callback() {
     override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
@@ -69,7 +71,6 @@ class PlayerActivity : AppCompatActivity() {
         val mediaController = MediaControllerCompat(this@PlayerActivity, browser?.sessionToken!!)
         mediaController.registerCallback(controllerCallback)
         MediaControllerCompat.setMediaController(this@PlayerActivity, mediaController)
-        inject()
       } catch (ex: RemoteException) {
         ex.printStackTrace()
       }
@@ -292,11 +293,6 @@ class PlayerActivity : AppCompatActivity() {
     overridePendingTransition(0, R.anim.slide_out_down)
   }
 
-  fun inject() {
-    App.playbackComponent?.inject(this)
-  }
-
-  @Inject
   fun injectManager(manager: PlaybackManager) {
     if (intent == null || intent.extras == null) {
       queue = manager.queueManager

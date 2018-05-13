@@ -7,7 +7,7 @@ import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.domain.model.TrackType
 import com.vpaliy.mediaplayer.ui.home.HomeContract
 import com.vpaliy.mediaplayer.ui.home.history.HistoryPresenter
-import com.vpaliy.mediaplayer.ui.home.favorite.LovedPresenter
+import com.vpaliy.mediaplayer.ui.home.favorite.FavoritePresenter
 import org.mockito.junit.MockitoJUnitRunner
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -20,7 +20,7 @@ class HomePresenterTest{
 
     @Mock lateinit var view:HomeContract.View
     @Mock lateinit var historyInteractor: SingleInteractor<TrackType, List<Track>>
-    @InjectMocks private lateinit var lovedPresenter:LovedPresenter
+    @InjectMocks private lateinit var favoritePresenter: FavoritePresenter
     @InjectMocks private lateinit var historyPresenter:HistoryPresenter
 
     private val success= argumentCaptor<(List<Track>?)->Unit>()
@@ -29,12 +29,12 @@ class HomePresenterTest{
     @Before
     fun setUp(){
         historyPresenter.attach(view)
-        lovedPresenter.attach(view)
+        favoritePresenter.attach(view)
     }
 
     @Test
     fun startsLoadingShowsTracks(){
-        lovedPresenter.start()
+        favoritePresenter.start()
         historyPresenter.start()
         verify(view, times(2)).setLoading(true)
         success.firstValue.invoke(FakeDataProvider.buildList(1,{Track()}))
@@ -46,7 +46,7 @@ class HomePresenterTest{
 
     @Test
     fun startsLoadingShowsEmpty(){
-        lovedPresenter.start()
+        favoritePresenter.start()
         historyPresenter.start()
         verify(view, times(2)).setLoading(true)
         success.firstValue.invoke(arrayListOf())
@@ -58,7 +58,7 @@ class HomePresenterTest{
 
     @Test
     fun startsLoadingShowsNothing(){
-        lovedPresenter.start()
+        favoritePresenter.start()
         historyPresenter.start()
         verify(view, times(2)).setLoading(true)
         success.firstValue.invoke(null)
@@ -69,7 +69,7 @@ class HomePresenterTest{
 
     @Test
     fun startsLoadingShowsError(){
-        lovedPresenter.start()
+        favoritePresenter.start()
         historyPresenter.start()
         verify(view, times(2)).setLoading(true)
         error.firstValue.invoke(Exception())
@@ -83,7 +83,7 @@ class HomePresenterTest{
     fun removesTrackShowsCompleted(){
         val track=Track()
         val completed= argumentCaptor<()->Unit>()
-        lovedPresenter.remove(track)
+        favoritePresenter.remove(track)
         historyPresenter.remove(track)
         completed.firstValue.invoke()
         //verify(historyInteractor).remove(completed.capture(),error.capture(),eq(track))
@@ -94,7 +94,7 @@ class HomePresenterTest{
     @Test
     fun removesTrackShowsError(){
         val track=Track()
-        lovedPresenter.remove(track)
+        favoritePresenter.remove(track)
         historyPresenter.remove(track)
         error.firstValue.invoke(Exception())
        // verify(historyInteractor).remove(any<()->Unit>(),error.capture(),eq(track))
@@ -105,7 +105,7 @@ class HomePresenterTest{
     @Test
     fun clearsTracksShowsCompleted(){
         val completed= argumentCaptor<()->Unit>()
-        lovedPresenter.clear()
+        favoritePresenter.clear()
         historyPresenter.clear()
         //verify(lovedInteractor).clear(completed.capture(),error.capture())
         completed.firstValue.invoke()
@@ -116,7 +116,7 @@ class HomePresenterTest{
 
     @Test
     fun clearsTracksShowsError(){
-        lovedPresenter.clear()
+        favoritePresenter.clear()
         historyPresenter.clear()
         //verify(lovedInteractor).clear(any<()->Unit>(),error.capture())
         error.firstValue.invoke(Exception())

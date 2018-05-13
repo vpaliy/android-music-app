@@ -1,6 +1,10 @@
 package com.vpaliy.mediaplayer.domain.model
 
-data class SearchPage(var current: Int, var query: String? = null) {
+data class SearchPage(
+    private var current: Int,
+    var query: String? = null
+) {
+
   val isFirst get() = current == 0
 
   fun invalidate() = apply { current = 0 }

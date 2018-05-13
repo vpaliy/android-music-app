@@ -53,7 +53,7 @@ android {
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
-    buildToolsVersion '27.0.2'
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -65,6 +65,7 @@ dependencies {
     implementation 'com.github.vpaliyX:android-extensions:b3c79325bb'
     implementation 'com.github.simonpercic:oklog3:2.3.0'
     implementation 'com.roughike:bottom-bar:2.3.1'
+    implementation libs.koin
     implementation libs.firebaseCore
     implementation libs.firebaseCrash
     implementation libs.soundcloud
@@ -76,11 +77,9 @@ dependencies {
     implementation libs.ottoEventBus
     implementation libs.butterKnife
     implementation libs.circleImage
-    implementation libs.Dagger2
     implementation libs.glide
     implementation libs.RxJava
     implementation libs.RxAndroid
-    kapt libs.Dagger2Compiler
     kapt libs.butterKnifeCompiler
 
     testImplementation testLibs.espresso

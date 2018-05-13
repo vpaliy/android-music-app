@@ -11,7 +11,7 @@ interface Playback {
   fun assignCallback(callback: Callback)
 
   interface Callback {
-    fun onCompletetion()
+    fun onCompleted()
     fun onPause()
     fun onPlay()
     fun onStop()

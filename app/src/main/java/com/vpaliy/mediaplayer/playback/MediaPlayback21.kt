@@ -4,7 +4,6 @@ import android.content.Context
 import android.media.AudioManager
 import android.net.Uri
 import android.net.wifi.WifiManager
-import android.util.Log
 import com.google.android.exoplayer2.DefaultLoadControl
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.ExoPlayer
@@ -19,13 +18,11 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class MediaPlayback21 @Inject constructor(context: Context,
-            audioManager: AudioManager,
-            wifiLock: WifiManager.WifiLock) :
+class MediaPlayback21(
+    context: Context,
+    audioManager: AudioManager,
+    wifiLock: WifiManager.WifiLock) :
     BasePlayback(context, audioManager, wifiLock), ExoPlayer.EventListener {
 
   private var exoPlayer: SimpleExoPlayer? = null
@@ -108,7 +105,7 @@ class MediaPlayback21 @Inject constructor(context: Context,
   override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
     when (playbackState) {
       ExoPlayer.STATE_READY -> if (isPause) callback.onPause() else callback.onPlay()
-      ExoPlayer.STATE_ENDED -> callback.onCompletetion()
+      ExoPlayer.STATE_ENDED -> callback.onCompleted()
     }
   }
 

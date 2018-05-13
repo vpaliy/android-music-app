@@ -14,7 +14,7 @@ class QueueManager(private var tracks: MutableList<Track>, var index: Int) {
 
   fun hasNext() = tracks.size > (index + 1)
 
-  fun hasPrevious() = index - 1 >= 0
+  private fun hasPrevious() = index - 1 >= 0
 
   fun size() = tracks.size
 

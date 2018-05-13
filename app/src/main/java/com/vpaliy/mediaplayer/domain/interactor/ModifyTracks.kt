@@ -4,11 +4,8 @@ import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.model.TrackType
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class ModifyTracks @Inject constructor(val repository: Repository, val scheduler: BaseScheduler) : ModifyInteractor {
+class ModifyTracks(val repository: Repository, val scheduler: BaseScheduler) : ModifyInteractor {
 
   override fun insert(success: () -> Unit, error: (Throwable) -> Unit, request: ModifyRequest) {
     repository.insert(request)

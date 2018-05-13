@@ -10,18 +10,15 @@ import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import com.vpaliy.mediaplayer.App
 import com.vpaliy.mediaplayer.ui.player.PlayerActivity
-import javax.inject.Inject
+import org.koin.android.ext.android.inject
 
 class MusicPlaybackService : MediaBrowserServiceCompat(),
     PlaybackManager.PlaybackServiceCallback, PlaybackManager.MetadataUpdateListener {
 
   private lateinit var mediaSession: MediaSessionCompat
   private lateinit var notification: TrackNotification
-  @Inject lateinit var playbackManager: PlaybackManager
-
-  init { App.playbackComponent?.inject(this) }
+  private val playbackManager: PlaybackManager by inject()
 
   override fun onCreate() {
     super.onCreate()

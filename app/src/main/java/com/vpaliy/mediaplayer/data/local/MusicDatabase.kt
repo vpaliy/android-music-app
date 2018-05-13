@@ -3,12 +3,9 @@ package com.vpaliy.mediaplayer.data.local
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class MusicDatabase @Inject
-constructor(context: Context) : SQLiteOpenHelper(context, name, null, version) {
+class MusicDatabase constructor(context: Context)
+  : SQLiteOpenHelper(context, name, null, version) {
 
   companion object {
     private val version = 1

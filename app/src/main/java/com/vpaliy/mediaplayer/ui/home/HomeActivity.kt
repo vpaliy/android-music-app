@@ -8,7 +8,7 @@ import butterknife.ButterKnife
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
-import com.vpaliy.mediaplayer.ui.home.favorite.LovedFragment
+import com.vpaliy.mediaplayer.ui.home.favorite.FavoriteFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import android.view.View
 import com.vpaliy.mediaplayer.App
@@ -31,7 +31,7 @@ class HomeActivity : BaseActivity() {
         }
         R.id.favorite -> {
           toolbar.title = getString(R.string.favorite_label)
-          load(LovedFragment())
+          load(FavoriteFragment())
         }
         R.id.settings -> {
           toolbar.title = getString(R.string.settings_label)
@@ -65,9 +65,5 @@ class HomeActivity : BaseActivity() {
       }
     }
     return super.onOptionsItemSelected(item)
-  }
-
-  override fun inject() {
-    App.component?.inject(this)
   }
 }

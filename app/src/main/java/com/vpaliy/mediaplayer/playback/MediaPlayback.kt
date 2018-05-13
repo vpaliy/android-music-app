@@ -7,13 +7,16 @@ import android.net.wifi.WifiManager
 import android.os.PowerManager
 import android.support.v4.media.session.PlaybackStateCompat
 import java.io.IOException
-import javax.inject.Inject
 
-class MediaPlayback @Inject constructor(context: Context,
-                                        audioManager: AudioManager,
-                                        wifiLock: WifiManager.WifiLock) :
-    BasePlayback(context, audioManager, wifiLock), MediaPlayer.OnPreparedListener,
-    MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnSeekCompleteListener {
+class MediaPlayback(
+    context: Context,
+    audioManager: AudioManager,
+    wifiLock: WifiManager.WifiLock) :
+    BasePlayback(context, audioManager, wifiLock),
+    MediaPlayer.OnPreparedListener,
+    MediaPlayer.OnErrorListener,
+    MediaPlayer.OnCompletionListener,
+    MediaPlayer.OnSeekCompleteListener {
 
   private var player: MediaPlayer? = null
   private var playerState = PlaybackStateCompat.STATE_NONE
@@ -103,7 +106,7 @@ class MediaPlayback @Inject constructor(context: Context,
   }
 
   override fun onCompletion(mp: MediaPlayer) {
-    callback.onCompletetion()
+    callback.onCompleted()
   }
 
   override fun resumePlayer() {
