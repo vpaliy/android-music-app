@@ -11,14 +11,14 @@ interface HomeContract {
     fun empty()
     fun cleared()
     fun removed(track: Track)
-    fun setLoading(isLoading: Boolean)
+    fun showLoading()
+    fun hideLoading()
   }
 
   interface Presenter : BasePresenter {
     fun start()
     fun remove(track: Track)
     fun clear()
-    fun attach(view: View)
     fun refresh()
   }
 }

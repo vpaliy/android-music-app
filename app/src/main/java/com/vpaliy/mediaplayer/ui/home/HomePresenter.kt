@@ -7,14 +7,14 @@ import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
 import com.vpaliy.mediaplayer.domain.model.TrackType
 
-abstract class HomePresenter (
-    val interactor: SingleInteractor<TrackType, List<Track>>,
-    val clear: ClearInteractor) : Presenter {
-
-  protected lateinit var view: View
+abstract class HomePresenter(
+    protected val interactor: SingleInteractor<TrackType, List<Track>>,
+    protected val clear: ClearInteractor,
+    protected val view: HomeContract.View
+) : Presenter {
 
   override fun start() {
-    view.setLoading(true)
+    view.showLoading()
     interactor.execute(this::onSuccess, this::onError, type())
   }
 
@@ -24,17 +24,13 @@ abstract class HomePresenter (
 
   private fun onSuccess(response: List<Track>) {
     view.show(response)
-    view.setLoading(false)
+    view.hideLoading()
   }
 
   private fun onError(error: Throwable) {
     error.printStackTrace()
-    view.setLoading(false)
+    view.hideLoading()
     view.error()
-  }
-
-  override fun attach(view: View) {
-    this.view = view
   }
 
   override fun remove(track: Track) {

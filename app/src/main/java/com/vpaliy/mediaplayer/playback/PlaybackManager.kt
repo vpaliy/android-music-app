@@ -23,8 +23,8 @@ import com.vpaliy.mediaplayer.then
 class PlaybackManager (
     val playback: Playback,
     val context: Context,
-    val saveInteractor: InsertInteractor,
-    val mapper: Mapper<MediaMetadataCompat, Track>
+    private val saveInteractor: InsertInteractor,
+    private val mapper: Mapper<MediaMetadataCompat, Track>
 ) : Playback.Callback {
 
   private var isRepeat: Boolean = false

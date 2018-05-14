@@ -6,12 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.support.v7.app.NotificationCompat
 import android.text.TextUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
@@ -85,7 +85,7 @@ class TrackNotification(private val service: MediaBrowserServiceCompat) {
   fun pauseNotification() {
     if (isStarted) {
       service.stopForeground(false)
-      manager.notify(NOTIFICATION_ID, createNotification())
+      manager.notify(NOTIFICATION_ID, createNotification()!!)
       isStarted = false
     }
   }
@@ -155,7 +155,7 @@ class TrackNotification(private val service: MediaBrowserServiceCompat) {
   private fun createNotification(): Notification? {
     if (mediaMetadata == null || playbackState == null) return null
     val builder = NotificationCompat.Builder(service)
-    builder.setStyle(NotificationCompat.MediaStyle()
+    builder.setStyle(android.support.v4.media.app.NotificationCompat.MediaStyle()
         .setMediaSession(token)
         .setShowActionsInCompactView(1))
         .setColor(Color.WHITE)

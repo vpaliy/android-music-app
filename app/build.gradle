@@ -65,6 +65,7 @@ dependencies {
     implementation 'com.github.vpaliyX:android-extensions:b3c79325bb'
     implementation 'com.github.simonpercic:oklog3:2.3.0'
     implementation 'com.roughike:bottom-bar:2.3.1'
+    implementation 'com.airbnb.android:lottie:2.5.4'
     implementation libs.koin
     implementation libs.firebaseCore
     implementation libs.firebaseCrash

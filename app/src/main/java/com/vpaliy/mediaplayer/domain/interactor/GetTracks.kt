@@ -7,8 +7,10 @@ import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.wrongArgument
 
-class GetTracks (val repository: Repository, scheduler: BaseScheduler)
-  : SingleInteractor<TrackType, List<Track>>(scheduler) {
+class GetTracks(
+    private val repository: Repository,
+    scheduler: BaseScheduler
+) : SingleInteractor<TrackType, List<Track>>(scheduler) {
 
   override fun buildSingle(request: TrackType?)
       = request then (repository::fetch) ?: wrongArgument()

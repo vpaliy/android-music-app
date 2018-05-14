@@ -1,9 +1,11 @@
 package com.vpaliy.mediaplayer.ui.search
 
 import android.support.annotation.StringRes
+import com.vpaliy.mediaplayer.ui.base.BasePresenter
+import com.vpaliy.mediaplayer.ui.base.BaseView
 
 interface SearchContract {
-  interface View<in T> {
+  interface View<T> : BaseView<Presenter<T>> {
     fun showLoading()
     fun hideLoading()
     fun showRefreshing()
@@ -15,10 +17,9 @@ interface SearchContract {
     fun empty()
   }
 
-  interface Presenter<out T> {
+  interface Presenter<T> : BasePresenter {
     fun query(query: String?)
     fun more()
     fun refresh()
-    fun attachView(view: View<T>)
   }
 }

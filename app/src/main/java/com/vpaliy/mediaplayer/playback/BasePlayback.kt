@@ -8,10 +8,11 @@ import android.media.AudioManager
 import android.net.wifi.WifiManager
 import com.vpaliy.mediaplayer.domain.playback.Playback
 
-abstract class BasePlayback(protected val context: Context,
-                            protected val audioManager: AudioManager,
-                            protected val wifiLock: WifiManager.WifiLock) :
-    Playback, AudioManager.OnAudioFocusChangeListener {
+abstract class BasePlayback(
+    protected val context: Context,
+    private val audioManager: AudioManager,
+    private val wifiLock: WifiManager.WifiLock
+) : Playback, AudioManager.OnAudioFocusChangeListener {
 
   protected lateinit var callback: Playback.Callback
   protected var focusState = AUDIO_NO_FOCUS_NO_DUCK
@@ -56,9 +57,9 @@ abstract class BasePlayback(protected val context: Context,
   abstract fun resumePlayer()
   abstract fun updatePlayer()
 
-  protected fun acquireWifiLock() = wifiLock.acquire()
+  private fun acquireWifiLock() = wifiLock.acquire()
 
-  protected fun requestFocus() {
+  private fun requestFocus() {
     val result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
         AudioManager.AUDIOFOCUS_GAIN)
     focusState = when (result) {
@@ -101,7 +102,7 @@ abstract class BasePlayback(protected val context: Context,
     }
   }
 
-  protected fun unregisterNoiseReceiver() {
+  private fun unregisterNoiseReceiver() {
     if (noisyReceiverRegistered) {
       context.unregisterReceiver(audioNoisyReceiver)
       noisyReceiverRegistered = false

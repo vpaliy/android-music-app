@@ -5,8 +5,12 @@ import com.vpaliy.mediaplayer.domain.interactor.ClearInteractor
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.domain.model.TrackType
+import com.vpaliy.mediaplayer.ui.home.HomeContract
 
-class FavoritePresenter (interactor: SingleInteractor<TrackType, List<Track>>, clear: ClearInteractor)
-  : HomePresenter(interactor, clear) {
+class FavoritePresenter(
+    interactor: SingleInteractor<TrackType, List<Track>>,
+    clear: ClearInteractor,
+    view: HomeContract.View
+) : HomePresenter(interactor, clear, view) {
   override fun type() = TrackType.Favorite
 }

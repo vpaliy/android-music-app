@@ -5,7 +5,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteOpenHelper
 import com.vpaliy.mediaplayer.domain.model.Track
 
-open class TrackHandler constructor(
+open class TrackHandler(
     private val database: SQLiteOpenHelper
 ) {
 

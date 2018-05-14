@@ -19,8 +19,8 @@ abstract class BaseFragment : Fragment() {
     retainInstance = true
   }
 
-  override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?)
-      = inflater!!.inflate(layoutId(), container, false)!!
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
+      = inflater.inflate(layoutId(), container, false)!!
 
   @LayoutRes abstract fun layoutId(): Int
 

@@ -13,7 +13,7 @@ import com.vpaliy.soundcloud.model.TrackEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class MusicRepository constructor(
+class MusicRepository (
     private val mapper: Mapper<Track, TrackEntity>,
     private val service: SoundCloudService,
     private val handler: TrackHandler,

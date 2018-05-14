@@ -7,9 +7,9 @@ import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
 import com.vpaliy.mediaplayer.domain.model.TrackType
 
 class ActionsPresenter (
-    private val modifier: ModifyInteractor) : Presenter {
-
-  private lateinit var view: ActionsContract.View
+    private val modifier: ModifyInteractor,
+    private val view : ActionsContract.View
+) : Presenter {
 
   override fun add(track: Track) {
     val param = ModifyRequest(TrackType.History, track)
@@ -34,9 +34,5 @@ class ActionsPresenter (
   private fun error(ex: Throwable) {
     view.error()
     ex.printStackTrace()
-  }
-
-  override fun attach(view: ActionsContract.View) {
-    this.view = view
   }
 }

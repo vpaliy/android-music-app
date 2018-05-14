@@ -1,6 +1,8 @@
 package com.vpaliy.mediaplayer
 
+import android.content.ComponentCallbacks
 import io.reactivex.Single
+import org.koin.android.ext.android.inject
 
 infix fun <T> String?.ifNotEmpty(value: T)
     = if (isNullOrEmpty()) value else null
@@ -22,3 +24,6 @@ inline fun <T> Boolean.then(expression: () -> T, default: () -> T)
     = if (this) expression() else default()
 
 fun <T> wrongArgument(): Single<T> = Single.error(IllegalArgumentException())
+
+inline infix fun <reified T> ComponentCallbacks.injectWith(name: String)
+    : Lazy<T> = inject(name) { mapOf(name to this) }

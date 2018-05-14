@@ -21,7 +21,7 @@ ext {
     calligraphyVersion='2.2.0'
     expiringMapVersion='0.5.8'
     butterKnifeVersion = "8.5.1"
-    supportVersion = "26.0.2"
+    supportVersion = "27.1.1"
     rxJavaVersion = '2.0.2'
     rxAndroidVersion = '2.0.1'
     rxRelayVersion='2.0.0'

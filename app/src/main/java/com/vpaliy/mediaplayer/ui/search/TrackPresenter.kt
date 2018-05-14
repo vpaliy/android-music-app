@@ -6,11 +6,11 @@ import com.vpaliy.mediaplayer.domain.model.SearchPage
 import com.vpaliy.mediaplayer.domain.model.Track
 
 class TrackPresenter (
-    val interactor: SingleInteractor<SearchPage, List<Track>>)
-  : SearchContract.Presenter<Track> {
+    private val interactor: SingleInteractor<SearchPage, List<Track>>,
+    private val view : SearchContract.View<Track>
+) : SearchContract.Presenter<Track> {
 
   private val page = SearchPage(0)
-  private lateinit var view: SearchContract.View<Track>
 
   override fun query(query: String?) {
     page.invalidate()
@@ -38,6 +38,7 @@ class TrackPresenter (
   }
 
   private fun onError(throwable: Throwable) {
+    throwable.printStackTrace()
     error(throwable.message)
     view.hideLoading()
   }
@@ -45,8 +46,5 @@ class TrackPresenter (
   override fun more() {
     page.next()
     executeQuery()
-  }
-  override fun attachView(view: SearchContract.View<Track>) {
-    this.view = view
   }
 }

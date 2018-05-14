@@ -5,15 +5,9 @@ import com.vpaliy.mediaplayer.di.*
 import org.koin.android.ext.android.startKoin
 
 class App : Application() {
-
   override fun onCreate() {
     super.onCreate()
-    instance = this
-    startKoin(this, listOf(network, presenters,
-        dataProviders, mediaPlayer, mappers, general))
-  }
-
-  companion object {
-    private var instance: App? = null
+    startKoin(this, listOf(general, network, presenters,
+        dataProviders, mediaPlayer, mappers))
   }
 }

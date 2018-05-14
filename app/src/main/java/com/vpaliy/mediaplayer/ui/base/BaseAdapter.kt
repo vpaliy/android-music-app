@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import com.vpaliy.kotlin_extensions.info
 import com.vpaliy.mediaplayer.then
 
-abstract class BaseAdapter<T> constructor(context: Context, val click: (Bundle) -> Unit) :
+abstract class BaseAdapter<T>(context: Context, val click: (Bundle) -> Unit) :
     RecyclerView.Adapter<BaseAdapter<T>.GenericViewHolder>() {
 
   private val inflater = LayoutInflater.from(context)

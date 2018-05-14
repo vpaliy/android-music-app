@@ -14,19 +14,21 @@ import com.vpaliy.kotlin_extensions.show
 import com.vpaliy.kotlin_extensions.then
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
+import com.vpaliy.mediaplayer.ui.base.Navigator
 import com.vpaliy.mediaplayer.ui.utils.OnReachBottomListener
 import com.vpaliy.mediaplayer.ui.utils.showMessage
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.koin.android.ext.android.inject
 
 abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCallback {
-  abstract val adapter: BaseAdapter<T>
-  abstract var presenter: SearchContract.Presenter<T>?
+  protected abstract val adapter: BaseAdapter<T>
+  protected val navigator: Navigator by inject()
 
   private val onReachBottomListener:OnReachBottomListener by lazy(LazyThreadSafetyMode.NONE){
     object:OnReachBottomListener(result.layoutManager){
       override fun onLoadMore() {
         isLoading = true
-        presenter?.more()
+        presenter.more()
       }
     }
   }
@@ -42,14 +44,14 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
     adapter.appendData(list)
   }
 
-  override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    return inflater!!.inflate(R.layout.fragment_search, container, false)
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    return inflater.inflate(R.layout.fragment_search, container, false)
   }
 
-  override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     refresher.setOnRefreshListener {
-      presenter?.refresh()
+      presenter.refresh()
     }
     result.adapter = adapter
     result.addOnScrollListener(onReachBottomListener)
@@ -61,7 +63,7 @@ abstract class SearchFragment<T> : Fragment(), SearchContract.View<T>, QueryCall
   }
 
   override fun queryTyped(query: String?) {
-    presenter?.query(query)
+    presenter.query(query)
   }
 
   override fun showLoading() {

@@ -8,14 +8,14 @@ import butterknife.ButterKnife
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
-import com.vpaliy.mediaplayer.ui.home.favorite.FavoriteFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import android.view.View
-import com.vpaliy.mediaplayer.App
+import com.vpaliy.mediaplayer.ui.home.favorite.FavoriteFragment
 
 class HomeActivity : BaseActivity() {
-
-  private var fragment: HomeFragment? = null
+  private var currentFragment: HomeFragment? = null
+  private val historyFragment: HomeFragment by lazy { HistoryFragment() }
+  private val favoriteFragment: HomeFragment by lazy { FavoriteFragment() }
 
   @Suppress("DEPRECATION")
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,15 +27,15 @@ class HomeActivity : BaseActivity() {
       when (it) {
         R.id.history -> {
           toolbar.title = getString(R.string.history_label)
-          load(HistoryFragment())
+          load(historyFragment)
         }
         R.id.favorite -> {
           toolbar.title = getString(R.string.favorite_label)
-          load(FavoriteFragment())
+          load(favoriteFragment)
         }
         R.id.settings -> {
           toolbar.title = getString(R.string.settings_label)
-          //TODO add settings fragment
+          //TODO add settings currentFragment
         }
       }
     }
@@ -43,7 +43,7 @@ class HomeActivity : BaseActivity() {
   }
 
   private fun load(fragment: HomeFragment): Boolean {
-    this.fragment = fragment
+    this.currentFragment = fragment
     supportFragmentManager.beginTransaction()
         .replace(R.id.frame, fragment)
         .commit()

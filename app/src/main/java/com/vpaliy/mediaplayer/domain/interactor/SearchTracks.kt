@@ -8,7 +8,7 @@ import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.wrongArgument
 
 class SearchTracks (
-    val repository: Repository,
+    private val repository: Repository,
     scheduler: BaseScheduler
 ) : SingleInteractor<SearchPage, List<Track>>(scheduler) {
 

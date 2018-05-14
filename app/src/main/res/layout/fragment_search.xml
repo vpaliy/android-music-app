@@ -34,10 +34,13 @@
             app:layoutManager="LinearLayoutManager" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <ProgressBar
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progress"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:lottie_rawRes="@raw/progress"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

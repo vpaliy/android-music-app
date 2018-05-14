@@ -45,6 +45,7 @@ class PlayerActivity : AppCompatActivity() {
   private val handler = Handler()
   private var lastState: PlaybackStateCompat? = null
   private var queue: QueueManager? = null
+  private val playbackManager: PlaybackManager by inject()
 
   companion object {
     const val PROGRESS_UPDATE_INTERNAL: Long = 100
@@ -70,6 +71,7 @@ class PlayerActivity : AppCompatActivity() {
       try {
         val mediaController = MediaControllerCompat(this@PlayerActivity, browser?.sessionToken!!)
         mediaController.registerCallback(controllerCallback)
+        configureManager()
         MediaControllerCompat.setMediaController(this@PlayerActivity, mediaController)
       } catch (ex: RemoteException) {
         ex.printStackTrace()
@@ -124,7 +126,7 @@ class PlayerActivity : AppCompatActivity() {
   @OnClick(R.id.shuffle)
   fun shuffle() {
     if (shuffle != null)
-      controls().setShuffleModeEnabled(true)
+      controls().setShuffleMode(1)
   }
 
   @OnClick(R.id.play_pause)
@@ -146,6 +148,11 @@ class PlayerActivity : AppCompatActivity() {
     queue?.let {
       navigator.actions(this, Bundle().packHeavyObject(Constants.EXTRA_TRACK, it.current()))
     }
+  }
+
+  @OnClick(R.id.back)
+  fun goBack() {
+    onBackPressed()
   }
 
   override fun onStart() {
@@ -293,16 +300,16 @@ class PlayerActivity : AppCompatActivity() {
     overridePendingTransition(0, R.anim.slide_out_down)
   }
 
-  fun injectManager(manager: PlaybackManager) {
+  fun configureManager() {
     if (intent == null || intent.extras == null) {
-      queue = manager.queueManager
-      manager.requestUpdate()
+      queue = playbackManager.queueManager
+      playbackManager.requestUpdate()
     } else {
       queue = intent.extras.fetchHeavyObject<QueueManager>(Constants.EXTRA_QUEUE,
           object : TypeToken<QueueManager>() {}.type)
       queue?.let {
-        manager.queueManager = it
-        manager.handleResumeRequest()
+        playbackManager.queueManager = it
+        playbackManager.handleResumeRequest()
       }
       intent.removeExtra(Constants.EXTRA_QUEUE)
     }
