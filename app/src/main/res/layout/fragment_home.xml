@@ -1,29 +1,33 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresher"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layoutManager="LinearLayoutManager"/>
+            app:layoutManager="LinearLayoutManager" />
     </android.support.v4.widget.SwipeRefreshLayout>
-    <TextView
-        android:id="@+id/empty"
-        android:layout_centerInParent="true"
-        style="@style/Widget.BigTitle"
-        android:gravity="center"
-        android:layout_marginStart="@dimen/spacing_big"
-        android:layout_marginEnd="@dimen/spacing_big"
-        android:visibility="gone"
-        android:text="@string/empty_history"
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/statusIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/empty_message_description"/>
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_big"
+        android:layout_marginStart="@dimen/spacing_big"
+        android:visibility="gone"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/empty_status"
+        tools:visibility="visible" />
 </RelativeLayout>

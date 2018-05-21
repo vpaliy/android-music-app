@@ -41,7 +41,7 @@ class HomePresenterTest{
         verify(historyInteractor).execute(success.capture(),error.capture(),eq(null))
         success.firstValue.invoke(FakeDataProvider.buildList(1,{Track()}))
         verify(view, times(2)).setLoading(false)
-        verify(view, times(2)).show(any<List<Track>>())
+        verify(view, times(2)).showTracks(any<List<Track>>())
     }
 
     @Test
@@ -53,7 +53,7 @@ class HomePresenterTest{
         verify(historyInteractor).execute(success.capture(),error.capture(),eq(null))
         success.firstValue.invoke(arrayListOf())
         verify(view, times(2)).setLoading(false)
-        verify(view, times(2)).empty()
+        verify(view, times(2)).showEmpty()
     }
 
     @Test
@@ -105,20 +105,20 @@ class HomePresenterTest{
     @Test
     fun clearsTracksShowsCompleted(){
         val completed= argumentCaptor<()->Unit>()
-        favoritePresenter.clear()
-        historyPresenter.clear()
-        //verify(lovedInteractor).clear(completed.capture(),error.capture())
+        favoritePresenter.clearAll()
+        historyPresenter.clearAll()
+        //verify(lovedInteractor).clearAll(completed.capture(),error.capture())
         completed.firstValue.invoke()
-        //verify(historyInteractor).clear(completed.capture(),error.capture())
+        //verify(historyInteractor).clearAll(completed.capture(),error.capture())
         completed.firstValue.invoke()
-        verify(view,times(2)).cleared()
+        verify(view,times(2)).showCleared()
     }
 
     @Test
     fun clearsTracksShowsError(){
-        favoritePresenter.clear()
-        historyPresenter.clear()
-        //verify(lovedInteractor).clear(any<()->Unit>(),error.capture())
+        favoritePresenter.clearAll()
+        historyPresenter.clearAll()
+        //verify(lovedInteractor).clearAll(any<()->Unit>(),error.capture())
         error.firstValue.invoke(Exception())
         //
         error.firstValue.invoke(Exception())

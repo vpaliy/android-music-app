@@ -6,10 +6,10 @@ import com.vpaliy.mediaplayer.ui.base.BaseView
 
 interface HomeContract {
   interface View : BaseView<Presenter> {
-    fun show(list: List<Track>)
+    fun showTracks(list: List<Track>)
     fun error()
-    fun empty()
-    fun cleared()
+    fun showEmpty()
+    fun showCleared()
     fun removed(track: Track)
     fun showLoading()
     fun hideLoading()
@@ -18,7 +18,7 @@ interface HomeContract {
   interface Presenter : BasePresenter {
     fun start()
     fun remove(track: Track)
-    fun clear()
+    fun clearAll()
     fun refresh()
   }
 }

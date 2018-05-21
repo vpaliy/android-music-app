@@ -51,7 +51,7 @@ class SearchPresenterTest {
         verify(view).setLoading(true)
         verify(interactor).query(success.capture(),error.capture(), any<String>())
         success.firstValue.invoke(emptyList())
-        verify(view).empty()
+        verify(view).showEmpty()
         verify(view).setLoading(false)
     }
 

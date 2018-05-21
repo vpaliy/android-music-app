@@ -12,6 +12,7 @@ import com.vpaliy.mediaplayer.data.mapper.TrackMapper
 import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.executor.SchedulerProvider
+import com.vpaliy.mediaplayer.domain.interactor.ErrorHandler
 import com.vpaliy.mediaplayer.domain.interactor.GetTracks
 import com.vpaliy.mediaplayer.domain.interactor.ModifyTracks
 import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
@@ -39,6 +40,7 @@ val general = applicationContext {
 }
 
 val dataProviders = applicationContext {
+  bean { ErrorHandler() }
   bean { Filter() }
   bean { MusicDatabase(get()) }
   bean { TrackHandler(get<MusicDatabase>()) }
@@ -62,9 +64,9 @@ val mappers = applicationContext {
 }
 
 val presenters = applicationContext {
-  bean { ModifyTracks(get(), get()) }
-  bean { SearchTracks(get(), get()) }
-  bean { GetTracks(get(), get()) }
+  bean { ModifyTracks(get(), get(), get()) }
+  bean { SearchTracks(get(), get(), get()) }
+  bean { GetTracks(get(), get(), get()) }
 
   factory(Params.HISTORY) { arguments ->
     HistoryPresenter(get<GetTracks>(),

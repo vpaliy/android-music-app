@@ -1,58 +1,62 @@
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/spacing_small"
     android:paddingBottom="@dimen/spacing_small"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingTop="@dimen/spacing_small">
+
     <com.vpaliy.mediaplayer.ui.view.RoundedImageView
-        tools:src="@drawable/evolve"
+        android:id="@+id/art"
         android:layout_width="@dimen/small_media_size"
         android:layout_height="@dimen/small_media_size"
-        android:scaleType="centerCrop"
         android:layout_marginStart="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:scaleType="centerCrop"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:id="@+id/art" />
+        tools:src="@drawable/evolve" />
+
     <TextView
         android:id="@+id/artist"
-        tools:text="Artist"
-        android:textSize="@dimen/under_media_text"
-        android:maxLines="1"
-        android:maxWidth="200dp"
         style="@style/Widget.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/art"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:maxLines="1"
+        android:maxWidth="200dp"
+        android:textSize="@dimen/under_media_text"
         app:layout_constraintLeft_toRightOf="@+id/art"
-        android:layout_marginStart="@dimen/spacing_medium" />
+        app:layout_constraintTop_toTopOf="@+id/art"
+        tools:text="Artist" />
+
     <TextView
         android:id="@+id/title"
-        tools:text="Whatever It Takes"
-        android:textSize="@dimen/second_media_text"
-        android:maxLines="1"
-        android:textColor="#bdbdbd"
         style="@style/Widget.Title"
-        android:ellipsize="end"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="#bdbdbd"
+        android:textSize="@dimen/second_media_text"
         app:layout_constraintEnd_toStartOf="@+id/more"
         app:layout_constraintLeft_toLeftOf="@+id/artist"
-        android:layout_marginTop="@dimen/spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/artist"/>
+        app:layout_constraintTop_toBottomOf="@+id/artist"
+        tools:text="Whatever It Takes" />
+
     <TextView
         android:id="@+id/duration"
         style="@style/Widget.NumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#bdbdbd"
         android:layout_marginTop="1dp"
+        android:textColor="#bdbdbd"
         android:textSize="@dimen/second_media_text"
         app:layout_constraintStart_toStartOf="@+id/artist"
         app:layout_constraintTop_toBottomOf="@+id/title"
         tools:text="2:56" />
+
     <ImageView
         android:id="@+id/more"
         android:layout_width="wrap_content"

@@ -94,6 +94,10 @@ class ActionsActivity : BaseActivity(), ActionsContract.View {
     }
   }
 
+  override fun onConnectionError() {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+  }
+
   override fun error() = container.showMessage(R.string.cleared_message)
 
   @SuppressLint("SetTextI18n")

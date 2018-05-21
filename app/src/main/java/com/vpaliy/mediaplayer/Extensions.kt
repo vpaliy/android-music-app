@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer
 
 import android.content.ComponentCallbacks
+import android.support.v4.widget.SwipeRefreshLayout
 import io.reactivex.Single
 import org.koin.android.ext.android.inject
 
@@ -27,3 +28,11 @@ fun <T> wrongArgument(): Single<T> = Single.error(IllegalArgumentException())
 
 inline infix fun <reified T> ComponentCallbacks.injectWith(name: String)
     : Lazy<T> = inject(name) { mapOf(name to this) }
+
+fun SwipeRefreshLayout.stopRefreshing() {
+  isRefreshing = false
+}
+
+fun SwipeRefreshLayout.startRefreshing() {
+  isRefreshing = false
+}

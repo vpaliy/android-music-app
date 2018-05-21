@@ -20,10 +20,10 @@
     </android.support.design.widget.AppBarLayout>
 
     <com.roughike.bottombar.BottomBar
+        android:background="@color/colorPrimaryDark"
         android:id="@+id/bottomNavigator"
         app:bb_activeTabColor="@color/colorWhite"
         app:bb_titleTextAppearance="@style/Widget.ItemLabel"
-        app:bb_showShadow="true"
         app:bb_inActiveTabColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

@@ -9,7 +9,5 @@ import org.koin.android.ext.android.inject
 
 class HistoryFragment : HomeFragment() {
   override val presenter: Presenter by injectWith (Params.HISTORY)
-
-  override fun emptyMessage(): Int = R.string.empty_history
   override fun alertMessage(): String = getString(R.string.history_alert)
 }

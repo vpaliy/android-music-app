@@ -1,11 +1,10 @@
 package com.vpaliy.mediaplayer.ui.home
 
-import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.home.HomeContract.*
 import com.vpaliy.mediaplayer.domain.interactor.ClearInteractor
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
-import com.vpaliy.mediaplayer.domain.model.TrackType
+import com.vpaliy.mediaplayer.domain.model.*
 
 abstract class HomePresenter(
     protected val interactor: SingleInteractor<TrackType, List<Track>>,
@@ -13,33 +12,41 @@ abstract class HomePresenter(
     protected val view: HomeContract.View
 ) : Presenter {
 
+  protected abstract val trackType: TrackType
+
   override fun start() {
-    view.showLoading()
-    interactor.execute(this::onSuccess, this::onError, type())
+    refresh()
   }
 
   override fun refresh() {
-    start()
+    view.showLoading()
+    interactor.execute(this::onSuccess,
+        this::onError, trackType)
   }
 
   private fun onSuccess(response: List<Track>) {
-    view.show(response)
     view.hideLoading()
+    if (response.isEmpty())
+      view.showEmpty()
+    else
+      view.showTracks(response)
   }
 
-  private fun onError(error: Throwable) {
-    error.printStackTrace()
+  private fun onError(error: RequestError) {
     view.hideLoading()
-    view.error()
+    when (error) {
+      Connection -> view.onConnectionError()
+      FailedRequest -> view.error()
+    }
   }
 
   override fun remove(track: Track) {
-    clear.remove({ view.removed(track) }, this::onError, ModifyRequest(type(), track))
+    clear.remove({ view.removed(track) },
+        this::onError, ModifyRequest(trackType, track))
   }
 
-  override fun clear() {
-    clear.clearAll(view::cleared, this::onError, type())
+  override fun clearAll() {
+    clear.clearAll(view::showCleared,
+        this::onError, trackType)
   }
-
-  protected abstract fun type(): TrackType
 }

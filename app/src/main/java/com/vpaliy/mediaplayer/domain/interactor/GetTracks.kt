@@ -9,8 +9,9 @@ import com.vpaliy.mediaplayer.wrongArgument
 
 class GetTracks(
     private val repository: Repository,
-    scheduler: BaseScheduler
-) : SingleInteractor<TrackType, List<Track>>(scheduler) {
+    scheduler: BaseScheduler,
+    errorHandler: ErrorHandler
+) : SingleInteractor<TrackType, List<Track>>(scheduler, errorHandler) {
 
   override fun buildSingle(request: TrackType?)
       = request then (repository::fetch) ?: wrongArgument()

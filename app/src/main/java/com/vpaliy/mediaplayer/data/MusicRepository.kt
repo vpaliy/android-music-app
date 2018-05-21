@@ -24,6 +24,7 @@ class MusicRepository (
   private var likeSet = HashSet<String>()
   private var recentSet = HashSet<String>()
 
+
   init {
     Single.fromCallable({ handler.queryHistory() })
         .subscribeOn(scheduler.io())

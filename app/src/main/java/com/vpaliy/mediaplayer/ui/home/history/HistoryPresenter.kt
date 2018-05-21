@@ -10,7 +10,8 @@ import com.vpaliy.mediaplayer.ui.home.HomeContract
 class HistoryPresenter(
     interactor: SingleInteractor<TrackType, List<Track>>,
     clear: ClearInteractor,
-    view : HomeContract.View
+    view: HomeContract.View
 ) : HomePresenter(interactor, clear, view) {
-  override fun type() = TrackType.History
+  override val trackType: TrackType
+    get() = TrackType.History
 }

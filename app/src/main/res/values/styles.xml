@@ -13,6 +13,7 @@
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:statusBarColor">@color/background_super_dark</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="Flash.Search">
@@ -132,5 +133,18 @@
         <item name="itemBackground">@drawable/bottom_item_bg</item>
         <item name="itemIconTint">@drawable/bottom_bar_bg</item>
         <item name="itemTextColor">@color/white</item>
+    </style>
+
+    <style name="Widget.SettingsSection" parent="Widget.Title">
+        <item name="android:textSize">13sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">#bdbdbd</item>
+    </style>
+
+    <style name="Widget.SettingsItem" parent="Widget.Title">
+        <item name="android:textSize">15sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
     </style>
 </resources>

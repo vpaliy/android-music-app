@@ -12,5 +12,6 @@ class FavoritePresenter(
     clear: ClearInteractor,
     view: HomeContract.View
 ) : HomePresenter(interactor, clear, view) {
-  override fun type() = TrackType.Favorite
+  override val trackType: TrackType
+    get() = TrackType.Favorite
 }

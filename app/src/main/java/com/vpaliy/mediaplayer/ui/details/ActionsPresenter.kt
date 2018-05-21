@@ -4,6 +4,7 @@ import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.ui.details.ActionsContract.Presenter
 import com.vpaliy.mediaplayer.domain.interactor.ModifyInteractor
 import com.vpaliy.mediaplayer.domain.interactor.params.ModifyRequest
+import com.vpaliy.mediaplayer.domain.model.RequestError
 import com.vpaliy.mediaplayer.domain.model.TrackType
 
 class ActionsPresenter (
@@ -31,8 +32,7 @@ class ActionsPresenter (
     modifier.insert({ view.showAdded(TrackType.Favorite) }, this::error, param)
   }
 
-  private fun error(ex: Throwable) {
+  private fun error(ex: RequestError) {
     view.error()
-    ex.printStackTrace()
   }
 }

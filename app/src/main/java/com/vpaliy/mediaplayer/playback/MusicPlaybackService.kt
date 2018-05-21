@@ -89,7 +89,7 @@ class MusicPlaybackService : MediaBrowserServiceCompat(),
   override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): MediaBrowserServiceCompat.BrowserRoot? {
     return if (clientPackageName != packageName) {
       MediaBrowserServiceCompat.BrowserRoot("root", null)
-    } else MediaBrowserServiceCompat.BrowserRoot("empty", null)
+    } else MediaBrowserServiceCompat.BrowserRoot("showEmpty", null)
   }
 
   override fun onLoadChildren(parentId: String, result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>) {}

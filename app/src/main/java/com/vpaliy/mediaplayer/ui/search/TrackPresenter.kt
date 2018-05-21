@@ -1,7 +1,8 @@
 package com.vpaliy.mediaplayer.ui.search
 
-import com.vpaliy.kotlin_extensions.error
 import com.vpaliy.mediaplayer.domain.interactor.SingleInteractor
+import com.vpaliy.mediaplayer.domain.model.Connection
+import com.vpaliy.mediaplayer.domain.model.RequestError
 import com.vpaliy.mediaplayer.domain.model.SearchPage
 import com.vpaliy.mediaplayer.domain.model.Track
 
@@ -37,9 +38,10 @@ class TrackPresenter (
       view.appendResult(result)
   }
 
-  private fun onError(throwable: Throwable) {
-    throwable.printStackTrace()
-    error(throwable.message)
+  private fun onError(error: RequestError) {
+    when(error) {
+      is Connection-> view.onConnectionError()
+    }
     view.hideLoading()
   }
 

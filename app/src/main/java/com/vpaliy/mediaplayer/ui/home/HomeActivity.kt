@@ -1,6 +1,7 @@
 package com.vpaliy.mediaplayer.ui.home
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.util.Pair
 import android.view.Menu
 import android.view.MenuItem
@@ -10,12 +11,15 @@ import com.vpaliy.mediaplayer.ui.base.BaseActivity
 import com.vpaliy.mediaplayer.ui.home.history.HistoryFragment
 import kotlinx.android.synthetic.main.activity_home.*
 import android.view.View
+import com.vpaliy.mediaplayer.ui.base.BaseFragment
 import com.vpaliy.mediaplayer.ui.home.favorite.FavoriteFragment
+import com.vpaliy.mediaplayer.ui.settings.SettingsFragment
 
 class HomeActivity : BaseActivity() {
-  private var currentFragment: HomeFragment? = null
-  private val historyFragment: HomeFragment by lazy { HistoryFragment() }
-  private val favoriteFragment: HomeFragment by lazy { FavoriteFragment() }
+  private var currentFragment: Fragment? = null
+  private val historyFragment: BaseFragment by lazy { HistoryFragment() }
+  private val favoriteFragment: BaseFragment by lazy { FavoriteFragment() }
+  private val settingsFragment: Fragment by lazy { SettingsFragment() }
 
   @Suppress("DEPRECATION")
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,14 +39,15 @@ class HomeActivity : BaseActivity() {
         }
         R.id.settings -> {
           toolbar.title = getString(R.string.settings_label)
-          //TODO add settings currentFragment
+          toolbar.menu.clear()
+          load(settingsFragment)
         }
       }
     }
-    load(HistoryFragment())
+    load(historyFragment)
   }
 
-  private fun load(fragment: HomeFragment): Boolean {
+  private fun load(fragment: Fragment): Boolean {
     this.currentFragment = fragment
     supportFragmentManager.beginTransaction()
         .replace(R.id.frame, fragment)

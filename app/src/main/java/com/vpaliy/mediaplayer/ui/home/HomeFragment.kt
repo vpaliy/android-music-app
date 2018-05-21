@@ -4,15 +4,29 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AlertDialog
 import android.view.*
+import com.airbnb.lottie.LottieAnimationView
+import com.vpaliy.kotlin_extensions.show
 import com.vpaliy.mediaplayer.R
+import com.vpaliy.mediaplayer.R.layout.fragment_home
 import com.vpaliy.mediaplayer.domain.model.Track
+import com.vpaliy.mediaplayer.startRefreshing
+import com.vpaliy.mediaplayer.stopRefreshing
 import com.vpaliy.mediaplayer.ui.base.BaseAdapter
 import com.vpaliy.mediaplayer.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 
 abstract class HomeFragment : BaseFragment(), HomeContract.View {
-  private lateinit var adapter: BaseAdapter<Track>
   private val progressHandler by lazy { Handler() }
+  private val adapter: BaseAdapter<Track> by lazy {
+    TrackAdapter(context!!, { navigator.navigate(activity!!, it) },
+        { navigator.actions(activity!!, it) })
+  }
+
+  override val layout: Int
+    get() = fragment_home
+
+  override val status: LottieAnimationView
+    get() = statusIndicator
 
   companion object {
     const val PROGRESS_DELAY = 300L
@@ -23,7 +37,6 @@ abstract class HomeFragment : BaseFragment(), HomeContract.View {
     setHasOptionsMenu(true)
     view.let {
       refresher.setOnRefreshListener({ presenter.start() })
-      adapter = TrackAdapter(context!!, { navigator.navigate(activity!!, it) }, { navigator.actions(activity!!, it) })
       list.adapter = adapter
       list.isNestedScrollingEnabled = false
     }
@@ -39,7 +52,7 @@ abstract class HomeFragment : BaseFragment(), HomeContract.View {
       AlertDialog.Builder(context!!)
           .setTitle(R.string.erase_label)
           .setMessage(alertMessage())
-          .setPositiveButton(getString(R.string.yes_label), { _, _ -> presenter.clear() })
+          .setPositiveButton(getString(R.string.yes_label), { _, _ -> presenter.clearAll() })
           .setNegativeButton(getString(R.string.no_label), { dialog, _ -> dialog.dismiss() })
           .show()
       return true
@@ -54,42 +67,37 @@ abstract class HomeFragment : BaseFragment(), HomeContract.View {
 
   override fun error() {
     setMenuVisibility(false)
-    empty.visibility = View.VISIBLE
   }
 
-  override fun empty() {
+  override fun showEmpty() {
     adapter.clear()
     list.isNestedScrollingEnabled = false
     setMenuVisibility(false)
-    empty.setText(emptyMessage())
-    empty.visibility = View.VISIBLE
+    statusIndicator.show()
   }
 
   override fun showLoading() {
-    progressHandler.postDelayed({ refresher.isRefreshing = true }, PROGRESS_DELAY)
+    progressHandler.postDelayed(refresher::startRefreshing, PROGRESS_DELAY)
   }
 
   override fun hideLoading() {
-    refresher.isRefreshing = false
+    refresher.stopRefreshing()
     progressHandler.removeCallbacksAndMessages(null)
   }
 
   abstract fun alertMessage(): String
 
-  override fun show(list: List<Track>) {
-    empty.visibility = View.GONE
+  override fun showTracks(list: List<Track>) {
+    statusIndicator.visibility = View.GONE
     adapter.data = list.toMutableList()
     this.list.isNestedScrollingEnabled = list.size > 1
   }
 
-  override fun layoutId() = R.layout.fragment_home
-
   override fun removed(track: Track) = showMessage(R.string.removed_message)
 
-  override fun cleared() {
-    empty()
+  override fun showCleared() {
+    showEmpty()
     showMessage(R.string.cleared_message)
   }
 
-  abstract fun emptyMessage(): Int
 }
