@@ -1,71 +1,77 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/shadow"
-    android:id="@+id/container"
     android:gravity="center"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical">
+
     <ImageView
-        tools:src="@drawable/evolve"
         android:id="@+id/art"
         android:layout_width="200dp"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        tools:src="@drawable/evolve" />
+
     <TextView
-        tools:text="Imagine Dragons"
+        android:id="@+id/artist"
         style="@style/Widget.BigTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
         android:textColor="#ffff"
-        android:id="@+id/artist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        tools:text="Imagine Dragons" />
+
     <TextView
-        tools:text="Whatever It Takes"
+        android:id="@+id/song"
         style="@style/Widget.Title"
-        android:maxLines="2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium"
         android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
         android:textColor="#ffff"
         android:textSize="15sp"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:id="@+id/song"
-        android:gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content" />
+        tools:text="Whatever It Takes" />
+
     <TextView
-        tools:text="2:30"
         android:id="@+id/duration"
-        android:textSize="17sp"
         style="@style/Widget.NumberText"
-        android:layout_gravity="center"
-        android:textColor="#ffff"
-        android:layout_marginTop="@dimen/spacing_medium"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/spacing_medium"
+        android:textColor="#ffff"
+        android:textSize="17sp"
+        tools:text="2:30" />
+
     <TextView
-        android:text="@string/share_action"
         android:id="@+id/share"
         style="@style/Widget.BigTitle"
-        android:layout_gravity="center"
-        android:textColor="#ffff"
-        android:layout_marginTop="@dimen/spacing_big"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/spacing_big"
+        android:text="@string/share_action"
+        android:textColor="#ffff" />
+
     <TextView
-        android:text="@string/like_action"
         android:id="@+id/like"
         style="@style/Widget.BigTitle"
-        android:textColor="#ffff"
-        android:layout_marginTop="@dimen/spacing_big"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_big"
+        android:text="@string/like_action"
+        android:textColor="#ffff" />
+
     <TextView
-        android:text="@string/remove_action"
         android:id="@+id/history"
         style="@style/Widget.BigTitle"
-        android:layout_gravity="center"
-        android:textColor="#ffff"
-        android:layout_marginTop="@dimen/spacing_big"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/spacing_big"
+        android:text="@string/remove_action"
+        android:textColor="#ffff" />
 </LinearLayout>

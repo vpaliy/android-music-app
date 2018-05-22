@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -48,13 +49,20 @@
         app:layout_constraintTop_toBottomOf="@+id/accountSettings" />
 
     <TextView
+        android:id="@+id/clearAction"
+        style="@style/Widget.SettingsItem"
+        android:layout_marginTop="12dp"
+        android:text="Clear Data"
+        app:layout_constraintStart_toStartOf="@+id/privacy2"
+        app:layout_constraintTop_toBottomOf="@+id/privacy2" />
+
+    <TextView
         android:id="@+id/inviteItem"
         style="@style/Widget.SettingsItem"
         android:layout_marginTop="12dp"
         android:text="Invite Friends"
-        app:layout_constraintStart_toStartOf="@+id/privacy2"
-        app:layout_constraintTop_toBottomOf="@+id/privacy2" />
-
+        app:layout_constraintStart_toStartOf="@+id/clearAction"
+        app:layout_constraintTop_toBottomOf="@+id/clearAction" />
 
     <TextView
         android:id="@+id/generalSection"
@@ -68,10 +76,8 @@
     <TextView
         android:id="@+id/privacy"
         style="@style/Widget.SettingsItem"
-        android:background="@drawable/play_ring"
         android:layout_marginTop="12dp"
         android:text="Privacy"
-        android:drawableBottom="@drawable/play_ring"
         app:layout_constraintStart_toStartOf="@+id/generalSection"
         app:layout_constraintTop_toBottomOf="@+id/generalSection" />
 

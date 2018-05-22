@@ -24,6 +24,7 @@
     <string name="background_trans" translatable="false">back_trans</string>
     <string name="search_trans" translatable="false">search_trans</string>
 
+    <string name="alert_clear_data_label">Are you sure you want to delete your data?</string>
     <string name="settings_label">Settings</string>
     <string name="share_action">Share</string>
     <string name="like_action">Like</string>
@@ -34,4 +35,6 @@
 
     <string name="version_label">Version 1.0.1</string>
     <string name="error">An error has occurred</string>
+    <string name="invite_text">Hey, how\'s it going?
+        Have you used this app yet? It allows you to play music.</string>
 </resources>
