@@ -4,6 +4,7 @@ import android.content.Context
 import android.media.AudioManager
 import android.net.wifi.WifiManager
 import com.vpaliy.mediaplayer.CLIENT_ID
+import com.vpaliy.mediaplayer.data.AppPreferences
 import com.vpaliy.mediaplayer.data.Filter
 import com.vpaliy.mediaplayer.data.MusicRepository
 import com.vpaliy.mediaplayer.data.local.MusicDatabase
@@ -12,10 +13,7 @@ import com.vpaliy.mediaplayer.data.mapper.TrackMapper
 import com.vpaliy.mediaplayer.domain.Repository
 import com.vpaliy.mediaplayer.domain.executor.BaseScheduler
 import com.vpaliy.mediaplayer.domain.executor.SchedulerProvider
-import com.vpaliy.mediaplayer.domain.interactor.ErrorHandler
-import com.vpaliy.mediaplayer.domain.interactor.GetTracks
-import com.vpaliy.mediaplayer.domain.interactor.ModifyTracks
-import com.vpaliy.mediaplayer.domain.interactor.SearchTracks
+import com.vpaliy.mediaplayer.domain.interactor.*
 import com.vpaliy.mediaplayer.domain.model.Track
 import com.vpaliy.mediaplayer.domain.playback.Playback
 import com.vpaliy.mediaplayer.playback.MediaPlayback21
@@ -41,8 +39,9 @@ val general = applicationContext {
 
 val dataProviders = applicationContext {
   bean { ErrorHandler() }
-  bean { Filter() }
+  bean { Filter(get()) }
   bean { MusicDatabase(get()) }
+  bean { AppPreferences() } bind PreferencesInteractor::class
   bean { TrackHandler(get<MusicDatabase>()) }
   bean {
     MusicRepository(get<TrackMapper>(), get(),

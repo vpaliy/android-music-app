@@ -13,7 +13,7 @@ import com.vpaliy.soundcloud.model.TrackEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 
-class MusicRepository (
+class MusicRepository(
     private val mapper: Mapper<Track, TrackEntity>,
     private val service: SoundCloudService,
     private val handler: TrackHandler,
@@ -23,7 +23,6 @@ class MusicRepository (
 
   private var likeSet = HashSet<String>()
   private var recentSet = HashSet<String>()
-
 
   init {
     Single.fromCallable({ handler.queryHistory() })
@@ -59,6 +58,9 @@ class MusicRepository (
         likeSet.clear()
         Completable.fromCallable(handler::deleteLoved)
       }
+      TrackType.All -> {
+        Completable.merge(listOf(clearAll(TrackType.History), clearAll(TrackType.Favorite)))
+      }
     }
   }
 
@@ -67,34 +69,60 @@ class MusicRepository (
       when (type) {
         TrackType.Favorite -> handler.queryLoved()
         TrackType.History -> handler.queryHistory()
+        TrackType.All -> {
+          mutableListOf<Track>().apply {
+            addAll(handler.queryLoved())
+            addAll(handler.queryHistory())
+          }.distinctBy(Track::streamUrl)
+        }
       }
     })
   }
 
   override fun insert(request: ModifyRequest): Completable {
-    when (request.type) {
-      TrackType.Favorite -> {
-        if (!likeSet.contains(request.track.id)) {
-          return Completable.fromCallable({ handler.update(love(request.track, true)) })
-        }
-      }
-      TrackType.History -> {
-        if (!recentSet.contains(request.track.id)) {
-          return Completable.fromCallable({ handler.update(save(request.track, true)) })
-        }
+    return when (request.type) {
+      TrackType.Favorite -> like(request.track)
+      TrackType.History -> saveToRecent(request.track)
+      TrackType.All -> Completable.merge(listOf(like(request.track),
+          saveToRecent(request.track)))
+    }
+  }
+
+  private fun like(track: Track): Completable {
+    if (!likeSet.contains(track.id)) {
+      return Completable.fromCallable {
+        handler.update(love(track, true))
       }
     }
     return Completable.complete()
   }
 
+  private fun unlike(track: Track)
+      = Completable.fromCallable {
+    handler.update(save(track, false))
+  }
+
+  private fun removeFromRecent(track: Track)
+      = Completable.fromCallable {
+    handler.update(save(track, false))
+  }
+
+  private fun saveToRecent(track: Track): Completable {
+    if (!recentSet.contains(track.id)) {
+      return Completable.fromCallable {
+        handler.update(save(track, true))
+      }
+    }
+    return Completable.complete()
+  }
+
+
   override fun remove(request: ModifyRequest): Completable {
     return when (request.type) {
-      TrackType.Favorite -> {
-        Completable.fromCallable({ handler.update(love(request.track, false)) })
-      }
-      TrackType.History -> {
-        Completable.fromCallable({ handler.update(save(request.track, false)) })
-      }
+      TrackType.Favorite -> unlike(request.track)
+      TrackType.History -> removeFromRecent(request.track)
+      TrackType.All -> Completable.merge(listOf(unlike(request.track),
+          removeFromRecent(request.track)))
     }
   }
 
