@@ -48,7 +48,7 @@ class HomeActivity : BaseActivity() {
   }
 
   private fun load(fragment: Fragment): Boolean {
-    this.currentFragment = fragment
+    currentFragment = fragment
     supportFragmentManager.beginTransaction()
         .replace(R.id.frame, fragment)
         .commit()
