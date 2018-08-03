@@ -26,6 +26,8 @@ import com.vpaliy.mediaplayer.ui.home.favorite.FavoritePresenter
 import com.vpaliy.mediaplayer.ui.home.history.HistoryPresenter
 import com.vpaliy.mediaplayer.ui.search.SearchContract
 import com.vpaliy.mediaplayer.ui.search.TrackPresenter
+import com.vpaliy.mediaplayer.ui.settings.SettingsContract
+import com.vpaliy.mediaplayer.ui.settings.SettingsPresenter
 import com.vpaliy.soundcloud.SoundCloud
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.applicationContext
@@ -45,15 +47,15 @@ val dataProviders = applicationContext {
   bean { TrackHandler(get<MusicDatabase>()) }
   bean {
     MusicRepository(get<TrackMapper>(), get(),
-        get(), get(), get())
+            get(), get(), get())
   } bind Repository::class
 }
 
 val network = applicationContext {
   bean {
     SoundCloud.Builder(get(), CLIENT_ID)
-        .setToken(null).build()
-        .soundCloudService
+            .setToken(null).build()
+            .soundCloudService
   }
 }
 
@@ -69,12 +71,12 @@ val presenters = applicationContext {
 
   factory(Params.HISTORY) { arguments ->
     HistoryPresenter(get<GetTracks>(),
-        get<ModifyTracks>(), arguments[Params.HISTORY])
+            get<ModifyTracks>(), arguments[Params.HISTORY])
   } bind HomeContract.Presenter::class
 
   factory(Params.FAVORITE) { arguments ->
     FavoritePresenter(get<GetTracks>(),
-        get<ModifyTracks>(), arguments[Params.FAVORITE])
+            get<ModifyTracks>(), arguments[Params.FAVORITE])
   } bind HomeContract.Presenter::class
 
   factory(Params.ACTIONS) { arguments ->
@@ -83,7 +85,12 @@ val presenters = applicationContext {
 
   factory(Params.SEARCH) { arguments ->
     TrackPresenter(get<SearchTracks>(),
-        arguments[Params.SEARCH]) as SearchContract.Presenter<Track>
+            arguments[Params.SEARCH]) as SearchContract.Presenter<Track>
+  }
+
+  factory(Params.SETTINGS) { arguments ->
+    SettingsPresenter(get(), get(),
+            arguments[Params.SETTINGS]) as SettingsContract.Presenter
   }
 
   bean {
@@ -98,7 +105,7 @@ val mediaPlayer = applicationContext {
 private fun playback(context: Context): Playback {
   val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
   val wifiManager = (context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager)
-      .createWifiLock(WifiManager.WIFI_MODE_FULL, "uAmp_lock")
+          .createWifiLock(WifiManager.WIFI_MODE_FULL, "uAmp_lock")
   return MediaPlayback21(context, audioManager, wifiManager)
 }
 
@@ -108,4 +115,5 @@ object Params {
   const val FAVORITE = "favorite"
   const val SEARCH = "search"
   const val ACTIONS = "actions"
+  const val SETTINGS = "settings"
 }

@@ -6,17 +6,22 @@ import android.view.View
 import com.airbnb.lottie.LottieAnimationView
 import com.vpaliy.mediaplayer.R
 import com.vpaliy.mediaplayer.R.layout.fragment_settings
+import com.vpaliy.mediaplayer.di.Params
+import com.vpaliy.mediaplayer.domain.model.ImageQuality
+import com.vpaliy.mediaplayer.injectWith
 import com.vpaliy.mediaplayer.ui.base.BaseFragment
 import com.vpaliy.mediaplayer.ui.view.AlertFlashDialog
 import kotlinx.android.synthetic.main.fragment_settings.*
+import com.vpaliy.mediaplayer.ui.settings.SettingsContract.Presenter
 
-class SettingsFragment : BaseFragment() {
+class SettingsFragment : BaseFragment(), SettingsContract.View {
   override val layout: Int
     get() = fragment_settings
 
   override val status: LottieAnimationView
     get() = settingsIcon
 
+  private val presenter : Presenter by injectWith(Params.SETTINGS)
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
@@ -31,10 +36,22 @@ class SettingsFragment : BaseFragment() {
     startActivity(Intent.createChooser(intent, getString(R.string.choose_to_share_text)))
   }
 
+  override fun showArtQuality(quality: ImageQuality) {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+  }
+
+  override fun showDataCleared() {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+  }
+
+  override fun showError() {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+  }
+
   private fun clearData() {
     context?.let {
-      AlertFlashDialog.create(it, root)
-          .setTitle(R.string.alert_clear_data_label)
+      AlertFlashDialog.create(it, root, presenter::clearData)
+          .setTitle(getString(R.string.alert_clear_data_label))
           .show()
     }
   }
